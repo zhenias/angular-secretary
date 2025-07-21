@@ -1,0 +1,53 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.drawer {
+  width: 280px;
+  background: rgba(255, 255, 255, 0);
+  border-right: 1px solid #ddd;
+  border-radius: 0 !important;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.nav-header {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 16px;
+  color: #757575;
+}
+
+mat-list-item {
+  border-radius: 0 !important;
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
+mat-list-item mat-icon {
+  margin-right: 10px;
+}
+
+.active {
+  font-weight: bold;
+  color: #1976d2;
+  background: rgba(25, 118, 210, 0.1);
+  border-left-width: 4px;
+}
+
+.content {
+  padding: 16px;
+  background: #fff;
+}
+
+mat-raised-button {
+  border-radius: 8px !important;
+}

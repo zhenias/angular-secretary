@@ -1,0 +1,30 @@
+<app-loading-html *ngIf="units.length == 0 && classes.length == 0"></app-loading-html>
+
+<mat-tab-group *ngIf="units.length > 0 && classes.length > 0;">
+  <mat-tab *ngFor="let unit of units" [label]="unit?.short">
+    <ng-container *ngIf="getClassesForUnit(unit.id).length > 0; else brakOddzialow">
+      <table class="table-auto w-full text-sm border-collapse">
+        <tr class="bg-gray-100 text-left">
+          <th class="px-4 py-2 border-b text-center">Oddział</th>
+          <th class="px-4 py-2 border-b text-center">Akcje</th>
+        </tr>
+        <tr *ngFor="let clas of getClassesForUnit(unit.id)" class="hover:bg-slate-75">
+          <td class="px-4 py-2 border-b">{{ clas.class }}</td>
+          <td class="text-center w-[20%] px-4 py-2 border-b">
+            <button (click)="goToStudents(clas.id)" class="mr-2" mat-raised-button color="primary">
+              Uczniowie
+            </button>
+            <button (click)="goToLessonPlan(clas.id)" mat-raised-button color="warn">
+              Plan lekcji
+            </button>
+          </td>
+        </tr>
+      </table>
+    </ng-container>
+    <ng-template #brakOddzialow>
+      <div class="p-4 text-center text-gray-500">
+        Brak oddziałów w tej jednostce.
+      </div>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

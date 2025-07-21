@@ -1,0 +1,11 @@
+<app-loading-html *ngIf="isProgress"></app-loading-html>
+
+<ng-container *ngIf="!isProgress">
+  <button mat-raised-button class="m-2" color="primary" (click)="goBack()">
+    Wróć
+  </button>
+
+  <mat-card class="m-2 p-4">
+    <full-calendar [options]="calendarOptions"></full-calendar>
+  </mat-card>
+</ng-container>

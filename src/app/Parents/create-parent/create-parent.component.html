@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>
+  Dodaj rodzica
+</h2>
+<mat-dialog-content>
+  <div fxLayout="row" fxLayoutGap="16px">
+    <mat-form-field appearance="fill" fxFlex>
+      <mat-label>Imię</mat-label>
+      <input matInput maxlength="255" [(ngModel)]="parentsOptionsCreate.user_name" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" fxFlex>
+      <mat-label>Nazwisko</mat-label>
+      <input matInput maxlength="255" [(ngModel)]="parentsOptionsCreate.user_lastname" required>
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="16px">
+    <mat-form-field appearance="fill" fxFlex>
+      <mat-label>E-mail</mat-label>
+      <input matInput maxlength="64" [(ngModel)]="parentsOptionsCreate.email">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Płeć</mat-label>
+      <mat-select [(ngModel)]="parentsOptionsCreate.plec" required>
+        <mat-option value="0">Mężczyzna</mat-option>
+        <mat-option value="1">Kobieta</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;">
+  <button mat-button mat-dialog-close>Zamknij</button>
+  <button mat-flat-button color="accent" (click)="getCreateParentAccount()" *ngIf="parentsOptionsCreate.user_lastname && parentsOptionsCreate.user_lastname" mat-dialog-close>
+    Dodaj
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,18 @@
+<div style="display: flex; flex-direction: column; height: 100%; max-height: 90vh;">
+  <h2 mat-dialog-title>Ustawienia kolumn</h2>
+  <mat-dialog-content style="flex: 1; overflow: auto;">
+    <div *ngFor="let col of columns; let i = index" class="flex items-center gap-2 mb-2">
+      <mat-checkbox [(ngModel)]="col.visible">{{ col.label || col.name }}</mat-checkbox>
+      <button mat-icon-button (click)="moveUp(i)" [disabled]="i === 0">
+        <mat-icon>arrow_upward</mat-icon>
+      </button>
+      <button mat-icon-button (click)="moveDown(i)" [disabled]="i === columns.length - 1">
+        <mat-icon>arrow_downward</mat-icon>
+      </button>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;">
+    <button mat-button (click)="dialogRef.close()">Anuluj</button>
+    <button mat-flat-button color="primary" (click)="save()">Zapisz</button>
+  </mat-dialog-actions>
+</div>

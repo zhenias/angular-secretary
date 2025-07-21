@@ -1,0 +1,55 @@
+<app-loading-html *ngIf="isProgress"></app-loading-html>
+<mat-card *ngIf="!isProgress" class="p-4 m-2">
+    Oddział: {{ getClass.class }}
+</mat-card>
+
+<mat-card *ngIf="!isProgress" class="overflow-hidden m-2">
+    <ng-container *ngIf="studentsAll.length > 0; else brakUczniow">
+      <table class="table-auto w-full text-sm border-collapse">
+          <tr class="bg-gray-100 text-left">
+            <th class="px-4 py-2 border-b text-center w-[10%]">Nr w dz.</th>
+            <th class="px-4 py-2 border-b text-center w-[1%]">Akcja</th>
+            <th class="px-4 py-2 border-b text-center">Uczeń</th>
+            <th class="px-4 py-2 border-b text-center">Okres pobytu</th>
+            <th class="px-4 py-2 border-b text-center">Powód skreślenia</th>
+            <th class="px-4 py-2 border-b text-center">Data dodania</th>
+          </tr>
+          <ng-container *ngFor="let student of studentsAll;">
+              <tr class="hover:bg-slate-75">
+                <td class="px-4 py-2 border-b text-center">
+                    {{ student.id_number }}
+                </td>
+                <td class="px-4 py-2 text-center border-b w-[10%]">
+                  <button mat-icon-button (click)="goToStudent(student.id)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </td>
+                <td class="px-4 py-2 border-b">
+                    {{ student.full_user_name }}
+                </td>
+                <td class="px-4 py-2 border-b text-center">
+                  {{ student.w_klasie_od }} - {{ student.data_skreslenia ? student.data_skreslenia + '.' : 'do dziś.' }}
+                </td>
+                <td class="px-4 py-2 border-b">
+                  {{ student.powod_skreslenia ? student.powod_skreslenia : '-' }}
+                </td>
+                <td class="px-4 py-2 border-b text-center">
+                  {{ student.data_dodania }}
+                </td>
+              </tr>
+          </ng-container>
+      </table>
+    </ng-container>
+
+    <ng-template #brakUczniow>
+      <div class="p-4 text-center text-gray-500">
+        Brak uczniów w tym oddziale.
+
+        <br><br>
+
+        <button [routerLink]="['/classes']" mat-stroked-button>
+          Wróć do oddziałów
+        </button>
+      </div>
+    </ng-template>
+</mat-card>

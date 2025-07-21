@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>Dodanie ucznia do oddziału</h2>
+<mat-dialog-content class="mat-typography">
+  <mat-form-field>
+    <mat-label>Wybierz klasę:</mat-label>
+    <mat-select onchange="this.form.submit()" [disabled]="!classes.length" [(ngModel)]="dataAddToClass.class"
+                name="class" required>
+      <mat-option *ngFor="let class of classes;" [value]="class.id">
+        {{ class.class }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>W klasie od:</mat-label>
+    <input matInput [matDatepicker]="picker" (focus)="picker.open()" [(ngModel)]="dataAddToClass.w_klasie_od"
+           name="w_klasie_od" required readonly/>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;">
+  <button mat-button mat-dialog-close>Anuluj</button>
+  <button mat-flat-button [mat-dialog-close]="true" (click)="dodajPobytUcznia()"
+          [disabled]="!dataAddToClass.w_klasie_od || !dataAddToClass.class" cdkFocusInitial color="accent">Dodaj
+  </button>
+</mat-dialog-actions>

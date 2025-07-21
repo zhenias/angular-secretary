@@ -1,0 +1,71 @@
+/* You can add global styles to this file, and also import other style files */
+@import "bootstrap-icons";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.bi {
+  font-size: 20px;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.container-md {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.drawer-container {
+  flex: 1;
+  display: flex;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar {
+  flex: 0 0 auto;
+}
+
+mat-drawer {
+  width: 250px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+mat-panel-title i.bi {
+  margin-right: 10px;
+}
+
+mat-form-field {
+  margin-right: 5px;
+}
+
+mat-raised-button {
+  border-radius: 8px !important;
+}
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: white;
+}
+
+.sticky-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  background: white;
+  border-top: 1px solid #ddd;
+}

@@ -1,0 +1,103 @@
+<mat-toolbar color="primary" class="fixed-header mat-elevation-z2">
+  <button (click)="drawer.toggle()" mat-icon-button aria-label="Menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>{{ title }}</span>
+
+  <span class="spacer"></span>
+
+  <button mat-icon-button onclick="location.href='/wiadomosci/browser'">
+    <mat-icon
+      [matBadge]="countMessage > 0 ? countMessage : null"
+      matBadgeColor="warn">
+      mail
+    </mat-icon>
+  </button>
+
+  <button [matMenuTriggerFor]="menu" mat-icon-button aria-label="More options">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item onclick="location.href='/wyloguj'">
+      <mat-icon>logout</mat-icon>
+      <span>Wyloguj się</span>
+    </button>
+
+    <hr>
+
+    <button mat-menu-item onclick="location.href='/dashboard'">
+      <mat-icon>arrow_back</mat-icon>
+      <span>Wróć do dzienika</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+<mat-drawer-container class="h-[calc(100vh-64px)] overflow-y-auto">
+  <mat-drawer #drawer mode="side" class="drawer" opened>
+
+    <mat-nav-list>
+
+      <mat-list-item [routerLink]="'/teachers'" routerLinkActive="active">
+        <div style="display: flex; align-items: center; gap: 5px;">
+          <mat-icon>person</mat-icon>
+          Nauczyciele
+        </div>
+      </mat-list-item>
+
+      <mat-list-item [routerLink]="'/classes'" routerLinkActive="active">
+        <div style="display: flex; align-items: center; gap: 5px;">
+          <mat-icon>
+            folder
+          </mat-icon>
+          Oddziały
+        </div>
+      </mat-list-item>
+
+      <mat-list-item [routerLink]="'/students'" routerLinkActive="active">
+        <div style="display: flex; align-items: center; gap: 5px;">
+          <mat-icon>
+            person
+          </mat-icon>
+          Księga uczniów
+        </div>
+      </mat-list-item>
+
+      <mat-list-item [routerLink]="'/candidates'" routerLinkActive="active">
+        <div style="display: flex; align-items: center; gap: 5px;">
+          <mat-icon>
+            school
+          </mat-icon>
+          Kandydaci
+        </div>
+      </mat-list-item>
+
+      <mat-list-item [routerLink]="'/parents'" routerLinkActive="active">
+        <div style="display: flex; align-items: center; gap: 5px;">
+          <mat-icon>
+            group
+          </mat-icon>
+          Opiekunowie
+        </div>
+      </mat-list-item>
+
+      <mat-list-item *ngIf="getMeInfo.is_secretary || getMeInfo.is_admin" (click)="exportConfigs()"
+                     routerLinkActive="active">
+        <div style="display: flex; align-items: center; gap: 5px;">
+          <mat-icon>
+            vertical_align_top
+          </mat-icon>
+          Eksporty
+        </div>
+      </mat-list-item>
+
+    </mat-nav-list>
+
+  </mat-drawer>
+
+  <mat-drawer-content class="h-screen" *ngIf="getMeInfo.is_secretary || getMeInfo.is_admin">
+    <mat-progress-bar *ngIf="isProgress" mode="indeterminate"></mat-progress-bar>
+
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

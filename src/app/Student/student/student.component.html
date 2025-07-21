@@ -1,0 +1,365 @@
+<app-loading-html *ngIf="isProgress"></app-loading-html>
+<div class="p-2" *ngIf="!isProgress">
+
+  <mat-card class="p-4 mb-4 flex items-flex-column gap-3">
+    <div style="flex: 1; display: flex; align-items: center; gap: 20px;">
+
+      <i class="bi bi-person-circle" style="font-size: 40px;"></i>
+
+      <span style="font-size: 20px; font-weight: 500;">
+        {{ student.user_name || '-' }} {{ student.user_lastname }}
+      </span>
+
+      <button mat-stroked-button color="warn" (click)="goToLessonPlan(student.class?.id)" *ngIf="!student.is_parent" [disabled]="!student.class">
+        Plan lekcji
+      </button>
+
+      <button mat-icon-button matTooltip="Resetuj hasło" [disabled]="!student.id" (click)="resetPasswordForUser(student.full_user_name, student.id)" color="primary">
+        <mat-icon>
+          lock_reset
+        </mat-icon>
+      </button>
+
+    </div>
+  </mat-card>
+
+  <mat-card>
+    <mat-tab-group color="primary">
+      <mat-tab [disabled]="!student.user_name" label="Dane osobowe" class="m-2">
+        <ng-container *ngIf="!student.id">
+          <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
+            <p>
+              Brak użytkownika.
+            </p>
+          </div>
+        </ng-container>
+
+        <mat-card class="p-4" *ngIf="student.id">
+          <div fxLayout="row wrap" fxLayoutGap="15px">
+            <mat-form-field fxFlex>
+              <mat-label>Imię</mat-label>
+              <input matInput [(ngModel)]="student.user_name" type="text" maxlength="255" required/>
+            </mat-form-field>
+            <mat-form-field fxFlex>
+              <mat-label>Nazwisko</mat-label>
+              <input matInput [(ngModel)]="student.user_lastname" type="text" maxlength="255" required/>
+            </mat-form-field>
+          </div>
+
+          <div fxLayout="row wrap" fxLayoutGap="15px" *ngIf="!student.is_parent">
+            <mat-form-field fxFlex>
+              <mat-label>Pesel</mat-label>
+              <input matInput type="text" [(ngModel)]="student.pesel" required maxlength="11"/>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Data urodzenia</mat-label>
+              <input matInput [matDatepicker]="picker" (focus)="picker.open()" [(ngModel)]="student.data_urodzenia"
+                     name="data_urodzin"/>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="16px">
+            <mat-form-field appearance="fill">
+              <mat-label>Płeć</mat-label>
+              <mat-select [(ngModel)]="student.plec" required>
+                <mat-option [value]="0">Mężczyzna</mat-option>
+                <mat-option [value]="1">Kobieta</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div align="end">
+            <button mat-raised-button (click)="getStudentSave()" color="primary">
+              <mat-icon>
+                edit
+              </mat-icon>
+              Zapisz
+            </button>
+          </div>
+        </mat-card>
+      </mat-tab>
+
+      <mat-tab [disabled]="!student.user_name" label="Dane adresowe / kontaktowe" class="m-2">
+        <mat-card class="p-4">
+
+          <mat-form-field fxFlex>
+            <mat-label>Adres zamieszkania</mat-label>
+            <input matInput type="text" [(ngModel)]="student.adres_zamieszkania" name="adres_zamieszkania" maxlength="255" />
+          </mat-form-field>
+
+          <mat-form-field fxFlex>
+            <mat-label>Adres zameldowania</mat-label>
+            <input matInput type="text"  [(ngModel)]="student.adres_zameldowania" name="adres_zameldowania" maxlength="255" />
+          </mat-form-field>
+
+          <mat-form-field style="width: 400px;">
+            <mat-label>E-mail</mat-label>
+            <input matInput type="email" [(ngModel)]="student.email" maxlength="64"/>
+          </mat-form-field>
+
+          <mat-form-field style="width: 400px;">
+            <mat-label>Numer telefonu</mat-label>
+            <input matInput type="text" [(ngModel)]="student.numer_telefonu" maxlength="9"/>
+          </mat-form-field>
+
+          <div align="end">
+            <button mat-raised-button (click)="getStudentSave()" color="primary">
+              <mat-icon>
+                edit
+              </mat-icon>
+              Zapisz
+            </button>
+          </div>
+        </mat-card>
+      </mat-tab>
+
+      <mat-tab [disabled]="!student.user_name" *ngIf="!student.is_parent" label="Rodzice / Opiekunowie" class="p-2">
+        <div class="m-2">
+          <ng-container *ngIf="parents_list && parents_list.length > 0">
+            <table class="table-auto w-full text-sm border-collapse">
+              <tr class="bg-gray-100 text-left">
+                <th class="px-4 py-2 border-b text-center">Rodzic / Opiekun</th>
+                <th class="px-4 py-2 border-b text-center w-[5%]">Płeć</th>
+                <th class="px-4 py-2 border-b text-center w-[10%]">Login</th>
+                <th class="px-4 py-2 border-b text-center w-[10%]">Stopień</th>
+                <th class="px-4 py-2 border-b text-center w-[15%]">Data powiązania</th>
+                <th class="px-4 py-2 border-b text-center w-[15%]">Akcja</th>
+              </tr>
+              <ng-container *ngFor="let parent of parents_list;">
+                <tr class="hover:bg-slate-75">
+                  <td class="px-4 py-2 border-b">
+                    {{ parent.name }}
+                  </td>
+                  <td class="px-4 py-2 border-b text-center">
+                    {{ parent.plec }}
+                  </td>
+                  <td class="px-4 py-2 border-b text-center">
+                    {{ parent.login || '-' }}
+                  </td>
+                  <td class="px-4 py-2 border-b text-center">
+                    {{ parent.level || '-' }}
+                  </td>
+                  <td class="px-4 py-2 border-b text-center">
+                    {{ parent.date || '-' }}
+                  </td>
+                  <td class="px-4 py-2 text-center border-b">
+                    <button mat-icon-button matTooltip="Resetuj hasło" (click)="resetPasswordForUser(parent.name, parent.user_id)">
+                      <mat-icon>lock_reset</mat-icon>
+                    </button>
+
+                    <button mat-icon-button matTooltip="Edytuj" (click)="goToStudent(parent.user_id)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <button mat-icon-button matTooltip="Usuń powiązanie oraz z systemu" color="warn" (click)="deleteAccountParent(parent.user_id, parent.name)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </tr>
+              </ng-container>
+            </table>
+          </ng-container>
+
+          <ng-container *ngIf="!parents_list || parents_list.length == 0">
+            <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
+              <p>
+                Brak dodanych rodziców / opiekunów. <br>
+                W celu dodania rodzica / opiekuna skorzystaj z przycisku "Dodaj".
+              </p>
+            </div>
+          </ng-container>
+
+          <div align="end" class="mt-4">
+            <button mat-raised-button (click)="createAccountParent()" color="primary">
+              <mat-icon>
+                supervisor_account
+              </mat-icon>
+              Dodaj
+            </button>
+          </div>
+
+        </div>
+      </mat-tab>
+
+      <mat-tab [disabled]="!student.user_name" label="Zarządzanie kontem" class="m-2">
+        <div class="bg-white h-[calc(50vh-64px)] p-4">
+
+          <div fxLayout="row wrap" fxLayoutGap="15px">
+            <mat-form-field fxFlex>
+              <mat-label>Login</mat-label>
+              <input matInput [value]="student.login" readonly/>
+            </mat-form-field>
+
+            <mat-form-field fxFlex>
+              <mat-label>Alias</mat-label>
+              <input matInput [value]="student.alias" readonly />
+            </mat-form-field>
+          </div>
+
+        </div>
+      </mat-tab>
+
+      <mat-tab [disabled]="!student.user_name" *ngIf="!student.is_parent" label="Pobyt ucznia" class="p-2">
+        <div class="p-4">
+          <ng-container *ngIf="studentStateSchool && studentStateSchool.length > 0">
+            <table class="table-auto w-full text-sm border-collapse">
+              <tr class="bg-gray-100 text-left">
+                <th class="px-4 py-2 border-b text-center">Oddział</th>
+                <th class="px-4 py-2 border-b text-center">Rok szkolny</th>
+                <th class="px-4 py-2 border-b text-center">Okres nauczania</th>
+                <th class="px-4 py-2 border-b text-center">Powód skreślenia</th>
+                <th class="px-4 py-2 border-b text-center">Data dodania</th>
+                <th class="px-4 py-2 border-b text-center">Akcje</th>
+              </tr>
+              <ng-container *ngFor="let state of studentStateSchool;">
+                <tr class="hover:bg-slate-75">
+                  <td class="px-4 py-2 border-b text-center">
+                    {{ state.class.class || '-' }}
+                  </td>
+                  <td class="px-4 py-2 border-b text-center">
+                    {{ state.class.year || '-' }}
+                  </td>
+                  <td class="px-4 py-2 border-b text-center">
+                    {{ (state.w_klasie_od + (state.data_skreslenia ? ' - ' + state.data_skreslenia : ' - do dzisiaj.')) || '-' }}
+                  </td>
+                  <td class="px-4 py-2 border-b">
+                    {{ state.powod_skreslenia || '-' }}
+                  </td>
+                  <td class="px-4 py-2 border-b text-center">
+                    {{ state.data_dodania || '-' }}
+                  </td>
+                  <td class="px-4 py-2 border-b text-center">
+                    <button matTooltip="Skreśl" mat-icon-button [disabled]="state.data_skreslenia" (click)="skreslUcznia(state.class)">
+                      <mat-icon>
+                        person_off
+                      </mat-icon>
+                    </button>
+
+                    <button mat-icon-button color="warn" matTooltip="Usuń" (click)="usunUczniaZKlasy(state.class)">
+                      <mat-icon>
+                        delete
+                      </mat-icon>
+                    </button>
+                  </td>
+                </tr>
+              </ng-container>
+            </table>
+          </ng-container>
+
+          <ng-container *ngIf="!studentStateSchool || studentStateSchool.length === 0">
+            <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
+              <p>
+                Brak historii pobytu. <br>
+                W celu dodania pobytu, skorzystaj z przycisku "Dodaj".
+              </p>
+            </div>
+          </ng-container>
+
+          <div align="end" class="mt-4">
+            <button mat-raised-button (click)="dodajUczniaDoKlasy()" color="primary">
+              <mat-icon>
+                add
+              </mat-icon>
+              Dodaj
+            </button>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab [disabled]="!student.user_name" *ngIf="!student.is_parent" label="Dokumenty" class="p-2">
+        <div class="p-4">
+          <ng-container *ngIf="spe_list && spe_list.length > 0">
+            <table class="table-auto w-full text-sm border-collapse">
+              <tr class="bg-gray-100 text-left">
+                <th class="px-4 py-2 border-b text-center">Rok</th>
+                <th class="px-4 py-2 border-b text-center">Cele pracy</th>
+                <th class="px-4 py-2 border-b text-center">Metody pracy</th>
+                <th class="px-4 py-2 border-b text-center">Dostosowania</th>
+                <th class="px-4 py-2 border-b text-center">Inne informacje</th>
+                <th class="px-4 py-2 border-b text-center">Data dodania</th>
+                <th class="px-4 py-2 border-b text-center">Dodał</th>
+              </tr>
+              <ng-container *ngFor="let spe of spe_list;">
+                <tr class="hover:bg-slate-75">
+                  <td class="px-4 py-2 border-b text-center">
+                    {{ spe.year || '-' }}/{{ spe.year2 || '-' }}
+                  </td>
+                  <td class="px-4 py-2 border-b">
+                    {{ spe.cele_pracy || '-' }}
+                  </td>
+                  <td class="px-4 py-2 border-b">
+                    {{ spe.metody_pracy || '-' }}
+                  </td>
+                  <td class="px-4 py-2 border-b">
+                    {{ spe.dostosowania || '-' }}
+                  </td>
+                  <td class="px-4 py-2 border-b">
+                    {{ spe.inne_informacje || '-' }}
+                  </td>
+                  <td class="px-4 py-2 border-b text-center">
+                    {{ spe.date || '-' }}
+                  </td>
+                  <td class="px-4 py-2 border-b text-center">
+                    {{ spe.user_add || '-' }}
+                  </td>
+                </tr>
+              </ng-container>
+            </table>
+          </ng-container>
+
+          <ng-container *ngIf="spe_list && spe_list?.length == 0">
+            <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
+              <p>
+                Brak dodanych dokumentów DIU. <br>
+                W celu dodania dokumentu, przejdź do zakładki w e-Dzienniku "Moduły -> Dodatkowe informację uczniów".
+              </p>
+            </div>
+          </ng-container>
+        </div>
+      </mat-tab>
+
+      <mat-tab [disabled]="!student.user_name" *ngIf="!student.is_parent" label="Egzaminy">
+        <div class="p-4">
+          <ng-container *ngIf="exams_list && exams_list.length > 0">
+            <table class="table-auto w-full text-sm border-collapse">
+              <tr class="bg-gray-100 text-left">
+                <th class="px-4 py-2 border-b text-center">Nazwa</th>
+                <th class="px-4 py-2 border-b text-center">Wynik</th>
+                <th class="px-4 py-2 border-b text-center">Dodał</th>
+                <th class="px-4 py-2 border-b text-center">Data dodania</th>
+              </tr>
+              <ng-container *ngFor="let exam of exams_list;">
+                <tr class="hover:bg-slate-75">
+                  <td class="px-4 py-2 border-b text-center">
+                    {{ exam.name }}
+                  </td>
+                  <td class="px-4 py-2 border-b">
+                    {{ exam.result || '-' }}
+                  </td>
+                  <td class="px-4 py-2 border-b">
+                    {{ exam.create || '-' }}
+                  </td>
+                  <td class="px-4 py-2 border-b">
+                    {{ exam.date || '-' }}
+                  </td>
+                </tr>
+              </ng-container>
+            </table>
+          </ng-container>
+
+          <ng-container *ngIf="!exams_list || exams_list.length == 0">
+            <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
+              <p>
+                Brak dodanych ezgaminów. <br>
+                W celu dodania egzaminu, przejdź do zakładki w e-Dzienniku "Dziennik -> Egzaminy".
+              </p>
+            </div>
+          </ng-container>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</div>

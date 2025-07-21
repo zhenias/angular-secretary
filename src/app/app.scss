@@ -1,0 +1,17 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$primary: mat.define-palette(mat.$indigo-palette);
+$accent: mat.define-palette(mat.$yellow-palette);
+
+:root {
+  --primary-color: #{mat.get-color-from-palette($primary)};
+  --accent-color: #{mat.get-color-from-palette($accent)};
+  --accent-color-light: #{mat.get-color-from-palette($accent, lighter)};
+  --accent-color-dark: #{mat.get-color-from-palette($accent, darker)};
+}
+
+.active {
+  border-left-color: var(--primary-color);
+}
