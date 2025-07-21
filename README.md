@@ -1,59 +1,23 @@
-# NowySekretariat
+# Sekretariat dla e-dziennika.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.7.
+## Funkcję dostępne:
+1. Dodanie / edycja ucznia.
+2. Dodanie / edycja rodzica.
+3. Wyświetlanie listy uczniów które są przypisane do klas, oraz są jako kandydaci - brak klasy.
+4. Wyświetlanie rodziców - powiązanych z uczniami, oraz nie powiązani z uczniami, także wszystkich opiekunów.
+5. Wyświetlanie oddziałow w jednostkach, oraz wyświetlenie w nich planu lekcji, oraz listę uczniów.
+6. Seryjnie dodanie do oddziału uczniów, usunięcie u nich ocen, frekwencji, usunięcie pobytu w szkole (historia przeniesień), zablokowanie dostępu do konta ucznia / rodzica.
 
-## Development server
+## W planach zrobić:
+1. Edycja konta nauczyciela.
+2. Usunięcie konta nauczyciela.
+3. Wyświetlenie dodatkowych danych, np: przydziały, ilość wystawionych ocen, zastępst przydzielonych, ilość nie zrealizowanych lekcji (brak tematu, oraz frekwencji).
 
-To start a local development server, run:
 
-```bash
+## Uruchomienie aplikacji:
+```
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+----
+Zalogowanie się do e-sekretariatu jest możliwe za pomocą e-dziennika, brak możliwości hostowania u siebie aplikacji.
