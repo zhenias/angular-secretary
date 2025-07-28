@@ -81,6 +81,15 @@
         </div>
       </mat-list-item>
 
+      <mat-list-item [routerLink]="'/bicycle-cards'" routerLinkActive="active">
+        <div style="display: flex; align-items: center; gap: 5px;">
+          <mat-icon>
+            assignment_ind
+          </mat-icon>
+          Karty rowerowe
+        </div>
+      </mat-list-item>
+
       <mat-list-item *ngIf="getMeInfo.is_secretary || getMeInfo.is_admin" (click)="exportConfigs()"
                      routerLinkActive="active">
         <div style="display: flex; align-items: center; gap: 5px;">

@@ -1,0 +1,105 @@
+<app-loading-html *ngIf="isProgress"></app-loading-html>
+
+<ng-container *ngIf="!isProgress" class="m-2 p-4">
+  <button (click)="createBicycleCard()" mat-flat-button color="accent" class="m-2">
+    <mat-icon>plus</mat-icon>
+    Dodaj
+  </button>
+</ng-container>
+
+<ng-container *ngIf="!isProgress">
+  <mat-card class="m-2 p-0 h-[600px] flex flex-col">
+    <div class="flex-1 overflow-y-auto" style="border-bottom: 1px solid #ccc; padding-bottom: 8px;">
+      <table mat-table matSort (matSortChange)="sortData($event)" [dataSource]="dataSource" class="w-full text-sm border-collapse">
+
+        <ng-container matColumnDef="select">
+          <th mat-header-cell class="w-[2%] text-center" *matHeaderCellDef>
+            <mat-checkbox
+              (change)="masterToggle()"
+              [checked]="isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()"
+              [matTooltip]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+
+          <td mat-cell *matCellDef="let element">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? selection.toggle(element.id) : null"
+              [checked]="selection.isSelected(element.id)"
+              [matTooltip]="checkboxLabel(element.id)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="student">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header>Uczeń</th>
+          <td mat-cell *matCellDef="let element"> {{ element.student || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="data_wydania">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header>Data wydania</th>
+          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element.data_wydania || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="classes">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Oddział
+          </th>
+          <td mat-cell class="px-4 py-2 border-b text-center"
+              *matCellDef="let element"> {{ element?.class || '-' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="user">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header>Wydał</th>
+          <td mat-cell *matCellDef="let element"> {{ element.user || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="czy_dublikat">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Dublikat
+          </th>
+          <td mat-cell class="px-4 py-2 border-b text-center"
+              *matCellDef="let element"> {{ element?.czy_dublikat || '-' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="czy_odebrano">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Odebrano
+          </th>
+          <td mat-cell class="px-4 py-2 border-b text-center"
+              *matCellDef="let element"> {{ element?.czy_odebrano || '-' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell class="border-b text-center" *matHeaderCellDef>Akcja</th>
+          <td mat-cell class="w-[1%]" *matCellDef="let element">
+            <button matTooltip="Edytuj" mat-icon-button (click)="goToStudent(element.id)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+
+        <tr mat-header-row class="bg-gray-100 text-center sticky-header" *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row class="hover:bg-slate-75" *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <ng-container *ngIf="getBicycleCards.length == 0 || !getBicycleCards">
+        <div class="text-center p-4 text-gray-500">
+          Brak dodanych kart rowerowych.
+          <br>
+          Skorzystaj z przycisku "dodaj"
+        </div>
+      </ng-container>
+
+    </div>
+    <mat-paginator
+      [length]="totalItems"
+      [pageSize]="pageSize"
+      [pageIndex]="currentPage - 1"
+      [pageSizeOptions]="[5, 10, 15, 20, 25, 30, 35, 50, 100]"
+      (page)="onPageChange($event)">
+    </mat-paginator>
+  </mat-card>
+</ng-container>

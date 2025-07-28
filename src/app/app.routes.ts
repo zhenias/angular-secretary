@@ -12,6 +12,9 @@ import {ExportUIComponent} from './School/Exports/export-ui/export-ui.component'
 import {ViewParentsComponent} from './Parents/view-parents/view-parents.component';
 import {TeachersListComponent} from './School/Teachers/teachers-list/teachers-list.component';
 import {EditTeacherComponent} from './School/Teachers/edit-teacher/edit-teacher.component';
+import {
+  RejestrKartRowerowychComponent
+} from './Rejestry/KartyRowerowe/rejestr-kart-rowerowych/rejestr-kart-rowerowych.component';
 
 export const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
@@ -26,6 +29,9 @@ export const routes: Routes = [
   {path: 'students/edit/:userId', component: StudentComponent},
   {path: 'candidates', component: StudentInSchoolComponent},
   {path: 'students', component: StudentsComponent},
+
+  {path: 'bicycle-cards', component: RejestrKartRowerowychComponent},
+  {path: 'bicycle-cards/edit/:cardId', component: RejestrKartRowerowychComponent},
 
   {path: 'parents', component: ViewParentsComponent},
 

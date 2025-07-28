@@ -24,10 +24,11 @@ import {ErrorDialogComponent} from './Errors/error-dialog/error-dialog.component
 import {MatTabsModule} from '@angular/material/tabs';
 
 interface getMe {
-  user_name: string;
-  user_lastname: string;
-  full_user_name: string;
-  is_admin: boolean | false;
+  id?: number,
+  user_name?: string;
+  user_lastname?: string;
+  full_user_name?: string;
+  is_admin?: boolean | false;
   is_teacher?: boolean | false;
   is_student?: boolean | false;
   is_parent?: boolean | false;
@@ -77,21 +78,7 @@ export class AppComponent implements OnInit {
   protected appHttp = inject(HttpClient);
   readonly matDialog = inject(MatDialog);
 
-  public getMeInfo: getMe = {
-    user_name: '',
-    user_lastname: '',
-    full_user_name: '',
-    is_admin: false,
-    is_teacher: false,
-    is_student: false,
-    is_parent: false,
-    is_secretary: false,
-    is_pedagogue: false,
-    is_replacements: false,
-    is_director: false,
-    class: null,
-    permissions: null
-  };
+  protected getMeInfo: getMe = {};
   drawer: any;
 
   constructor() {
@@ -120,6 +107,12 @@ export class AppComponent implements OnInit {
   }
 
   exportConfigs(): void {
+    if (!this.getMeInfo.is_admin && !this.getMeInfo.is_secretary) {
+      this.showErrorBox('Brak uprawnień.', 'Nie masz wystarczająco uprawnień, by móc skorzystać z tej części eksportów.');
+
+      return;
+    }
+
     this.matDialog.open(ExportUIComponent, {
       width: '600px',
       height: '500px',
