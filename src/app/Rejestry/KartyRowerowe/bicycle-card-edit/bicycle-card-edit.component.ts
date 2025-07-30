@@ -54,7 +54,7 @@ export class BicycleCardEditComponent extends AppComponent {
 
         this.getBicycleCard = data;
       },
-      error: (error) => {
+      error: () => {
         this.isProgress = false;
 
         this.openSnackBar('Brak informacji o karcie rowerowej.', 'OK');
@@ -71,7 +71,7 @@ export class BicycleCardEditComponent extends AppComponent {
 
         this.getBicycleCard = data;
       },
-      error: (error) => {
+      error: () => {
         this.isProgress = false;
 
         this.openSnackBar('Błąd, podczas zapisu danych.', 'OK');

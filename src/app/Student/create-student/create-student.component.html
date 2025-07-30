@@ -1,12 +1,12 @@
 <h2 mat-dialog-title>
-  Dodaj ucznia do szkoły
+  Dodaj kadydata
 </h2>
 <mat-dialog-content>
   <mat-stepper #stepper>
     <mat-step [stepControl]="firstFormGroup" label="Dane osobowe">
       <form [formGroup]="firstFormGroup">
-        <div fxLayout="row" fxLayoutGap="16px">
-          <mat-form-field appearance="fill" fxFlex>
+        <div class="flex">
+          <mat-form-field appearance="fill" class="w-[100%]">
             <mat-label>Imię</mat-label>
             <input matInput formControlName="firstName" required>
             <mat-error *ngIf="firstFormGroup.get('firstName')?.hasError('required')">
@@ -14,7 +14,7 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field appearance="fill" fxFlex>
+          <mat-form-field appearance="fill" class="w-[100%]">
             <mat-label>Nazwisko</mat-label>
             <input matInput formControlName="lastName" required>
             <mat-error *ngIf="firstFormGroup.get('lastName')?.hasError('required')">
@@ -23,8 +23,8 @@
           </mat-form-field>
         </div>
 
-        <div fxLayout="row" fxLayoutGap="16px">
-          <mat-form-field appearance="fill">
+        <div class="flex gap-[5px]">
+          <mat-form-field appearance="fill" class="w-[100%]">
             <mat-label>Data urodzenia</mat-label>
             <input matInput [matDatepicker]="picker" (click)="picker.open()" formControlName="birthDate" required>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -35,27 +35,27 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="fill" class="w-[100%]">
             <mat-label>PESEL</mat-label>
             <input matInput formControlName="pesel" maxlength="11" required>
             <mat-error *ngIf="firstFormGroup.get('pesel')?.hasError('required')">
               PESEL jest wymagany
             </mat-error>
           </mat-form-field>
-        </div>
 
-        <div fxLayout="row" fxLayoutGap="16px">
-          <mat-form-field appearance="fill">
-            <mat-label>E-mail</mat-label>
-            <input matInput formControlName="email" maxlength="64">
-
-            <mat-error *ngIf="firstFormGroup.get('email')?.hasError('email')">
-              Proszę podać poprawny adres e-mail
+          <mat-form-field appearance="fill" class="w-[100%]">
+            <mat-label>Płeć</mat-label>
+            <mat-select formControlName="plec" required>
+              <mat-option value="0">Mężczyzna</mat-option>
+              <mat-option value="1">Kobieta</mat-option>
+            </mat-select>
+            <mat-error *ngIf="firstFormGroup.get('plec')?.hasError('required')">
+              Płeć jest wymagana
             </mat-error>
           </mat-form-field>
         </div>
 
-        <div fxLayout="row" fxLayoutGap="16px">
+        <div class="flex">
           <mat-form-field appearance="fill">
             <mat-label>Typ nauczania</mat-label>
             <mat-select formControlName="educationType">
@@ -68,33 +68,20 @@
           </mat-form-field>
         </div>
 
-        <div fxLayout="row" fxLayoutGap="16px">
-          <mat-form-field appearance="fill">
-            <mat-label>Płeć</mat-label>
-            <mat-select formControlName="plec" required>
-              <mat-option value="0">Mężczyzna</mat-option>
-              <mat-option value="1">Kobieta</mat-option>
-            </mat-select>
-            <mat-error *ngIf="firstFormGroup.get('plec')?.hasError('required')">
-              Płeć jest wymagana
-            </mat-error>
-          </mat-form-field>
-        </div>
-
       </form>
     </mat-step>
 
     <mat-step [stepControl]="secondFormGroup" label="Dane adresowe / kontaktowe">
       <form [formGroup]="secondFormGroup">
-        <div fxLayout="row" fxLayoutGap="16px">
-          <mat-form-field appearance="fill">
+        <div class="flex">
+          <mat-form-field class="w-[100%]" appearance="fill">
             <mat-label>
               Adres zamieszkania
             </mat-label>
             <input matInput formControlName="addressResidence">
           </mat-form-field>
 
-          <mat-form-field appearance="fill">
+          <mat-form-field class="w-[100%]" appearance="fill">
             <mat-label>
               Adres zameldowania
             </mat-label>
@@ -102,8 +89,8 @@
           </mat-form-field>
         </div>
 
-        <div fxLayout="row" fxLayoutGap="16px">
-          <mat-form-field appearance="fill">
+        <div class="flex">
+          <mat-form-field appearance="fill" class="w-[100%]">
             <mat-label>
               Numer telefonu
             </mat-label>
@@ -113,6 +100,15 @@
             </mat-error>
             <mat-error *ngIf="firstFormGroup.get('numberPhone')?.hasError('pattern')">
               Nie poprawny numer telefonu
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="w-[100%]" appearance="fill">
+            <mat-label>E-mail</mat-label>
+            <input matInput formControlName="email" maxlength="64">
+
+            <mat-error *ngIf="firstFormGroup.get('email')?.hasError('email')">
+              Proszę podać poprawny adres e-mail
             </mat-error>
           </mat-form-field>
         </div>

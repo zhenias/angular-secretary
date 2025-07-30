@@ -96,7 +96,7 @@ export class BicycleCardCreateComponent extends AppComponent {
     };
 
     this.appHttp.post<any>('/api/School/BicycleCard/', payload, {headers}).subscribe({
-      next: (data) => {
+      next: () => {
         this.openSnackBar('Karta rowerowa została dodana dla ucznia.', 'OK');
       },
       error: () => {

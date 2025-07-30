@@ -5,6 +5,11 @@
     <mat-icon>add</mat-icon>
     Dodaj
   </button>
+
+  <button (click)="bicycleCardMassiveUpdate()" [disabled]="!selection.selected.length" mat-stroked-button color="accent" class="m-2">
+    <mat-icon>edit</mat-icon>
+    Edytuj
+  </button>
 </ng-container>
 
 <ng-container *ngIf="!isProgress">

@@ -17,6 +17,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {NgIf} from '@angular/common';
 import {BicycleCardCreateComponent} from '../bicycle-card-create/bicycle-card-create.component';
 import {BicycleCardEditComponent} from '../bicycle-card-edit/bicycle-card-edit.component';
+import {
+  BicycleCardSetDataMassiveComponent
+} from '../bicycle-card-set-data-massive/bicycle-card-set-data-massive.component';
 
 export interface getKartaRowerowa {
   id?: number,
@@ -209,6 +212,22 @@ export class RejestrKartRowerowychComponent extends AppComponent {
       height: '500px',
       data: {
         cardId,
+      }
+    });
+
+    dialog.afterClosed().subscribe(result => {
+      this.isProgress = true;
+
+      this.getFetchBicycleCards();
+    });
+  }
+
+  bicycleCardMassiveUpdate(): void {
+    const dialog = this.matDialog.open(BicycleCardSetDataMassiveComponent, {
+      width: '600px',
+      height: '500px',
+      data: {
+        cardsId: this.selection.selected,
       }
     });
 
