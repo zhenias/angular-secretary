@@ -35,7 +35,9 @@
 
   <mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;">
     <button mat-button mat-dialog-close>Anuluj</button>
-    <button mat-flat-button color="accent" [mat-dialog-close]="true" [disabled]="!selectedData || selectedData == 'export_jedna_klasa' && !classId" (click)="exportStudentsXML()" cdkFocusInitial>
+    <button mat-flat-button color="accent" [mat-dialog-close]="true"
+            [disabled]="!selectedData || selectedData == 'export_jedna_klasa' && !classId" (click)="exportStudentsXML()"
+            cdkFocusInitial>
       Eksportuj dane
     </button>
   </mat-dialog-actions>

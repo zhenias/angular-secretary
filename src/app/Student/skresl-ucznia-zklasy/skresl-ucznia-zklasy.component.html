@@ -15,19 +15,22 @@
   </p>
 
   <mat-form-field>
-    <mat-label>Data skreślenia: </mat-label>
-    <input matInput [matDatepicker]="picker" (focus)="picker.open()" [(ngModel)]="data_skreslenia" name="w_klasie_od" required readonly />
+    <mat-label>Data skreślenia:</mat-label>
+    <input matInput [matDatepicker]="picker" (focus)="picker.open()" [(ngModel)]="data_skreslenia" name="w_klasie_od"
+           required readonly/>
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Powód skreślenia</mat-label>
-    <input matInput [(ngModel)]="powod" required />
+    <input matInput [(ngModel)]="powod" required/>
   </mat-form-field>
 
 </mat-dialog-content>
 <mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;">
   <button mat-button mat-dialog-close>Nie, zostaw</button>
-  <button mat-button [mat-dialog-close]="true" [disabled]="!powod || !data_skreslenia" (click)="skresl(data.class.id)" cdkFocusInitial color="primary">Tak, skreśl!</button>
+  <button mat-button [mat-dialog-close]="true" [disabled]="!powod || !data_skreslenia" (click)="skresl(data.class.id)"
+          cdkFocusInitial color="primary">Tak, skreśl!
+  </button>
 </mat-dialog-actions>

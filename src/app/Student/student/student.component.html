@@ -35,24 +35,24 @@
         </ng-container>
 
         <mat-card class="p-4" *ngIf="student.id">
-          <div fxLayout="row wrap" fxLayoutGap="15px">
-            <mat-form-field fxFlex>
+          <div class="flex" style="width: 600px;">
+            <mat-form-field style="width: 100%;">
               <mat-label>Imię</mat-label>
               <input matInput [(ngModel)]="student.user_name" type="text" maxlength="255" required/>
             </mat-form-field>
-            <mat-form-field fxFlex>
+            <mat-form-field  style="width: 100%;">
               <mat-label>Nazwisko</mat-label>
               <input matInput [(ngModel)]="student.user_lastname" type="text" maxlength="255" required/>
             </mat-form-field>
           </div>
 
-          <div fxLayout="row wrap" fxLayoutGap="15px" *ngIf="!student.is_parent">
-            <mat-form-field fxFlex>
+          <div style="width: 600px;" class="flex" *ngIf="!student.is_parent">
+            <mat-form-field style="width: 100%;">
               <mat-label>Pesel</mat-label>
               <input matInput type="text" [(ngModel)]="student.pesel" required maxlength="11"/>
             </mat-form-field>
 
-            <mat-form-field>
+            <mat-form-field style="width: 100%;">
               <mat-label>Data urodzenia</mat-label>
               <input matInput [matDatepicker]="picker" (focus)="picker.open()" [(ngModel)]="student.data_urodzenia"
                      name="data_urodzin"/>
@@ -61,8 +61,8 @@
             </mat-form-field>
           </div>
 
-          <div fxLayout="row" fxLayoutGap="16px">
-            <mat-form-field appearance="fill">
+          <div class="flex">
+            <mat-form-field style="width: 200px;" appearance="fill">
               <mat-label>Płeć</mat-label>
               <mat-select [(ngModel)]="student.plec" required>
                 <mat-option [value]="0">Mężczyzna</mat-option>
@@ -85,25 +85,29 @@
       <mat-tab [disabled]="!student.user_name" label="Dane adresowe / kontaktowe" class="m-2">
         <mat-card class="p-4">
 
-          <mat-form-field fxFlex>
-            <mat-label>Adres zamieszkania</mat-label>
-            <input matInput type="text" [(ngModel)]="student.adres_zamieszkania" name="adres_zamieszkania" maxlength="255" />
-          </mat-form-field>
+          <div class="flex" style="max-width: 600px;">
+            <mat-form-field style="width: 100%;">
+              <mat-label>Adres zamieszkania</mat-label>
+              <input matInput type="text" [(ngModel)]="student.adres_zamieszkania" name="adres_zamieszkania" maxlength="255" />
+            </mat-form-field>
 
-          <mat-form-field fxFlex>
-            <mat-label>Adres zameldowania</mat-label>
-            <input matInput type="text"  [(ngModel)]="student.adres_zameldowania" name="adres_zameldowania" maxlength="255" />
-          </mat-form-field>
+            <mat-form-field style="width: 100%;">
+              <mat-label>Adres zameldowania</mat-label>
+              <input matInput type="text"  [(ngModel)]="student.adres_zameldowania" name="adres_zameldowania" maxlength="255" />
+            </mat-form-field>
+          </div>
 
-          <mat-form-field style="width: 400px;">
-            <mat-label>E-mail</mat-label>
-            <input matInput type="email" [(ngModel)]="student.email" maxlength="64"/>
-          </mat-form-field>
+          <div class="flex" style="max-width: 600px;">
+            <mat-form-field style="width: 100%;">
+              <mat-label>E-mail</mat-label>
+              <input matInput type="email" [(ngModel)]="student.email" maxlength="64"/>
+            </mat-form-field>
 
-          <mat-form-field style="width: 400px;">
-            <mat-label>Numer telefonu</mat-label>
-            <input matInput type="text" [(ngModel)]="student.numer_telefonu" maxlength="9"/>
-          </mat-form-field>
+            <mat-form-field style="width: 100%;">
+              <mat-label>Numer telefonu</mat-label>
+              <input matInput type="text" [(ngModel)]="student.numer_telefonu" maxlength="9"/>
+            </mat-form-field>
+          </div>
 
           <div align="end">
             <button mat-raised-button (click)="getStudentSave()" color="primary">

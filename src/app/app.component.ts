@@ -8,7 +8,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import {HttpHeaders, HttpClient} from '@angular/common/http';
-import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
@@ -74,6 +74,7 @@ export class AppComponent implements OnInit {
   public countMessage: number = 0;
 
   public router = inject(Router);
+  public appRoute = inject(ActivatedRoute);
   private _snackBar = inject(MatSnackBar);
   protected appHttp = inject(HttpClient);
   readonly matDialog = inject(MatDialog);
@@ -171,7 +172,7 @@ export class AppComponent implements OnInit {
 
         this.getMessageCount();
       },
-      error: (error) => {
+      error: () => {
         this.openSnackBar('Wystąpił podczas pobieranie danych o użytkowniku!', 'OK');
       }
     });

@@ -167,7 +167,7 @@ export class StudentComponent extends AppComponent {
   public dodajUczniaDoKlasy() {
     const dialogRef = this.dialog.open(DodajUczniaDoKlasyComponent, {
       data: {class: this.student.class, student: this.student},
-      width: '400px',
+      width: '500px',
     });
 
     dialogRef.afterClosed().subscribe(next => {
@@ -183,7 +183,7 @@ export class StudentComponent extends AppComponent {
         class: classInfo,
         student: this.student
       },
-      width: '400px'
+      width: '500px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -199,7 +199,7 @@ export class StudentComponent extends AppComponent {
         class: classInfo,
         student: this.student
       },
-      width: '400px'
+      width: '500px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -215,7 +215,7 @@ export class StudentComponent extends AppComponent {
         userId: userId,
         user_name: fullUserName,
       },
-      width: '400px'
+      width: '500px'
     });
   }
 
@@ -240,7 +240,7 @@ export class StudentComponent extends AppComponent {
         parent_user_name: parent_user_name,
         parentId: parentId,
       },
-      width: '400px',
+      width: '500px',
     });
 
     dialogRef.afterClosed().subscribe(result => {

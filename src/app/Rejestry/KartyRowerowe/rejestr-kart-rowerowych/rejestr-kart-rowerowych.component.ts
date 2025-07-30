@@ -15,8 +15,10 @@ import {MatOptionModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {NgIf} from '@angular/common';
+import {BicycleCardCreateComponent} from '../bicycle-card-create/bicycle-card-create.component';
+import {BicycleCardEditComponent} from '../bicycle-card-edit/bicycle-card-edit.component';
 
-interface getKartaRowerowa {
+export interface getKartaRowerowa {
   id?: number,
   user?: string,
   student?: string,
@@ -26,15 +28,19 @@ interface getKartaRowerowa {
   uwagi?: string,
   czy_odebrana?: boolean,
   czy_dublikat?: boolean,
+  created_at?: string,
+  updated_at?: string,
 }
 
-interface createKartaRowerowa {
+export interface createKartaRowerowa {
+  id?: number,
   student_id?: number,
   id_class?: number,
   numer_karty?: string, // max - 25
   czy_odebrana?: boolean,
   czy_dublikat?: boolean,
   uwagi?: string, // max - 255
+  data_wydania: string, // date
 }
 
 @Component({
@@ -59,7 +65,6 @@ interface createKartaRowerowa {
   styleUrl: './rejestr-kart-rowerowych.component.css'
 })
 export class RejestrKartRowerowychComponent extends AppComponent {
-  public buildAddCardBicycle: createKartaRowerowa = {};
   public getBicycleCards: getKartaRowerowa[] = [];
 
   dataSource = new MatTableDataSource<any>(this.getBicycleCards);
@@ -74,19 +79,16 @@ export class RejestrKartRowerowychComponent extends AppComponent {
   displayedColumns: string[] = [
     'select',
     'actions',
-    'classes',
-    'data_wydania',
     'student',
     'user',
+    'numer_karty',
+    'data_wydania',
+    'uwagi',
+    'classes',
+    'czy_odebrano',
     'czy_dublikat',
-    'czy_odebrano'
+    'created_at'
   ];
-
-  selectSortOnChange() {
-    this.isProgress = true;
-
-    this.getFetchBicycleCards();
-  }
 
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -95,6 +97,12 @@ export class RejestrKartRowerowychComponent extends AppComponent {
   constructor() {
     super();
 
+    this.isProgress = true;
+
+    this.getFetchBicycleCards();
+  }
+
+  selectSortOnChange() {
     this.isProgress = true;
 
     this.getFetchBicycleCards();
@@ -121,10 +129,6 @@ export class RejestrKartRowerowychComponent extends AppComponent {
         this.openSnackBar('Błąd podczas pobieranie danych.', 'OK');
       }
     });
-  }
-
-  createBicycleCard() {
-
   }
 
   async onPageChange(event: PageEvent) {
@@ -166,7 +170,7 @@ export class RejestrKartRowerowychComponent extends AppComponent {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
 
-    return numSelected === numRows;
+    return numSelected === numRows && numRows > 0;
   }
 
   masterToggle() {
@@ -180,5 +184,38 @@ export class RejestrKartRowerowychComponent extends AppComponent {
       return `${this.isAllSelected() ? 'Odznacz' : 'Zaznacz'} wszystkie`;
     }
     return `${this.selection.isSelected(row.id) ? 'Odznacz' : 'Zaznacz'} wiersz`;
+  }
+
+  bicycleCardCreate() {
+    const dialog = this.matDialog.open(BicycleCardCreateComponent, {
+      width: '600px',
+      height: '500px',
+      disableClose: true,
+      data: {
+        count: this.totalItems,
+      }
+    });
+
+    dialog.afterClosed().subscribe(result => {
+      this.isProgress = true;
+
+      this.getFetchBicycleCards();
+    });
+  }
+
+  bicycleCardEdit(cardId: number) {
+    const dialog = this.matDialog.open(BicycleCardEditComponent, {
+      width: '600px',
+      height: '500px',
+      data: {
+        cardId,
+      }
+    });
+
+    dialog.afterClosed().subscribe(result => {
+      this.isProgress = true;
+
+      this.getFetchBicycleCards();
+    });
   }
 }

@@ -134,8 +134,7 @@ export class StudentInSchoolComponent extends AppComponent {
 
   addStudentsMassiveToClass(): void {
     const modal = this.dialog.open(AddStudentsMassiveToClassComponent, {
-      width: '400px',
-      disableClose: true,
+      width: '600px',
       data: {
         studentsId: this.selection.selected,
       }
