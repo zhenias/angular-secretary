@@ -20,11 +20,17 @@
         </mat-icon>
       </button>
 
+      <button mat-icon-button (click)="bicycleCardCreate()" matTooltip="Dodaj kartę rowerową" *ngIf="!student.is_parent" [disabled]="!student.id || !student.class" color="primary">
+        <mat-icon>
+          assignment_ind
+        </mat-icon>
+      </button>
+
     </div>
   </mat-card>
 
   <mat-card>
-    <mat-tab-group color="primary">
+    <mat-tab-group color="primary" (selectedTabChange)="onTabChange($event)">
       <mat-tab [disabled]="!student.user_name" label="Dane osobowe" class="m-2">
         <ng-container *ngIf="!student.id">
           <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
@@ -121,8 +127,9 @@
       </mat-tab>
 
       <mat-tab [disabled]="!student.user_name" *ngIf="!student.is_parent" label="Rodzice / Opiekunowie" class="p-2">
+
         <div class="m-2">
-          <ng-container *ngIf="parents_list && parents_list.length > 0">
+          <ng-container *ngIf="parents_list && parents_list.length > 0 && !isLoadingParents">
             <table class="table-auto w-full text-sm border-collapse">
               <tr class="bg-gray-100 text-left">
                 <th class="px-4 py-2 border-b text-center">Rodzic / Opiekun</th>
@@ -167,7 +174,7 @@
             </table>
           </ng-container>
 
-          <ng-container *ngIf="!parents_list || parents_list.length == 0">
+          <ng-container *ngIf="(!parents_list || parents_list.length == 0) && !isLoadingParents">
             <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
               <p>
                 Brak dodanych rodziców / opiekunów. <br>
@@ -176,7 +183,15 @@
             </div>
           </ng-container>
 
-          <div align="end" class="mt-4">
+          <ng-container *ngIf="isLoadingParents">
+            <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
+              <p>
+                Ładują się dane, czekaj...
+              </p>
+            </div>
+          </ng-container>
+
+          <div align="end" class="mt-4" *ngIf="!isLoadingParents">
             <button mat-raised-button (click)="createAccountParent()" color="primary">
               <mat-icon>
                 supervisor_account
@@ -191,13 +206,13 @@
       <mat-tab [disabled]="!student.user_name" label="Zarządzanie kontem" class="m-2">
         <div class="bg-white h-[calc(50vh-64px)] p-4">
 
-          <div fxLayout="row wrap" fxLayoutGap="15px">
-            <mat-form-field fxFlex>
+          <div class="flex" style="max-width: 600px;">
+            <mat-form-field style="width: 100%;">
               <mat-label>Login</mat-label>
               <input matInput [value]="student.login" readonly/>
             </mat-form-field>
 
-            <mat-form-field fxFlex>
+            <mat-form-field style="width: 100%;">
               <mat-label>Alias</mat-label>
               <input matInput [value]="student.alias" readonly />
             </mat-form-field>
@@ -208,7 +223,7 @@
 
       <mat-tab [disabled]="!student.user_name" *ngIf="!student.is_parent" label="Pobyt ucznia" class="p-2">
         <div class="p-4">
-          <ng-container *ngIf="studentStateSchool && studentStateSchool.length > 0">
+          <ng-container *ngIf="studentStateSchool && studentStateSchool.length > 0 && !isLoadingStateSchool">
             <table class="table-auto w-full text-sm border-collapse">
               <tr class="bg-gray-100 text-left">
                 <th class="px-4 py-2 border-b text-center">Oddział</th>
@@ -253,7 +268,7 @@
             </table>
           </ng-container>
 
-          <ng-container *ngIf="!studentStateSchool || studentStateSchool.length === 0">
+          <ng-container *ngIf="(!studentStateSchool || studentStateSchool.length === 0) && !isLoadingStateSchool">
             <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
               <p>
                 Brak historii pobytu. <br>
@@ -262,7 +277,15 @@
             </div>
           </ng-container>
 
-          <div align="end" class="mt-4">
+          <ng-container *ngIf="isLoadingStateSchool">
+            <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
+              <p>
+                Ładują się dane, poczekaj...
+              </p>
+            </div>
+          </ng-container>
+
+          <div align="end" *ngIf="!isLoadingStateSchool" class="mt-4">
             <button mat-raised-button (click)="dodajUczniaDoKlasy()" color="primary">
               <mat-icon>
                 add
@@ -275,7 +298,7 @@
 
       <mat-tab [disabled]="!student.user_name" *ngIf="!student.is_parent" label="Dokumenty" class="p-2">
         <div class="p-4">
-          <ng-container *ngIf="spe_list && spe_list.length > 0">
+          <ng-container *ngIf="spe_list && spe_list.length > 0 && !isLoadingSPE">
             <table class="table-auto w-full text-sm border-collapse">
               <tr class="bg-gray-100 text-left">
                 <th class="px-4 py-2 border-b text-center">Rok</th>
@@ -314,11 +337,19 @@
             </table>
           </ng-container>
 
-          <ng-container *ngIf="spe_list && spe_list?.length == 0">
+          <ng-container *ngIf="spe_list && spe_list?.length == 0 && !isLoadingSPE">
             <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
               <p>
                 Brak dodanych dokumentów DIU. <br>
                 W celu dodania dokumentu, przejdź do zakładki w e-Dzienniku "Moduły -> Dodatkowe informację uczniów".
+              </p>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="isLoadingSPE">
+            <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
+              <p>
+                Ładują się dane, poczekaj...
               </p>
             </div>
           </ng-container>
@@ -327,7 +358,7 @@
 
       <mat-tab [disabled]="!student.user_name" *ngIf="!student.is_parent" label="Egzaminy">
         <div class="p-4">
-          <ng-container *ngIf="exams_list && exams_list.length > 0">
+          <ng-container *ngIf="exams_list && exams_list.length > 0 && !isLoadingExams">
             <table class="table-auto w-full text-sm border-collapse">
               <tr class="bg-gray-100 text-left">
                 <th class="px-4 py-2 border-b text-center">Nazwa</th>
@@ -354,11 +385,19 @@
             </table>
           </ng-container>
 
-          <ng-container *ngIf="!exams_list || exams_list.length == 0">
+          <ng-container *ngIf="(!exams_list || exams_list.length == 0) && !isLoadingExams">
             <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
               <p>
                 Brak dodanych ezgaminów. <br>
                 W celu dodania egzaminu, przejdź do zakładki w e-Dzienniku "Dziennik -> Egzaminy".
+              </p>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="isLoadingExams">
+            <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
+              <p>
+                Ładują się dane, poczekaj...
               </p>
             </div>
           </ng-container>

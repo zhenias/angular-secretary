@@ -5,13 +5,12 @@ import {MAT_DIALOG_DATA, MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
-import {formatDate, NgForOf} from "@angular/common";
+import {formatDate, NgForOf, NgIf} from "@angular/common";
 import {MatInputModule} from '@angular/material/input';
 import {AppComponent} from '../../../app.component';
-import {createKartaRowerowa, getKartaRowerowa} from '../rejestr-kart-rowerowych/rejestr-kart-rowerowych.component';
+import {createKartaRowerowa} from '../rejestr-kart-rowerowych/rejestr-kart-rowerowych.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {defaultAllowedOrigins} from 'vite';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
@@ -32,6 +31,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatCheckboxModule,
     MatIconModule,
     MatTooltipModule,
+    NgIf,
   ],
   templateUrl: './bicycle-card-create.component.html',
   styleUrl: './bicycle-card-create.component.css'
@@ -45,8 +45,20 @@ export class BicycleCardCreateComponent extends AppComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: {
     count: number,
+    studentId?: number,
+    classId?: number,
   }) {
     super();
+
+    if (data.studentId) {
+      this.createBicycleCardVar.student_id = data.studentId;
+    }
+
+    if (data.classId) {
+      this.createBicycleCardVar.id_class = data.classId;
+
+      this.getStudents();
+    }
 
     this.getClasses();
   }

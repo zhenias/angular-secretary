@@ -29,7 +29,7 @@
       <mat-form-field style="width: 100%;">
         <mat-label>Numer karty</mat-label>
         <input [(ngModel)]="createBicycleCardVar.numer_karty" matInput maxlength="25"/>
-        <mat-icon matIconSuffix (click)="generatedAutomaticNumberCard()" matTooltip="Generuj automatycznie numer karty w postaci <br> numer/rok.">post_add</mat-icon>
+        <mat-icon matIconSuffix *ngIf="data.count" (click)="generatedAutomaticNumberCard()" matTooltip="Generuj automatycznie numer karty w postaci <br> numer/rok.">post_add</mat-icon>
       </mat-form-field>
     </div>
 

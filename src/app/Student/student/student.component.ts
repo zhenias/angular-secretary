@@ -17,13 +17,16 @@ import {DodajUczniaDoKlasyComponent} from '../dodaj-ucznia-do-klasy/dodaj-ucznia
 import {UsunUczniaZKlasyComponent} from '../usun-ucznia-zklasy/usun-ucznia-zklasy.component';
 import {MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import {SkreslUczniaZKlasyComponent} from '../skresl-ucznia-zklasy/skresl-ucznia-zklasy.component';
-import {MatTab, MatTabGroup, MatTabsModule} from '@angular/material/tabs';
+import {MatTab, MatTabChangeEvent, MatTabGroup, MatTabsModule} from '@angular/material/tabs';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTableModule} from '@angular/material/table';
 import {ResetPasswordComponent} from '../reset-password/reset-password.component';
 import {CreateParentComponent} from '../../Parents/create-parent/create-parent.component';
 import {DeleteParentComponent} from '../../Parents/delete-parent/delete-parent.component';
 import {MatTooltip, MatTooltipModule} from '@angular/material/tooltip';
+import {
+  BicycleCardCreateComponent
+} from '../../Rejestry/KartyRowerowe/bicycle-card-create/bicycle-card-create.component';
 
 interface ClassInfo {
   id?: number,
@@ -128,31 +131,17 @@ interface Parents {
   styleUrl: './student.component.css',
 })
 export class StudentComponent extends AppComponent {
-  public student: StudentInfo = {
-    id: 0,
-    user_name: '',
-    user_lastname: '',
-    full_user_name: '',
-    is_student: false,
-    is_parent: false,
-    pesel: null,
-    data_urodzenia: '',
-    adres_zamieszkania: null,
-    adres_zameldowania: null,
-    email: null,
-    login: '',
-    alias: null,
-    data_rejestracji: '',
-    is_active: true,
-    is_zsk: false,
-    is_ni: false,
-    plec: 0,
-  };
+  public student: StudentInfo = {};
 
   public studentStateSchool: StateSchool[] = [];
   public spe_list: SPE[] = [];
   public exams_list: any[] = [];
   public parents_list: Parents[] = [];
+
+  isLoadingSPE = true;
+  isLoadingExams = true;
+  isLoadingParents = true;
+  isLoadingStateSchool = true;
 
   readonly dialog = inject(MatDialog);
 
@@ -164,6 +153,24 @@ export class StudentComponent extends AppComponent {
     this.getStudent();
   }
 
+  onTabChange(event: MatTabChangeEvent): void {
+    if (event.tab.textLabel === 'Rodzice / Opiekunowie' && !this.parents_list.length) {
+      this.getStudentParents();
+    }
+
+    if (event.tab.textLabel === 'Egzaminy' && !this.exams_list.length) {
+      this.getStudentExams();
+    }
+
+    if (event.tab.textLabel === 'Dokumenty' && !this.spe_list.length) {
+      this.getStudentSPE();
+    }
+
+    if (event.tab.textLabel === 'Pobyt ucznia' && !this.studentStateSchool.length) {
+      this.getStudentStateSchool();
+    }
+  }
+
   public dodajUczniaDoKlasy() {
     const dialogRef = this.dialog.open(DodajUczniaDoKlasyComponent, {
       data: {class: this.student.class, student: this.student},
@@ -171,8 +178,6 @@ export class StudentComponent extends AppComponent {
     });
 
     dialogRef.afterClosed().subscribe(next => {
-      this.isProgress = true;
-
       this.getStudentStateSchool();
     });
   }
@@ -187,8 +192,6 @@ export class StudentComponent extends AppComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.isProgress = true;
-
       this.getStudentStateSchool();
     });
   }
@@ -203,8 +206,6 @@ export class StudentComponent extends AppComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.isProgress = true;
-
       this.getStudentStateSchool();
     });
   }
@@ -259,10 +260,10 @@ export class StudentComponent extends AppComponent {
 
         this.student = data;
 
-        this.getStudentStateSchool();
-        this.getStudentSPE();
-        this.getStudentExams();
-        this.getStudentParents();
+        // this.getStudentStateSchool();
+        // this.getStudentSPE();
+        // this.getStudentExams();
+        // this.getStudentParents();
 
         this.cdr.detectChanges();
       },
@@ -299,19 +300,22 @@ export class StudentComponent extends AppComponent {
     });
   }
 
-  private async getStudentStateSchool() {
+  public async getStudentStateSchool() {
+    this.isLoadingStateSchool = true;
+
     const headers = this.setHeaderAuthorization();
 
     const userId = this.route.snapshot.paramMap.get('userId');
 
     this.http.get<any[]>('/api/School/Students/' + userId + '/StateSchool', {headers}).subscribe({
       next: (data) => {
-        this.isProgress = false;
+        this.isLoadingStateSchool = false;
 
         this.studentStateSchool = data;
       },
       error: (error) => {
-        this.isProgress = false;
+        this.isLoadingStateSchool = false;
+
         this.studentStateSchool = [];
 
         if (error.response.error != "State not found.") {
@@ -321,19 +325,22 @@ export class StudentComponent extends AppComponent {
     });
   }
 
-  private async getStudentSPE() {
+  public async getStudentSPE() {
+    this.isLoadingSPE = true;
+
     const headers = this.setHeaderAuthorization();
 
     const userId = this.route.snapshot.paramMap.get('userId');
 
     this.http.get<any[]>('/api/School/Students/' + userId + '/DIU', {headers}).subscribe({
       next: (data) => {
-        this.isProgress = false;
+        this.isLoadingSPE = false;
 
         this.spe_list = data;
       },
       error: (error) => {
-        this.isProgress = false;
+        this.isLoadingSPE = false;
+
         this.spe_list = [];
 
         if (error.response.error != "SPE not found.") {
@@ -343,40 +350,56 @@ export class StudentComponent extends AppComponent {
     });
   }
 
-  private async getStudentExams() {
+  public async getStudentExams() {
+    this.isLoadingExams = true;
+
     const headers = this.setHeaderAuthorization();
 
     const userId = this.route.snapshot.paramMap.get('userId');
 
     this.http.get<any[]>('/api/School/Students/' + userId + '/Exams', {headers}).subscribe({
       next: (data) => {
-        this.isProgress = false;
+        this.isLoadingExams = false;
 
         this.exams_list = data;
       },
       error: (error) => {
-        this.isProgress = false;
+        this.isLoadingExams = false;
 
         this.exams_list = [];
       }
     });
   }
 
-  private async getStudentParents() {
+  public async getStudentParents() {
+    this.isLoadingParents = true;
+
     const headers = this.setHeaderAuthorization();
 
     const userId = this.route.snapshot.paramMap.get('userId');
 
     this.http.get<Parents[]>('/api/School/Students/' + userId + '/Parents', {headers}).subscribe({
       next: (data) => {
-        this.isProgress = false;
+        this.isLoadingParents = false;
 
         this.parents_list = data;
       },
       error: (error) => {
-        this.isProgress = false;
+        this.isLoadingParents = false;
 
         this.exams_list = [];
+      }
+    });
+  }
+
+  public bicycleCardCreate() {
+    const dialog = this.matDialog.open(BicycleCardCreateComponent, {
+      width: '600px',
+      height: '500px',
+      disableClose: true,
+      data: {
+        studentId: this.student.id,
+        classId: this.student.class?.id,
       }
     });
   }
