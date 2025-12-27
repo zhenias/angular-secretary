@@ -1,0 +1,48 @@
+<div style="display: flex; flex-direction: column; height: 100%; max-height: 100vh;">
+
+  <h2 mat-dialog-title>
+    Dodanie uczniów do oddziału
+  </h2>
+  <mat-dialog-content class="mat-typography" style="flex: 1; overflow: auto; max-height: 100%;">
+    <div class="flex gap-[5px]">
+      <mat-form-field style="width: 100%">
+        <mat-label>
+          Oddział
+        </mat-label>
+        <mat-select
+          onchange="this.form.submit()"
+          [disabled]="!classes.length"
+          [(ngModel)]="dataAddToClass.class"
+          name="class" required
+        >
+          <mat-option
+            *ngFor="let c of classes;"
+            [value]="c.id"
+          >
+            {{ c.class }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%">
+        <mat-label>
+          Uczęstniczą od dnia
+        </mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="dataAddToClass.date" (focus)="picker.open()" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div>
+      Do oddziału zostanie dodano {{ this.data.studentsId.length }} {{ this.data.studentsId.length <= 1 ? "ucznia" : "uczniów" }}.
+    </div>
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;">
+    <button mat-button mat-dialog-close color="primary">Anuluj</button>
+    <button mat-flat-button [mat-dialog-close]="true" [disabled]="!dataAddToClass.date || !dataAddToClass.class"
+            cdkFocusInitial color="primary" (click)="addStudentsToClass()">Dodaj
+    </button>
+  </mat-dialog-actions>
+</div>

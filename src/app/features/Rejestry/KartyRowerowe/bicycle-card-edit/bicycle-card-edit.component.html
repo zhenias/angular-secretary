@@ -1,0 +1,79 @@
+<div style="display: flex; flex-direction: column; height: 100%; max-height: 100vh;">
+
+  <h2 mat-dialog-title>Edytuj kartę rowerową</h2>
+
+  <mat-dialog-content style="flex: 1; overflow: hidden;" *ngIf="isProgress">
+    Poczekaj, ładują się dane...
+  </mat-dialog-content>
+
+  <mat-dialog-content style="flex: 1; overflow: hidden; max-height: 100%;" *ngIf="!isProgress">
+
+    <div class="flex" style="width: 100%;">
+      <mat-form-field style="width: 100%;">
+        <mat-label>Uczeń</mat-label>
+        <input [(ngModel)]="getBicycleCard.class" matInput readonly/>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%;">
+        <mat-label>Uczeń</mat-label>
+        <input [(ngModel)]="getBicycleCard.student" matInput readonly/>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%;">
+        <mat-label>Wydał</mat-label>
+        <input [(ngModel)]="getBicycleCard.user" matInput readonly/>
+      </mat-form-field>
+    </div>
+
+    <div class="flex gap-[5px]" style="width: 100%;">
+      <mat-form-field style="width: 100%;">
+        <mat-label>Numer karty</mat-label>
+        <input [(ngModel)]="getBicycleCard.numer_karty" matInput maxlength="25"/>
+      </mat-form-field>
+    </div>
+
+    <div class="flex gap-[5px]" style="width: 100%;">
+      <mat-form-field style="width: 100%;">
+        <mat-label>Data wydania</mat-label>
+        <input (focus)="picker.open()" [(ngModel)]="getBicycleCard.data_wydania" [matDatepicker]="picker" matInput
+               readonly/>
+        <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%;">
+        <mat-label>Uwagi</mat-label>
+        <input [(ngModel)]="getBicycleCard.uwagi" matInput maxlength="255"/>
+      </mat-form-field>
+    </div>
+
+    <div class="flex gap-[5px]" style="width: 100%;">
+      <mat-checkbox value="1" color="primary" [(ngModel)]="getBicycleCard.czy_odebrana">
+        Odebrano
+      </mat-checkbox>
+
+      <mat-checkbox value="1" color="primary" [(ngModel)]="getBicycleCard.czy_dublikat">
+        Dublikat
+      </mat-checkbox>
+    </div>
+
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions style="display: flex; justify-content: space-between; border-top: 1px solid #ccc; padding-top: 8px;">
+    <button (click)="deleteBicycleCardFetch()" [mat-dialog-close]="true"
+            color="warn" mat-flat-button>
+      Usuń
+    </button>
+
+    <span></span>
+
+    <div>
+      <button mat-button mat-dialog-close color="primary">Anuluj</button>
+      <button (click)="saveBicycleCardFetch()" [mat-dialog-close]="true"
+              color="primary" mat-flat-button>
+        Zapisz
+      </button>
+    </div>
+  </mat-dialog-actions>
+</div>

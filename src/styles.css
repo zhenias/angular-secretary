@@ -1,0 +1,155 @@
+/* You can add global styles to this file, and also import other style files */
+@import "bootstrap-icons";
+
+@import "material-icons/iconfont/material-icons.css";
+
+@import "@fontsource/roboto/300.css";
+@import "@fontsource/roboto/400.css";
+@import "@fontsource/roboto/500.css";
+@import "@fontsource/roboto/700.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, app-root {
+  height: 100%;
+  margin: 0;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.bi {
+  font-size: 20px;
+}
+
+.container-md {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.drawer-container {
+  flex: 1;
+  display: flex;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar {
+  flex: 0 0 auto;
+}
+
+mat-drawer {
+  width: 250px;
+  background-color: #f5f5f5;
+  padding: 5px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+mat-panel-title i.bi {
+  margin-right: 10px;
+}
+
+mat-form-field {
+  margin-right: 5px;
+}
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: white;
+}
+
+.sticky-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  background: white;
+  border-top: 1px solid #ddd;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.nav-header {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 16px;
+  color: #757575;
+}
+
+mat-list-item {
+  border-radius: 0 !important;
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
+mat-list-item mat-icon {
+  margin-right: 10px;
+}
+
+mat-list-item.active {
+  font-weight: bold;
+}
+
+.content {
+  padding: 16px;
+  background: #fff;
+}
+
+mat-list-item {
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+}
+
+mat-list-item mat-icon {
+  margin-right: 10px;
+}
+
+mat-list-item div, mat-list-item mat-icon {
+  float: left;
+  display: flex;
+}
+
+mat-list-item {
+  border-radius: 10px !important;
+  margin-bottom: 5px;
+}
+
+mat-list-item:hover, .active {
+  /* zamiast żółtego */
+  background-color: rgba(103, 58, 183, 0.12) !important; /* fioletowy, lekki */
+}
+
+/* opcjonalnie możesz zmienić ikonki na ciemniejsze przy hover */
+mat-list-item.active mat-icon, mat-list-item:hover mat-icon {
+  color: #5e35b1 !important;
+}

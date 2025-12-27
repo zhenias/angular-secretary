@@ -1,0 +1,127 @@
+<div style="display: flex; flex-direction: column; height: 100%; max-height: 100vh;">
+  <h2 mat-dialog-title>Wyszukaj ucznia</h2>
+
+  <mat-dialog-content style="flex: 1; overflow: auto; max-height: 100%;">
+
+    <!-- toggle filtrów -->
+    <button mat-stroked-button (click)="showFilters = !showFilters" class="mb-4">
+      {{ showFilters ? 'Ukryj filtry' : 'Pokaż filtry' }}
+    </button>
+
+    <!-- FILTRY -->
+    <div *ngIf="showFilters">
+      <input type="hidden" [(ngModel)]="buildQuery.per_page" name="per_page" value="100">
+      <form class="grid grid-cols-2 gap-4">
+        <mat-form-field>
+          <mat-label>Imię</mat-label>
+          <input matInput [(ngModel)]="buildQuery.user_name" name="user_name">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Nazwisko</mat-label>
+          <input matInput [(ngModel)]="buildQuery.user_lastname" name="user_lastname">
+        </mat-form-field>
+
+        <mat-form-field style="width: 100%;">
+          <mat-label>Klasa</mat-label>
+          <mat-select onchange="this.form.submit()" [disabled]="!classes.length" [(ngModel)]="buildQuery.id_class"
+                      name="class">
+            <mat-option *ngFor="let c of classes;" [value]="c.id">
+              {{ c.class }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Rok</mat-label>
+          <input matInput type="number" [(ngModel)]="buildQuery.year" name="year">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Data urodzenia</mat-label>
+          <input matInput type="date" [(ngModel)]="buildQuery.data_urodzin" name="data_urodzin">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>PESEL</mat-label>
+          <input matInput type="number" [(ngModel)]="buildQuery.pesel" name="pesel">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput type="email" [(ngModel)]="buildQuery.email" name="email">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Płeć</mat-label>
+          <mat-select [(ngModel)]="buildQuery.plec" name="plec">
+            <mat-option [value]="0">Mężczyzna</mat-option>
+            <mat-option [value]="1">Kobieta</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Aktywny</mat-label>
+          <mat-select [(ngModel)]="buildQuery.is_active" name="is_active">
+            <mat-option [value]="1">Tak</mat-option>
+            <mat-option [value]="0">Nie</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="col-span-2 flex justify-end gap-2">
+          <button mat-flat-button color="primary" type="submit" (click)="studentsFetch()">Szukaj</button>
+          <button mat-stroked-button type="button" (click)="clearQuery()">Wyczyść</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- WYNIKI -->
+    <div class="mt-4" *ngIf="!isProgress && listStudents.length">
+      <table class="w-full border">
+        <thead>
+        <tr>
+          <th class="border px-2 py-1">Imię</th>
+          <th class="border px-2 py-1">Nazwisko</th>
+          <th class="border px-2 py-1">PESEL</th>
+          <th class="border px-2 py-1">Data urodzenia</th>
+          <th class="border px-2 py-1">Płeć</th>
+          <th class="border px-2 py-1">Klasa</th>
+          <th class="border px-2 py-1">Jednostka</th>
+          <th class="border px-2 py-1">Akcja</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let s of listStudents">
+          <td class="border px-2 py-1">{{ s.user_name }}</td>
+          <td class="border px-2 py-1">{{ s.user_lastname }}</td>
+          <td class="border px-2 py-1">{{ s.pesel }}</td>
+          <td class="border px-2 py-1">{{ s.data_urodzenia }}</td>
+          <td class="border px-2 py-1">{{ s?.gender }}</td>
+          <td class="border px-2 py-1">{{ s?.class?.class || '-' }}</td>
+          <td class="border px-2 py-1">{{ s?.class?.unit?.short || '-' }}</td>
+          <td class="border px-2 py-1">
+            <button mat-icon-button (click)="goToStudent(s.id)" [mat-dialog-close]="s.id">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="!isProgress && listStudents.length <= 0" class="text-gray-500 mt-4">
+      Brak wyników.
+    </div>
+
+    <div *ngIf="isProgress && listStudents.length === 0" class="text-gray-500 mt-4">Ładowanie...</div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;">
+    <button mat-flat-button color="primary" [mat-dialog-close]="true">
+      <mat-icon>
+        blocked
+      </mat-icon>
+      Anuluj
+    </button>
+  </mat-dialog-actions>
+</div>

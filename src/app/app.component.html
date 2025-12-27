@@ -1,0 +1,222 @@
+<div class="w-full h-screen overflow-hidden flex flex-col">
+  <mat-toolbar color="primary" class="fixed-header mat-elevation-z2">
+    <button (click)="drawer.toggle()" mat-icon-button aria-label="Menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span [routerLink]="'/'" class="cursor-pointer">{{ title }}</span>
+
+    <span class="spacer"></span>
+
+    <button mat-icon-button (click)="searchStudents()">
+      <mat-icon>
+        search
+      </mat-icon>
+    </button>
+
+    <button mat-icon-button onclick="location.href='/wiadomosci'">
+      <mat-icon
+        [matBadge]="countMessage > 0 ? countMessage : null"
+        matBadgeColor="warn">
+        mail
+      </mat-icon>
+    </button>
+
+    <button [matMenuTriggerFor]="menu" mat-icon-button aria-label="More options">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item onclick="location.href='/wyloguj'">
+        <mat-icon>logout</mat-icon>
+        <span>Wyloguj się</span>
+      </button>
+
+      <hr>
+
+      <button mat-menu-item onclick="location.href='/dashboard'">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Wróć do dziennika</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+
+  <mat-drawer-container class="flex-1 overflow-hidden">
+    <mat-drawer #drawer mode="side" class="drawer" opened>
+      <mat-nav-list>
+        <mat-list-item (click)="uzytkownicyMenuOpen = !uzytkownicyMenuOpen">
+          <div style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+            <mat-icon>people</mat-icon>
+            Użytkownicy
+            <mat-icon class="text-end float-right ml-auto">
+              {{ uzytkownicyMenuOpen ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+          </div>
+        </mat-list-item>
+
+        <div *ngIf="uzytkownicyMenuOpen" style="padding-left: 30px;">
+          <mat-list-item [routerLink]="'/employees'" routerLinkActive="active">
+            <div style="display: flex; align-items: center; gap: 5px;">
+              <mat-icon>work</mat-icon>
+              Pracownicy
+            </div>
+          </mat-list-item>
+
+          <mat-list-item [routerLink]="'/parents'" routerLinkActive="active">
+            <div style="display: flex; align-items: center; gap: 5px;">
+              <mat-icon>
+                people
+              </mat-icon>
+              Opiekunowie / rodzice
+            </div>
+          </mat-list-item>
+        </div>
+
+        <mat-list-item (click)="szkolaMenuOpen = !szkolaMenuOpen">
+          <div style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+            <mat-icon>school</mat-icon>
+            Szkoła
+            <mat-icon class="text-end float-right ml-auto">
+              {{ szkolaMenuOpen ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+          </div>
+        </mat-list-item>
+
+        <div *ngIf="szkolaMenuOpen" style="padding-left: 30px;">
+          <mat-list-item [routerLink]="'/units'" routerLinkActive="active">
+            <div style="display: flex; align-items: center; gap: 5px;">
+              <mat-icon>
+                account_tree
+              </mat-icon>
+              Jednostki
+            </div>
+          </mat-list-item>
+
+          <mat-list-item [routerLink]="'/classes'" routerLinkActive="active">
+            <div style="display: flex; align-items: center; gap: 5px;">
+              <mat-icon>
+                folder
+              </mat-icon>
+              Oddziały
+            </div>
+          </mat-list-item>
+        </div>
+
+        <mat-list-item [routerLink]="'/students'" routerLinkActive="active">
+          <div style="display: flex; align-items: center; gap: 5px;">
+            <mat-icon>
+              person
+            </mat-icon>
+            Księga uczniów
+          </div>
+        </mat-list-item>
+
+        <mat-list-item (click)="naborMenuOpen = !naborMenuOpen">
+          <div style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+            <mat-icon>how_to_reg</mat-icon>
+            Nabory
+            <mat-icon style="margin-left:auto;">
+              {{ naborMenuOpen ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+          </div>
+        </mat-list-item>
+
+        <div *ngIf="naborMenuOpen" style="padding-left: 30px;">
+          <mat-list-item [routerLink]="'/nabory/candidates'" routerLinkActive="active">
+            <div style="display: flex; align-items: center; gap: 5px;">
+              <mat-icon>school</mat-icon>
+              Kandydaci
+            </div>
+          </mat-list-item>
+
+          <mat-list-item [routerLink]="'/nabory/classes'" routerLinkActive="active">
+            <div style="display: flex; align-items: center; gap: 5px;">
+              <mat-icon>folder</mat-icon>
+              Oddziały
+            </div>
+          </mat-list-item>
+
+          <mat-list-item [routerLink]="'/candidates'" routerLinkActive="active">
+            <div style="display: flex; align-items: center; gap: 5px;">
+              <mat-icon>
+                school
+              </mat-icon>
+              Stara księga uczniów
+            </div>
+          </mat-list-item>
+        </div>
+
+        <mat-list-item (click)="rejestrKartRowerowychMenuOpen = !rejestrKartRowerowychMenuOpen">
+          <div style="display: flex; align-items: center; gap: 5px;">
+            <mat-icon>
+              list_alt
+            </mat-icon>
+            Rejestry
+            <mat-icon style="margin-left:auto;">
+              {{ rejestrKartRowerowychMenuOpen ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+          </div>
+        </mat-list-item>
+
+        <div *ngIf="rejestrKartRowerowychMenuOpen" style="padding-left: 30px;">
+          <mat-list-item [routerLink]="'/bicycle-cards'" routerLinkActive="active">
+            <div style="display: flex; align-items: center; gap: 5px;">
+              <mat-icon>
+                assignment_ind
+              </mat-icon>
+              Karty rowerowe
+            </div>
+          </mat-list-item>
+
+          <mat-list-item [routerLink]="'/exams'" routerLinkActive="active">
+            <div style="display: flex; align-items: center; gap: 5px;">
+              <mat-icon>
+                assignment_turned_in
+              </mat-icon>
+              Egzaminy
+            </div>
+          </mat-list-item>
+        </div>
+
+        <mat-list-item *ngIf="getMeInfo.is_admin || getMeInfo.is_secretary" (click)="ustawieniaMenuOpen = !ustawieniaMenuOpen">
+          <div style="display: flex; align-items: center; gap: 5px;">
+            <mat-icon>
+              settings
+            </mat-icon>
+            Ustawienia
+            <mat-icon style="margin-left:auto;">
+              {{ ustawieniaMenuOpen ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+          </div>
+        </mat-list-item>
+
+        <div *ngIf="ustawieniaMenuOpen" style="padding-left: 30px;">
+          <mat-list-item *ngIf="getMeInfo.is_admin || getMeInfo.is_secretary" (click)="exportConfigs()" routerLinkActive="active">
+            <div style="display: flex; align-items: center; gap: 5px;">
+              <mat-icon>
+                vertical_align_top
+              </mat-icon>
+              Eksporty
+            </div>
+          </mat-list-item>
+
+          <mat-list-item *ngIf="getMeInfo.is_admin" (click)="getLoginRestrictionsPopup()" routerLinkActive="active">
+            <div style="display: flex; align-items: center; gap: 5px;">
+              <mat-icon>
+                lock
+              </mat-icon>
+              Restrykcja logowania
+            </div>
+          </mat-list-item>
+        </div>
+
+      </mat-nav-list>
+
+    </mat-drawer>
+
+    <mat-drawer-content class="h-full overflow-y-auto">
+      <mat-progress-bar *ngIf="isProgress" mode="indeterminate"></mat-progress-bar>
+
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

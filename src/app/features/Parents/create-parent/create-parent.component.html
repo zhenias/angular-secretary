@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>
+  Dodaj rodzica
+</h2>
+<mat-dialog-content>
+  <div class="w-full flex gap-[5px] mb-4">
+    <div class="w-full">
+      <p class="text-gray-600 mb-1">Imię: </p>
+      <mat-form-field appearance="outline" class="w-full">
+        <input matInput maxlength="255" [(ngModel)]="parentsOptionsCreate.user_name" required>
+      </mat-form-field>
+    </div>
+
+    <div class="w-full">
+      <p class="text-gray-600 mb-1">Nazwisko: </p>
+      <mat-form-field appearance="outline" class="w-full">
+        <input matInput maxlength="255" [(ngModel)]="parentsOptionsCreate.user_lastname" required>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="w-full flex gap-[5px]">
+    <div class="w-full">
+      <p class="text-gray-600 mb-1">E-mail: </p>
+      <mat-form-field appearance="outline" class="w-full">
+        <input matInput maxlength="64" [(ngModel)]="parentsOptionsCreate.email" required>
+      </mat-form-field>
+    </div>
+
+    <div class="w-full">
+      <p class="text-gray-600 mb-1">Płeć: </p>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-select [(ngModel)]="parentsOptionsCreate.plec" required>
+          <mat-option value="0">Mężczyzna</mat-option>
+          <mat-option value="1">Kobieta</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;">
+  <button mat-button mat-dialog-close color="primary">Zamknij</button>
+  <button mat-flat-button color="primary" (click)="getCreateParentAccount()" *ngIf="parentsOptionsCreate.user_lastname && parentsOptionsCreate.user_lastname" mat-dialog-close>
+    Dodaj
+  </button>
+</mat-dialog-actions>

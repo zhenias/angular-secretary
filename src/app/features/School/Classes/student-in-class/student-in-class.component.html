@@ -1,0 +1,108 @@
+<div class="h-full flex flex-col">
+  <ng-container>
+    <div class="flex gap-[40px] items-baseline justify-items-center ml-3 mt-1">
+      <div>
+        <button [routerLink]="'/classes'" mat-icon-button>
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
+
+      <h1>Uczniowie w oddziale {{ getClass.class || '-' }}</h1>
+    </div>
+
+    <mat-card class="m-2 p-0 flex-1 flex flex-col overflow-hidden">
+      <app-loading-html *ngIf="isProgress"></app-loading-html>
+
+      <div class="flex-1 overflow-auto" style="border-bottom: 1px solid #ccc; padding-bottom: 8px;">
+        <table [dataSource]="dataSource" *ngIf="dataSource" class="w-full text-sm border-collapse" mat-table matSort>
+
+          <ng-container matColumnDef="select" sticky>
+            <th *matHeaderCellDef class="w-[2%] text-center" mat-header-cell>
+              <mat-checkbox
+                (change)="masterToggle()"
+                [checked]="isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                [matTooltip]="checkboxLabel()"
+                color="primary"
+              >
+              </mat-checkbox>
+            </th>
+
+            <td *matCellDef="let element" mat-cell>
+              <mat-checkbox
+                (change)="$event ? selection.toggle(element.id) : null"
+                (click)="$event.stopPropagation()"
+                [checked]="selection.isSelected(element.id)"
+                [matTooltip]="checkboxLabel(element.id)"
+                color="primary"
+              >
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="id_number">
+            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+              Nr w dz.
+            </th>
+            <td *matCellDef="let element" mat-cell> {{ element.id_number || '-' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="full_user_name">
+            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+              Uczeń
+            </th>
+            <td *matCellDef="let element" mat-cell> {{ element.full_user_name || '-' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="w_klasie_od">
+            <th *matHeaderCellDef class="px-4 py-2 border-b text-center w-[200px]" mat-header-cell mat-sort-header>
+              Okres pobytu
+            </th>
+            <td *matCellDef="let element" class="px-4 py-2 border-b text-center" mat-cell>
+              {{ element.w_klasie_od || '-' }} - {{ element.data_skreslenia ? element.data_skreslenia + '.' : 'do dziś.' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="powod_skreslenia">
+            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+              Powód skreślenia
+            </th>
+            <td *matCellDef="let element" class="px-4 py-2 border-b text-center" mat-cell>
+              {{ element.powod_skreslenia || '-' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="data_dodania">
+            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+              Data dodania
+            </th>
+            <td *matCellDef="let element" class="px-4 py-2 border-b text-center" mat-cell>
+              {{ element.data_dodania || '-' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions" sticky>
+            <th *matHeaderCellDef class="border-b text-center" mat-header-cell>Akcja</th>
+            <td *matCellDef="let element" class="w-[1%]" mat-cell>
+              <button (click)="goToStudent(element.id)" mat-icon-button>
+                <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns" class="bg-gray-100 text-center sticky-header" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: displayedColumns;" class="hover:bg-gray-100" mat-row></tr>
+        </table>
+
+        <ng-container *ngIf="dataSource.data.length == 0">
+          <div class="text-center p-4 text-gray-500">
+            Brak uczniów w oddziale.
+          </div>
+        </ng-container>
+
+      </div>
+    </mat-card>
+  </ng-container>
+
+</div>
+

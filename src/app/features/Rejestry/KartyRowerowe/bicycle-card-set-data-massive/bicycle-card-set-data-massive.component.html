@@ -1,0 +1,52 @@
+<div style="display: flex; flex-direction: column; height: 100%; max-height: 100vh;">
+  <h2 mat-dialog-title>
+    Edytuj seryjnie karty rowerowe
+  </h2>
+
+  <mat-dialog-content style="flex: 1; overflow: hidden; max-height: 100%;">
+    <div class="flex gap-[5px]" style="width: 100%;">
+      <mat-form-field matTooltip="Zaleca się pominiecie tego pola, ponieważ jest to dodawanie dla wszystkich uczniów numery kart." style="width: 100%;">
+        <mat-label>Numer karty</mat-label>
+        <input [(ngModel)]="createBicycleCardVar.numer_karty" matInput maxlength="25"/>
+      </mat-form-field>
+    </div>
+
+    <div class="flex gap-[5px]" style="width: 100%;">
+      <mat-form-field style="width: 100%;">
+        <mat-label>Data wydania</mat-label>
+        <input (focus)="picker.open()" [(ngModel)]="createBicycleCardVar.data_wydania" [matDatepicker]="picker" matInput
+               readonly/>
+        <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%;">
+        <mat-label>Uwagi</mat-label>
+        <input [(ngModel)]="createBicycleCardVar.uwagi" matInput maxlength="255" />
+      </mat-form-field>
+    </div>
+
+    <div class="flex gap-[5px]" style="width: 100%;">
+      <mat-checkbox value="1" color="primary" [(ngModel)]="createBicycleCardVar.czy_odebrana">
+        Czy odebrano?
+      </mat-checkbox>
+
+      <mat-checkbox value="1" color="primary" [(ngModel)]="createBicycleCardVar.czy_dublikat">
+        Czy dublikat?
+      </mat-checkbox>
+    </div>
+
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;">
+    <button mat-button mat-dialog-close color="primary">Anuluj</button>
+    <button
+      (click)="updateBicycleCardFetch()"
+      [mat-dialog-close]="true"
+      color="primary" mat-flat-button
+    >
+      Zapisz
+    </button>
+  </mat-dialog-actions>
+</div>

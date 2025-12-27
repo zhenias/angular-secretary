@@ -1,0 +1,529 @@
+<app-loading-html *ngIf="isProgress"></app-loading-html>
+<div class="p-2" *ngIf="!isProgress">
+
+  <mat-card class="p-4 mb-4 flex items-flex-column gap-3">
+    <div style="flex: 1; display: flex; align-items: center; gap: 20px;">
+
+      <i class="bi bi-person-circle" style="font-size: 40px;"></i>
+
+      <span style="font-size: 20px; font-weight: 500;">
+        {{ student.user_name || '-' }} {{ student.user_lastname }}
+      </span>
+
+      <button mat-stroked-button color="primary" (click)="goToLessonPlan(student.class?.id)" *ngIf="!student.is_parent" [disabled]="!student.class">
+        Plan lekcji
+      </button>
+
+      <button mat-icon-button matTooltip="Resetuj hasło" [disabled]="!student.id" (click)="resetPasswordForUser(student.full_user_name, student.id)" color="primary">
+        <mat-icon>
+          lock_reset
+        </mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="bicycleCardCreate()" matTooltip="Dodaj kartę rowerową" *ngIf="!student.is_parent" [disabled]="!student.id || !student.class" color="primary">
+        <mat-icon>
+          assignment_ind
+        </mat-icon>
+      </button>
+
+    </div>
+  </mat-card>
+
+  <mat-accordion>
+    <mat-expansion-panel [disabled]="!student.id" [expanded]="student.id">
+      <mat-expansion-panel-header>
+        Dane osobowe i adresy kontaktowe
+      </mat-expansion-panel-header>
+
+      <ng-container *ngIf="student.id">
+
+        <div class="w-full flex gap-[30px]">
+
+          <div class="w-full flex flex-1 flex-col gap-[5px]">
+            <!-- Dane osobowe -->
+
+            <p class="text-gray-600 mb-3 font-semibold text-lg">Dane osobowe</p>
+
+            <div class="mb-3">
+              <p class="text-gray-600 mb-1">Imię: </p>
+              <span *ngIf="!editMode">{{ student.user_name || "-" }}</span>
+              <mat-form-field *ngIf="editMode" class="w-full" appearance="outline">
+                <input matInput [(ngModel)]="student.user_name" type="text" maxlength="255" required />
+              </mat-form-field>
+            </div>
+
+            <div class="mb-3">
+              <p class="text-gray-600 mb-1">Nazwisko: </p>
+              <span *ngIf="!editMode">{{ student.user_lastname || "-" }}</span>
+              <mat-form-field *ngIf="editMode" class="w-full" appearance="outline">
+                <input matInput [(ngModel)]="student.user_lastname" type="text" maxlength="255" required />
+              </mat-form-field>
+            </div>
+
+            <div class="mb-3" *ngIf="!student.is_parent">
+              <p class="text-gray-600 mb-1">PESEL: </p>
+              <span *ngIf="!editMode">{{ student.pesel || "-" }}</span>
+              <mat-form-field *ngIf="editMode" class="w-full" appearance="outline">
+                <input matInput [(ngModel)]="student.pesel" type="text" maxlength="11" required />
+              </mat-form-field>
+            </div>
+
+            <div class="mb-3">
+              <p class="text-gray-600 mb-1">Data urodzenia: </p>
+              <span *ngIf="!editMode">{{ student.data_urodzenia || "-" }}</span>
+              <mat-form-field appearance="outline" *ngIf="editMode" class="w-full">
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  (focus)="picker.open()"
+                  [(ngModel)]="student.data_urodzenia"
+                  name="data_urodzin"
+                  readonly
+                />
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div class="mb-3">
+              <p class="text-gray-600 mb-1">Płeć: </p>
+              <span *ngIf="!editMode">{{ student.gender == "K" ? "Kobieta" : "Mężczyzna" }}</span>
+              <mat-form-field *ngIf="editMode" class="w-full" appearance="outline">
+                <mat-select [(ngModel)]="student.plec" required>
+                  <mat-option [value]="0">Mężczyzna</mat-option>
+                  <mat-option [value]="1">Kobieta</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="w-full flex flex-1 flex-col gap-[5px]">
+            <!-- Dane kontaktowe-->
+            <p class="text-gray-600 mb-3 font-semibold text-lg">Dane adresowe / kontaktowe</p>
+
+            <div class="w-full mb-3">
+              <p class="text-gray-600 mb-1">Adres zamieszkania: </p>
+              <span *ngIf="!editMode">{{ student.adres_zamieszkania || "-" }}</span>
+
+              <mat-form-field class="w-full" appearance="outline" *ngIf="editMode">
+                <input
+                  matInput
+                  type="text"
+                  [(ngModel)]="student.adres_zamieszkania"
+                  name="adres_zamieszkania"
+                  maxlength="255"
+                />
+              </mat-form-field>
+            </div>
+
+            <div class="w-full mb-3">
+              <p class="text-gray-600 mb-1">Adres zameldowania: </p>
+              <span *ngIf="!editMode">{{ student.adres_zameldowania || "-" }}</span>
+              <mat-form-field class="w-full" appearance="outline" *ngIf="editMode">
+                <input matInput type="text"  [(ngModel)]="student.adres_zameldowania" name="adres_zameldowania" maxlength="255" />
+              </mat-form-field>
+            </div>
+
+            <div class="w-full mb-3">
+              <p class="text-gray-600 mb-1">E-mail: </p>
+              <span *ngIf="!editMode">{{ student.email || "-" }}</span>
+
+              <mat-form-field class="w-full" appearance="outline" *ngIf="editMode">
+                <input matInput type="email" [(ngModel)]="student.email" maxlength="64"/>
+              </mat-form-field>
+            </div>
+
+            <div class="w-full mb-3">
+              <p class="text-gray-600 mb-1">Numer telefonu: </p>
+              <span *ngIf="!editMode">{{ student.numer_telefonu || "-" }}</span>
+
+              <mat-form-field class="w-full" appearance="outline" *ngIf="editMode">
+                <input matInput type="text" [(ngModel)]="student.numer_telefonu" maxlength="9" />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="w-full flex flex-1 flex-col gap-[5px]">
+            <!-- Dodatkowe informacje -->
+
+            <p class="text-gray-600 mb-3 font-semibold text-lg">Dodatkowe informacje</p>
+
+            <div class="mb-3">
+              <p class="text-gray-600 mb-1">Aktywny: </p>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-sm text-xs font-medium" [ngClass]="student.is_active ? 'text-green-800 bg-green-100' : 'text-red-800 bg-red-100'">{{ student.is_active ? "TAK" : "NIE" }}</span>
+            </div>
+
+            <div class="mb-3">
+              <p class="text-gray-600 mb-1">Data rejestracji: </p>
+              <span>{{ student.data_rejestracji }}</span>
+            </div>
+
+            <div class="mb-3" *ngIf="student.is_student">
+              <p class="text-gray-600 mb-1">Uczęszcza do oddziału: </p>
+              <span *ngIf="student.class?.id">{{ student.class?.class }}, rok {{ student.class?.year }}</span>
+              <span *ngIf="!student.class?.id">-</span>
+            </div>
+
+            <div class="mb-3">
+              <p class="text-gray-600 mb-1">Typ konta: </p>
+              <ng-container>
+                <span *ngIf="student.is_student" class="inline-flex items-center px-2.5 py-0.5 rounded-sm text-xs font-medium bg-green-100 text-green-800">
+                  Uczeń
+                </span>
+
+                <span *ngIf="student.is_parent" class="inline-flex items-center px-2.5 py-0.5 rounded-sm text-xs font-medium bg-blue-100 text-blue-800">
+                  Rodzic / Opiekun
+                </span>
+
+                <span *ngIf="!student.is_student && !student.is_parent" class="inline-flex items-center px-2.5 py-0.5 rounded-sm text-xs font-medium bg-gray-100 text-gray-800">
+                  Inny użytkownik
+                </span>
+              </ng-container>
+            </div>
+
+            <div class="mb-3">
+              <p class="text-gray-600 mb-1">Login: </p>
+              <span>
+                {{ student.login || "-" }}
+              </span>
+            </div>
+
+            <div class="mb-3">
+              <p class="text-gray-600 mb-1">Alias: </p>
+              <span>
+                {{ student.alias || "-" }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div align="end" class="flex items-center gap-[5px] float-right">
+          <button mat-button *ngIf="!editMode" (click)="editMode = !editMode" color="primary">
+            <mat-icon>
+              edit
+            </mat-icon>
+            Edytuj
+          </button>
+
+          <button mat-button *ngIf="editMode" (click)="editMode = !editMode" color="primary">
+            <mat-icon>
+              block
+            </mat-icon>
+            Anuluj
+          </button>
+
+          <button mat-flat-button *ngIf="editMode" (click)="getStudentSave()" color="primary">
+            <mat-icon>
+              save
+            </mat-icon>
+            Zapisz
+          </button>
+        </div>
+      </ng-container>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [disabled]="!student.id" *ngIf="!student.is_parent" (opened)="onPanelOpen('Rodzice / Opiekunowie')">
+
+      <mat-expansion-panel-header>
+        Opiekunowie / rodzice
+      </mat-expansion-panel-header>
+
+      <div>
+        <ng-container *ngIf="parents_list && parents_list.length > 0 && !isLoadingParents">
+
+          <table [dataSource]="dataSourceParents" *ngIf="dataSourceParents" class="w-full text-sm border-collapse" mat-table matSort>
+            <ng-container matColumnDef="parent">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Rodzic / opiekun
+              </th>
+              <td *matCellDef="let element" mat-cell> {{ element.name || '-' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="plec">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Płeć
+              </th>
+              <td *matCellDef="let element" mat-cell> {{ element.plec || '-' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="login">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Login
+              </th>
+              <td *matCellDef="let element" mat-cell> {{ element.login || '-' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="level">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Stopień
+              </th>
+              <td *matCellDef="let element" mat-cell> {{ element.level || '-' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="date">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Data dodania
+              </th>
+              <td *matCellDef="let element" mat-cell> {{ element.date || '-' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions" sticky>
+              <th *matHeaderCellDef class="border-b text-center" mat-header-cell>Akcja</th>
+              <td *matCellDef="let element" class="w-[200px]" mat-cell>
+
+                <button mat-icon-button color="primary" matTooltip="Resetuj hasło" (click)="resetPasswordForUser(element.name, element.user_id)">
+                  <mat-icon>lock_reset</mat-icon>
+                </button>
+
+                <button mat-icon-button color="primary" matTooltip="Edytuj" (click)="goToStudent(element.user_id)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+
+                <button mat-icon-button matTooltip="Usuń powiązanie oraz z systemu" color="warn" (click)="deleteAccountParent(element.user_id, element.name)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+
+              </td>
+            </ng-container>
+
+            <tr *matHeaderRowDef="displayedColumnsParents" class="bg-gray-100 text-center sticky-header" mat-header-row></tr>
+            <tr *matRowDef="let row; columns: displayedColumnsParents;" class="hover:bg-gray-100" mat-row></tr>
+          </table>
+
+        </ng-container>
+
+        <ng-container *ngIf="(dataSourceParents.data.length === 0) && !isLoadingParents">
+          <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
+            <p>
+              Brak dodanych rodziców / opiekunów. <br>
+              W celu dodania rodzica / opiekuna skorzystaj z przycisku "Dodaj".
+            </p>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="isLoadingParents">
+          <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
+            <p>
+              <mat-progress-spinner mode="indeterminate" />
+            </p>
+          </div>
+        </ng-container>
+
+        <div align="end" class="mt-4" *ngIf="!isLoadingParents">
+          <button mat-raised-button (click)="createAccountParent()" color="primary">
+            <mat-icon>
+              supervisor_account
+            </mat-icon>
+            Dodaj
+          </button>
+        </div>
+
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [disabled]="!student.user_name" *ngIf="!student.is_parent" (opened)="onPanelOpen('Pobyt ucznia')">
+      <mat-expansion-panel-header>
+        Pobyt ucznia
+      </mat-expansion-panel-header>
+
+      <div>
+        <ng-container *ngIf="studentStateSchool && studentStateSchool.length > 0 && !isLoadingStateSchool">
+          <table class="table-auto w-full text-sm border-collapse">
+            <tr class="bg-gray-100 text-left">
+              <th class="px-4 py-2 border-b text-center">Oddział</th>
+              <th class="px-4 py-2 border-b text-center">Rok szkolny</th>
+              <th class="px-4 py-2 border-b text-center">Okres nauczania</th>
+              <th class="px-4 py-2 border-b text-center">Powód skreślenia</th>
+              <th class="px-4 py-2 border-b text-center">Data dodania</th>
+              <th class="px-4 py-2 border-b text-center">Akcje</th>
+            </tr>
+            <ng-container *ngFor="let state of studentStateSchool;">
+              <tr class="hover:bg-slate-75">
+                <td class="px-4 py-2 border-b text-center">
+                  {{ state.class.class || '-' }}
+                </td>
+                <td class="px-4 py-2 border-b text-center">
+                  {{ state.class.year || '-' }}
+                </td>
+                <td class="px-4 py-2 border-b text-center">
+                  {{ (state.w_klasie_od + (state.data_skreslenia ? ' - ' + state.data_skreslenia : ' - do dzisiaj.')) || '-' }}
+                </td>
+                <td class="px-4 py-2 border-b">
+                  {{ state.powod_skreslenia || '-' }}
+                </td>
+                <td class="px-4 py-2 border-b text-center">
+                  {{ state.data_dodania || '-' }}
+                </td>
+                <td class="px-4 py-2 border-b text-center">
+                  <button matTooltip="Skreśl" mat-icon-button [disabled]="state.data_skreslenia" (click)="skreslUcznia(state.class)">
+                    <mat-icon>
+                      person_off
+                    </mat-icon>
+                  </button>
+
+                  <button mat-icon-button color="warn" matTooltip="Usuń" (click)="usunUczniaZKlasy(state.class)">
+                    <mat-icon>
+                      delete
+                    </mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+          </table>
+        </ng-container>
+
+        <ng-container *ngIf="(!studentStateSchool || studentStateSchool.length === 0) && !isLoadingStateSchool">
+          <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
+            <p>
+              Brak historii pobytu. <br>
+              W celu dodania pobytu, skorzystaj z przycisku "Dodaj".
+            </p>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="isLoadingStateSchool">
+          <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
+            <p>
+              <mat-progress-spinner mode="indeterminate" />
+            </p>
+          </div>
+        </ng-container>
+
+        <div align="end" *ngIf="!isLoadingStateSchool" class="mt-4">
+          <button mat-raised-button (click)="dodajUczniaDoKlasy()" color="primary">
+            <mat-icon>
+              add
+            </mat-icon>
+            Dodaj
+          </button>
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [disabled]="!student.user_name" *ngIf="!student.is_parent" (opened)="onPanelOpen('Dokumenty')">
+      <mat-expansion-panel-header>
+        Dokumenty
+      </mat-expansion-panel-header>
+
+      <div class="p-4">
+        <ng-container *ngIf="spe_list && spe_list.length > 0 && !isLoadingSPE">
+          <table class="table-auto w-full text-sm border-collapse">
+            <tr class="bg-gray-100 text-left">
+              <th class="px-4 py-2 border-b text-center">Rok</th>
+              <th class="px-4 py-2 border-b text-center">Cele pracy</th>
+              <th class="px-4 py-2 border-b text-center">Metody pracy</th>
+              <th class="px-4 py-2 border-b text-center">Dostosowania</th>
+              <th class="px-4 py-2 border-b text-center">Inne informacje</th>
+              <th class="px-4 py-2 border-b text-center">Data dodania</th>
+              <th class="px-4 py-2 border-b text-center">Dodał</th>
+            </tr>
+            <ng-container *ngFor="let spe of spe_list;">
+              <tr class="hover:bg-slate-75">
+                <td class="px-4 py-2 border-b text-center">
+                  {{ spe.year || '-' }}/{{ spe.year2 || '-' }}
+                </td>
+                <td class="px-4 py-2 border-b">
+                  {{ spe.cele_pracy || '-' }}
+                </td>
+                <td class="px-4 py-2 border-b">
+                  {{ spe.metody_pracy || '-' }}
+                </td>
+                <td class="px-4 py-2 border-b">
+                  {{ spe.dostosowania || '-' }}
+                </td>
+                <td class="px-4 py-2 border-b">
+                  {{ spe.inne_informacje || '-' }}
+                </td>
+                <td class="px-4 py-2 border-b text-center">
+                  {{ spe.date || '-' }}
+                </td>
+                <td class="px-4 py-2 border-b text-center">
+                  {{ spe.user_add || '-' }}
+                </td>
+              </tr>
+            </ng-container>
+          </table>
+        </ng-container>
+
+        <ng-container *ngIf="spe_list && spe_list?.length == 0 && !isLoadingSPE">
+          <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
+            <p>
+              Brak dodanych dokumentów DIU. <br>
+              W celu dodania dokumentu, przejdź do zakładki w e-Dzienniku "Moduły -> Dodatkowe informację uczniów".
+            </p>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="isLoadingSPE">
+          <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
+            <p>
+              <mat-progress-spinner mode="indeterminate" />
+            </p>
+          </div>
+        </ng-container>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [disabled]="!student.user_name" *ngIf="!student.is_parent" (opened)="onPanelOpen('Egzaminy')">
+      <mat-expansion-panel-header>
+        Egzaminy
+      </mat-expansion-panel-header>
+
+      <div class="p-4">
+        <ng-container *ngIf="exams_list && exams_list.length > 0 && !isLoadingExams">
+          <table class="table-auto w-full text-sm border-collapse">
+            <tr class="bg-gray-100 text-left">
+              <th class="px-4 py-2 border-b text-center">Nazwa</th>
+              <th class="px-4 py-2 border-b text-center">Wynik</th>
+              <th class="px-4 py-2 border-b text-center">Dodał</th>
+              <th class="px-4 py-2 border-b text-center">Data dodania</th>
+            </tr>
+            <ng-container *ngFor="let exam of exams_list;">
+              <tr class="hover:bg-gray-75">
+                <td class="px-4 py-2 border-b text-center">
+                  {{ exam.name }}
+                </td>
+                <td class="px-4 py-2 border-b">
+                  {{ exam.result || '-' }}
+                </td>
+                <td class="px-4 py-2 border-b">
+                  {{ exam.create || '-' }}
+                </td>
+                <td class="px-4 py-2 border-b">
+                  {{ exam.date || '-' }}
+                </td>
+              </tr>
+            </ng-container>
+          </table>
+        </ng-container>
+
+        <ng-container *ngIf="(!exams_list || exams_list.length == 0) && !isLoadingExams">
+          <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
+            <p>
+              Brak dodanych egzaminów. <br>
+              Jeżeli chcesz dodać wpis o egzamin, przejdź do zakładki - Rejestry -> Egzaminy, <br>
+              lub skorzystaj z przycisku dodaj.
+            </p>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="isLoadingExams">
+          <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
+            <p>
+              <mat-progress-spinner mode="indeterminate" />
+            </p>
+          </div>
+        </ng-container>
+
+        <div align="end" *ngIf="!isLoadingExams" class="mt-4">
+          <button [disabled]="!student.class?.id" mat-raised-button (click)="examCreate()" color="primary">
+            <mat-icon>
+              add
+            </mat-icon>
+            Dodaj
+          </button>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

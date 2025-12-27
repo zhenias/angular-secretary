@@ -1,0 +1,115 @@
+<div class="h-full flex flex-col">
+  <ng-container class="m-2 p-4">
+    <div class="flex gap-[40px] items-baseline ml-5 mt-3">
+      <h1>Rejestr egzaminów</h1>
+
+      <div class="flex items-center gap-[5px]">
+        <button mat-flat-button color="primary" (click)="examCreate()">
+          <mat-icon>add</mat-icon>
+          Dodaj
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container>
+    <mat-card class="m-2 p-0 flex-1 flex flex-col overflow-hidden">
+      <app-loading-html *ngIf="isProgress"></app-loading-html>
+
+      <div class="flex-1 overflow-auto">
+        <table mat-table matSort [dataSource]="dataSource"
+               class="w-full text-sm border-collapse">
+
+          <ng-container matColumnDef="select" sticky>
+            <th mat-header-cell class="w-[2%] text-center" *matHeaderCellDef>
+              <mat-checkbox
+                (change)="masterToggle()"
+                [checked]="isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                [matTooltip]="checkboxLabel()"
+                color="primary"
+              >
+              </mat-checkbox>
+            </th>
+
+            <td mat-cell *matCellDef="let element">
+              <mat-checkbox
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(element.id) : null"
+                [checked]="selection.isSelected(element.id)"
+                [matTooltip]="checkboxLabel(element.id)"
+                color="primary"
+              >
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="date">
+            <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header>
+              Data dodania
+            </th>
+            <td mat-cell class="px-4 py-2 border-b text-center"
+                *matCellDef="let element"> {{ element?.date || '-' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header>
+              Nazwa
+            </th>
+            <td mat-cell class="px-4 py-2 border-b text-center"
+                *matCellDef="let element"> {{ element?.name || '-' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="result">
+            <th mat-header-cell class="px-4 py-2 border-b text-center w-[150px]" *matHeaderCellDef mat-sort-header>
+              Wynnik
+            </th>
+            <td mat-cell class="px-4 py-2 border-b text-center"
+                *matCellDef="let element"> {{ element?.result || '-' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="student">
+            <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header>
+              Uczeń
+            </th>
+            <td mat-cell class="px-4 py-2 border-b text-center"
+                *matCellDef="let element"> {{ element?.student || '-' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="create">
+            <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header>
+              Dodał
+            </th>
+            <td mat-cell class="px-4 py-2 border-b text-center"
+                *matCellDef="let element"> {{ element?.create || '-' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions" sticky>
+            <th mat-header-cell class="border-b text-center" *matHeaderCellDef>Akcja</th>
+            <td mat-cell class="w-[1%]" *matCellDef="let element">
+              <button matTooltip="Edytuj" mat-icon-button (click)="examUpdate(element.id)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+
+          <tr mat-header-row class="bg-gray-100 text-center sticky-header" *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row class="hover:bg-gray-100" *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <ng-container *ngIf="dataSource.data.length == 0">
+          <div class="text-center p-4 text-gray-500">
+            Brak dodanych egzaminów w rejestrze.
+          </div>
+        </ng-container>
+
+      </div>
+    </mat-card>
+  </ng-container>
+</div>

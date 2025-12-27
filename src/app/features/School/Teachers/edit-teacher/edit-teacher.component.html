@@ -1,0 +1,85 @@
+<div class="flex flex-col max-h-[100vh] h-[100%]">
+  <h2 mat-dialog-title>Edytuj pracownika</h2>
+
+  <app-loading-html *ngIf="isProgress"></app-loading-html>
+
+  <mat-dialog-content *ngIf="!isProgress" class="flex flex-col overflow-auto p-2" style="height: 100%; max-height: 100vh;">
+
+    <div class="flex gap-2 mb-4">
+      <div class="flex-1">
+        <p class="text-gray-600 mb-1">Imię:</p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input matInput [(ngModel)]="getTeacher.user_name" maxlength="255" />
+        </mat-form-field>
+      </div>
+      <div class="flex-1">
+        <p class="text-gray-600 mb-1">Nazwisko:</p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input matInput [(ngModel)]="getTeacher.user_lastname" maxlength="255" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="flex gap-2 mb-4">
+      <div class="flex-1">
+        <p class="text-gray-600 mb-1">Data urodzenia:</p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input matInput [matDatepicker]="picker" (focus)="picker.open()" [(ngModel)]="getTeacher.data_urodzenia" readonly />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="flex-1">
+        <p class="text-gray-600 mb-1">PESEL:</p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input matInput type="text" [(ngModel)]="getTeacher.pesel" maxlength="11" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="flex gap-2 mb-4">
+      <div class="flex-1">
+        <p class="text-gray-600 mb-1" matTooltip="Edycja płci jest dostępna w Konfiguracja -> Pracownicy w e-Dzienniku.">Płeć:</p>
+        <span>{{ getTeacher.gender || '-' }}</span>
+      </div>
+      <div class="flex-1">
+        <p class="text-gray-600 mb-1" matTooltip="Nie masz wpływu na tą opcję, ponieważ to jest systemowa opcja, w razie jeśli będzie aktywne, to pracownik nie będzie mógł zalogować się do systemu.">Konto deaktywowane:</p>
+        <span [ngClass]="getTeacher.deactivated_account ? 'text-red-700' : 'text-green-700'">{{ getTeacher.deactivated_account ? 'Tak' : 'Nie' }}</span>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <p class="text-gray-600 mb-1">E-mail:</p>
+      <mat-form-field class="w-full" appearance="outline">
+        <input matInput type="email" [(ngModel)]="getTeacher.email" maxlength="64" />
+      </mat-form-field>
+    </div>
+
+    <div class="mb-4">
+      <mat-checkbox color="primary" [(ngModel)]="getTeacher.is_active">
+        Aktywny
+      </mat-checkbox>
+    </div>
+
+    <div class="border-t border-gray-300 pt-2 mb-2"></div>
+    <h4 class="mb-2">Uprawnienia</h4>
+    <div class="border-t border-gray-300 pt-2 mb-4"></div>
+
+    <div class="flex flex-col gap-2">
+      <mat-checkbox color="primary" [(ngModel)]="getTeacher.is_teacher">Nauczyciel</mat-checkbox>
+      <mat-checkbox color="primary" [(ngModel)]="getTeacher.is_director">Dyrektor</mat-checkbox>
+      <mat-checkbox color="primary" [(ngModel)]="getTeacher.is_secretary">Sekretarz</mat-checkbox>
+      <mat-checkbox color="primary" [(ngModel)]="getTeacher.is_pedagogue">Pedagog</mat-checkbox>
+      <mat-checkbox color="primary" [(ngModel)]="getTeacher.is_replacements">Zastępstwa</mat-checkbox>
+      <mat-checkbox color="primary" [(ngModel)]="getTeacher.is_admin">Administrator</mat-checkbox>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" *ngIf="!isProgress" class="border-t border-gray-300 pt-2">
+    <button mat-button mat-dialog-close>Anuluj</button>
+    <button mat-flat-button color="primary" (click)="saveTeacher()" [mat-dialog-close]="true">
+      Zapisz
+    </button>
+  </mat-dialog-actions>
+</div>

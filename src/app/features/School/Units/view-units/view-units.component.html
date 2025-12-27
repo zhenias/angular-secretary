@@ -1,0 +1,97 @@
+<div class="h-full flex flex-col">
+  <ng-container>
+    <div class="flex gap-[30px] items-baseline ml-5 mt-3">
+      <h1>Jednostki</h1>
+    </div>
+
+    <mat-card class="m-2 p-0 flex-1 flex flex-col overflow-hidden">
+      <app-loading-html *ngIf="isProgress"></app-loading-html>
+
+      <div class="flex-1 overflow-auto" style="border-bottom: 1px solid #ccc; padding-bottom: 8px;">
+        <table [dataSource]="dataSource" *ngIf="dataSource" class="w-full text-sm border-collapse" mat-table matSort>
+
+          <ng-container matColumnDef="select" sticky>
+            <th *matHeaderCellDef class="w-[2%] text-center" mat-header-cell>
+              <mat-checkbox
+                (change)="masterToggle()"
+                [checked]="isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                [matTooltip]="checkboxLabel()"
+                color="primary"
+              >
+              </mat-checkbox>
+            </th>
+
+            <td *matCellDef="let element" mat-cell>
+              <mat-checkbox
+                (change)="$event ? selection.toggle(element.id) : null"
+                (click)="$event.stopPropagation()"
+                [checked]="selection.isSelected(element.id)"
+                [matTooltip]="checkboxLabel(element.id)"
+                color="primary"
+              >
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+              Nazwa
+            </th>
+            <td *matCellDef="let element" mat-cell> {{ element.name || '-' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="short">
+            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+              Skrót
+            </th>
+            <td *matCellDef="let element" mat-cell> {{ element.short || '-' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="type">
+            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+              Typ
+            </th>
+            <td *matCellDef="let element" mat-cell> {{ element.type || '-' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="kategoria_uczniow">
+            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+              Kategoria uczniów
+            </th>
+            <td *matCellDef="let element" mat-cell> {{ element.kategoria_uczniow || '-' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="maxLevel">
+            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+              Maksymalny poziom
+            </th>
+            <td *matCellDef="let element" mat-cell> {{ element.maxLevel || '-' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions" sticky>
+            <th *matHeaderCellDef class="border-b text-center" mat-header-cell>Akcja</th>
+            <td *matCellDef="let element" class="w-[1%]" mat-cell>
+              <button mat-icon-button>
+                <mat-icon>
+                  edit
+                </mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns" class="bg-gray-100 text-center sticky-header" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: displayedColumns;" class="hover:bg-gray-100" mat-row></tr>
+        </table>
+
+        <ng-container *ngIf="dataSource.data.length == 0">
+          <div class="text-center p-4 text-gray-500">
+            Brak dodanych jednostek.
+          </div>
+        </ng-container>
+
+      </div>
+    </mat-card>
+  </ng-container>
+
+</div>

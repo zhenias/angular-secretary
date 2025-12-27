@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>
+  Usuń konto rodzica
+</h2>
+<mat-dialog-content>
+  Czy jesteś pewny że chcesz usunąć konto rodzica: <b>{{ data.parent_user_name }}</b>? <br>
+  Akcja jest bez powrotna - usunięcie rodzica wiąże się z rozłączniem go od ucznia, oraz usunięcie o nim wszystkie dane. <br>
+  Także usunie się z systemu.
+</mat-dialog-content>
+<mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;">
+  <button mat-button mat-dialog-close color="primary">Zamknij</button>
+  <button mat-flat-button color="primary" (click)="getDeleteParent()" mat-dialog-close>
+    Usuń
+  </button>
+</mat-dialog-actions>

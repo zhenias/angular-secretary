@@ -1,0 +1,28 @@
+<div style="display: flex; flex-direction: column; height: 100%; max-height: 100vh;">
+  <h2 mat-dialog-title>Usunięcie ucznia z oddziału</h2>
+  <mat-dialog-content class="mat-typography" style="flex: 1; overflow: auto; max-height: 100%;">
+    <h1>
+      Czy na pewno chcesz usunąć ucznia z klasy {{ data.class.class }}?
+    </h1>
+    <p>
+      Nie będzie możliwości cofnięcia tej operacji.
+      <br>
+      Ale będzie możliwość na nowo dodanie ucznia do tego oddziału.
+      <br>
+      Także usunie się pobyt ucznia z historii pobytów.
+    </p>
+    <br>
+    <p>
+      Uczeń: {{ data.student.full_user_name }} będzie usunięty z oddziału. <br>
+      Oceny, frekwencja, uwagi, zadania, itp. zostaną z tym uczniem.
+    </p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;">
+    <button mat-button mat-dialog-close color="primary">Nie</button>
+    <button mat-flat-button [mat-dialog-close]="true" (click)="usunUczniaZKlasy(data.class.id)" cdkFocusInitial
+            color="primary">
+      Tak
+    </button>
+  </mat-dialog-actions>
+
+</div>

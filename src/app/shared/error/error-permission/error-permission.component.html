@@ -1,0 +1,25 @@
+<div class="flex items-center justify-center h-[calc(100vh-64px)] bg-gray-50">
+  <div class="text-center">
+    <div class="text-[96px] font-bold text-red-300">
+      403
+    </div>
+
+    <div class="mt-4 text-[32px] leading-relaxed text-gray-800">
+      Brak uprawnień
+    </div>
+
+    <div class="mt-2 text-gray-600">
+      Nie masz dostępu do tej części aplikacji.
+    </div>
+
+    <div class="mt-8 flex justify-center gap-4">
+      <button
+        mat-stroked-button
+        color="warn"
+        [routerLink]="'/dashboard'"
+      >
+        Wróć do strony głównej
+      </button>
+    </div>
+  </div>
+</div>

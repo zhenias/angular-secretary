@@ -1,0 +1,100 @@
+<div style="display: flex; flex-direction: column; height: 100%; max-height: 100vh;">
+  <h2 mat-dialog-title>Dodaj kandydata</h2>
+
+  <mat-dialog-content style="flex: 1; overflow: auto; max-height: 100%;">
+
+    <!-- Imię i Nazwisko -->
+    <div style="width: 100%;" class="flex gap-[5px]">
+      <mat-form-field style="width: 100%;">
+        <mat-label>Imię</mat-label>
+        <input matInput [(ngModel)]="buildFetch.user_name" name="user_name" required>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%;">
+        <mat-label>Nazwisko</mat-label>
+        <input matInput [(ngModel)]="buildFetch.user_lastname" name="user_lastname" required>
+      </mat-form-field>
+    </div>
+
+    <!-- Płeć i Data urodzenia -->
+    <div style="width: 100%;" class="flex gap-[5px]">
+      <mat-form-field style="width: 100%;">
+        <mat-label>Płeć</mat-label>
+        <mat-select [(ngModel)]="buildFetch.gender" name="gender" required>
+          <mat-option [value]="0">Mężczyzna</mat-option>
+          <mat-option [value]="1">Kobieta</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%;">
+        <mat-label>PESEL</mat-label>
+        <input matInput type="text" [(ngModel)]="buildFetch.pesel" maxlength="11" />
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%;">
+        <mat-label>Data urodzenia</mat-label>
+        <input matInput [matDatepicker]="picker" (focus)="picker.open()" [(ngModel)]="buildFetch.birthday"
+               name="birthday" readonly />
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <!-- Klasa -->
+    <mat-form-field style="width: 100%;">
+      <mat-label>Klasa</mat-label>
+      <mat-select [disabled]="!classList.length"
+                  [(ngModel)]="buildFetch.id_class_suggestion"
+                  name="id_class_suggestion">
+        <mat-option *ngFor="let c of classList" [value]="c.id">
+          {{ c.level }}{{ c.symbol }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Status -->
+    <mat-form-field style="width: 100%;">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="buildFetch.status" name="status" required>
+        <mat-option [value]="0">Odrzucony</mat-option>
+        <mat-option [value]="1">Przyjęty</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Adresy -->
+    <div style="width: 100%;" class="flex gap-[5px]">
+      <mat-form-field style="width: 100%;">
+        <mat-label>Adres zamieszkania</mat-label>
+        <input matInput [(ngModel)]="buildFetch.adres_zamieszkania" name="adres_zamieszkania">
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%;">
+        <mat-label>Adres zameldowania</mat-label>
+        <input matInput [(ngModel)]="buildFetch.adres_zameldowania" name="adres_zameldowania">
+      </mat-form-field>
+    </div>
+
+    <!-- E-mail i Telefon -->
+    <div style="width: 100%;" class="flex gap-[5px]">
+      <mat-form-field style="width: 100%;">
+        <mat-label>E-mail</mat-label>
+        <input matInput [(ngModel)]="buildFetch.email" name="email">
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%;">
+        <mat-label>Numer telefonu</mat-label>
+        <input matInput [(ngModel)]="buildFetch.phone_number" name="phone_number">
+      </mat-form-field>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;">
+    <button mat-button color="primary" mat-dialog-close>
+      Anuluj
+    </button>
+    <button mat-flat-button color="primary" (click)="createStudent()" mat-dialog-close>
+      Dodaj
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,145 @@
+<div style="display: flex; flex-direction: column; height: 100%; max-height: 100vh;">
+
+  <h2 mat-dialog-title>
+    Dodaj ucznia do nieprzypisanych - księga uczniów
+  </h2>
+
+  <mat-dialog-content style="flex: 1; overflow: auto; max-height: 100%;">
+    <mat-stepper #stepper>
+      <mat-step [stepControl]="firstFormGroup" label="Dane osobowe">
+        <form [formGroup]="firstFormGroup">
+          <div class="flex">
+            <mat-form-field appearance="fill" class="w-[100%]">
+              <mat-label>Imię</mat-label>
+              <input matInput formControlName="firstName" required>
+              <mat-error *ngIf="firstFormGroup.get('firstName')?.hasError('required')">
+                Imię jest wymagane
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-[100%]">
+              <mat-label>Nazwisko</mat-label>
+              <input matInput formControlName="lastName" required>
+              <mat-error *ngIf="firstFormGroup.get('lastName')?.hasError('required')">
+                Nazwisko jest wymagane
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="flex gap-[5px]">
+            <mat-form-field appearance="fill" class="w-[100%]">
+              <mat-label>Data urodzenia</mat-label>
+              <input matInput [matDatepicker]="picker" (click)="picker.open()" formControlName="birthDate" required>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+
+              <mat-error *ngIf="firstFormGroup.get('birthDate')?.hasError('required')">
+                Data urodzenia jest wymagana
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-[100%]">
+              <mat-label>PESEL</mat-label>
+              <input matInput formControlName="pesel" maxlength="11" required>
+              <mat-error *ngIf="firstFormGroup.get('pesel')?.hasError('required')">
+                PESEL jest wymagany
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-[100%]">
+              <mat-label>Płeć</mat-label>
+              <mat-select formControlName="plec" required>
+                <mat-option value="0">Mężczyzna</mat-option>
+                <mat-option value="1">Kobieta</mat-option>
+              </mat-select>
+              <mat-error *ngIf="firstFormGroup.get('plec')?.hasError('required')">
+                Płeć jest wymagana
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="flex">
+            <mat-form-field appearance="fill">
+              <mat-label>Typ nauczania</mat-label>
+              <mat-select formControlName="educationType">
+                <mat-option value="zsk">Zindywidualizowana ścieżka kształcenia</mat-option>
+                <mat-option value="ni">Nauczanie indywidualne</mat-option>
+              </mat-select>
+              <mat-error *ngIf="firstFormGroup.get('educationType')?.hasError('required')">
+                Typ nauczania jest wymagany
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </form>
+      </mat-step>
+
+      <mat-step [stepControl]="secondFormGroup" label="Dane adresowe / kontaktowe">
+        <form [formGroup]="secondFormGroup">
+          <div class="flex">
+            <mat-form-field class="w-[100%]" appearance="fill">
+              <mat-label>
+                Adres zamieszkania
+              </mat-label>
+              <input matInput formControlName="addressResidence">
+            </mat-form-field>
+
+            <mat-form-field class="w-[100%]" appearance="fill">
+              <mat-label>
+                Adres zameldowania
+              </mat-label>
+              <input matInput formControlName="addressRegistration">
+            </mat-form-field>
+          </div>
+
+          <div class="flex">
+            <mat-form-field appearance="fill" class="w-[100%]">
+              <mat-label>
+                Numer telefonu
+              </mat-label>
+              <input matInput formControlName="numberPhone" maxlength="9">
+              <mat-error *ngIf="firstFormGroup.get('numberPhone')?.hasError('required')">
+                Numer telefonu jest wymagany
+              </mat-error>
+              <mat-error *ngIf="firstFormGroup.get('numberPhone')?.hasError('pattern')">
+                Nie poprawny numer telefonu
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-[100%]" appearance="fill">
+              <mat-label>E-mail</mat-label>
+              <input matInput formControlName="email" maxlength="64">
+
+              <mat-error *ngIf="firstFormGroup.get('email')?.hasError('email')">
+                Proszę podać poprawny adres e-mail
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step label="Podsumowanie">
+        <div>
+          <p><strong>Imię:</strong> {{ firstFormGroup.get('firstName')?.value || 'nie podano' }}</p>
+          <p><strong>Nazwisko:</strong> {{ firstFormGroup.get('lastName')?.value || 'nie podano' }}</p>
+          <p><strong>Data urodzenia:</strong> {{ actualBirth || 'nie podano' }}</p>
+          <p><strong>PESEL:</strong> {{ firstFormGroup.get('pesel')?.value || 'nie podano' }}</p>
+          <p><strong>E-mail:</strong> {{ firstFormGroup.get('email')?.value || 'nie podano' }}</p>
+          <p><strong>Typ nauczania:</strong> {{ firstFormGroup.get('educationType')?.value || 'zwykły' }}</p>
+          <p><strong>Adres zamieszkania:</strong> {{ secondFormGroup.get('addressResidence')?.value || 'nie podano' }}</p>
+          <p><strong>Adres zameldowania:</strong> {{ secondFormGroup.get('addressRegistration')?.value || 'nie podano' }}</p>
+          <p><strong>Numer telefonu:</strong> {{ secondFormGroup.get('numberPhone')?.value || 'nie podano' }}</p>
+        </div>
+
+        <div>
+          <button color="primary" mat-stroked-button (click)="stepper.reset()">Resetuj wpisane dane</button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px; clear: both;">
+    <button mat-button mat-dialog-close color="primary" *ngIf="isFirstStep">Zamknij</button>
+    <button mat-button color="primary" (click)="stepper.previous()" *ngIf="!isFirstStep" >Wróć</button>
+    <button mat-flat-button color="primary" *ngIf="!isLastStep" (click)="stepper.next()" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid">Dalej</button>
+    <button mat-flat-button color="primary" *ngIf="isLastStep" (click)="getCreateStudentFetch()" mat-dialog-close>Dodaj</button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,45 @@
+<div style="display: flex; flex-direction: column; height: 100%; max-height: 100vh;">
+
+  <h2 mat-dialog-title>Konfiguracja eksportu</h2>
+
+  <mat-dialog-content style="flex: 1; overflow: hidden; max-height: 100%;">
+
+    <mat-form-field style="width: 100%;">
+      <mat-label>Wybierz eksport danych</mat-label>
+      <mat-select [(ngModel)]="selectedData">
+        <mat-option value="export_all_sou">Eksport wszystkich uczniów - SOU</mat-option>
+        <mat-option value="export_jedna_klasa">Eksport uczniów z jednej klasy - SOU</mat-option>
+        <mat-option value="export_tylko_klasa">Eksport wszystkich uczniów uczęszczajacych do klas - SOU</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <p class="text-red-700">
+      Uwaga! <br> Jeśli w ucznia nie będzie wypełniony numer PESEL, oraz data urodzenia - wówczas zostanie pominięty
+      podczas eksportu danych.
+    </p>
+
+    <ng-container *ngIf="selectedData == 'export_jedna_klasa'">
+      <hr>
+      <mat-form-field style="width: 100%;">
+        <mat-label>Wybierz oddział</mat-label>
+        <mat-select [(ngModel)]="classId" [disabled]="!classes.length" required>
+          <mat-option *ngFor="let x of classes;" [value]="x.id">
+            {{ x.class }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </ng-container>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;">
+    <button mat-button mat-dialog-close color="primary">Anuluj</button>
+    <button mat-flat-button color="primary" [mat-dialog-close]="true"
+            [disabled]="!selectedData || selectedData == 'export_jedna_klasa' && !classId" (click)="exportStudentsXML()"
+            cdkFocusInitial>
+      Eksportuj dane
+    </button>
+  </mat-dialog-actions>
+
+</div>

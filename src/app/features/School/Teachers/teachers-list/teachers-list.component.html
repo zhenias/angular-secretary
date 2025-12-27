@@ -1,0 +1,127 @@
+<div class="h-full flex flex-col">
+  <ng-container>
+    <div class="flex gap-[30px] items-baseline ml-5 mt-3">
+      <h1>Pracownicy</h1>
+    </div>
+
+    <mat-card class="m-2 p-0 flex-1 flex flex-col overflow-hidden">
+      <app-loading-html *ngIf="isProgress"></app-loading-html>
+
+      <div class="flex-1 overflow-auto" style="border-bottom: 1px solid #ccc; padding-bottom: 8px;">
+        <table [dataSource]="dataSource" *ngIf="dataSource" class="w-full text-sm border-collapse" mat-table matSort>
+
+          <ng-container matColumnDef="select" sticky>
+            <th *matHeaderCellDef class="w-[2%] text-center" mat-header-cell>
+              <mat-checkbox
+                (change)="masterToggle()"
+                [checked]="isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                [matTooltip]="checkboxLabel()"
+                color="primary"
+              >
+              </mat-checkbox>
+            </th>
+
+            <td *matCellDef="let element" mat-cell>
+              <mat-checkbox
+                (change)="$event ? selection.toggle(element.id) : null"
+                (click)="$event.stopPropagation()"
+                [checked]="selection.isSelected(element.id)"
+                [matTooltip]="checkboxLabel(element.id)"
+                color="primary"
+              >
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="full_user_name">
+            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header> Pracownik</th>
+            <td *matCellDef="let element" mat-cell> {{ element.full_user_name || '-' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header> E-mail</th>
+            <td *matCellDef="let element" class="px-4 py-2 border-b text-center" mat-cell> {{ element.email || '-' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="login">
+            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>Login</th>
+            <td *matCellDef="let element" class="px-4 py-2 border-b text-center" mat-cell> {{ element.login || '-' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="pesel">
+            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header> Pesel</th>
+            <td *matCellDef="let element" class="px-4 py-2 border-b text-center" mat-cell> {{ element.pesel || '-' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="data_urodzenia">
+            <th *matHeaderCellDef class="px-4 py-2 border-b text-center w-[150px]" mat-header-cell mat-sort-header>
+              Data urodzenia
+            </th>
+            <td *matCellDef="let element" class="px-4 py-2 border-b text-center"
+                mat-cell> {{ element.data_urodzenia || '-' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="data_rejestracji">
+            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header> Data rejestracji
+            </th>
+            <td *matCellDef="let element" class="px-4 py-2 border-b text-center"
+                mat-cell> {{ element.data_rejestracji || '-' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="permissions">
+            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header> Uprawnienia
+            </th>
+            <td *matCellDef="let element" class="px-4 py-2 border-b text-center"
+                mat-cell> {{ element.permissions || '-' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="is_active">
+            <th *matHeaderCellDef class="border-b text-center" mat-header-cell mat-sort-header>
+              Zablokowany dostęp
+            </th>
+            <td *matCellDef="let element" class="px-4 py-2 border-b text-center" mat-cell>
+            <span
+              [ngClass]="element.is_active ? 'bg-green-800' : 'bg-red-800'"
+              class="px-2 py-1 rounded-md text-white text-sm"
+            >
+              {{ !element.is_active ? 'TAK' : 'NIE' }}
+            </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions" sticky>
+            <th *matHeaderCellDef class="border-b text-center" mat-header-cell>Akcja</th>
+            <td *matCellDef="let element" class="w-[1%]" mat-cell>
+              <button disabledInteractive [matTooltip]="!getMeInfo.is_admin ? 'Nie możesz edytować użytkownika, ponieważ nie posiadać uprawnień administratora.' : 'Edytuj'" [disabled]="!getMeInfo.is_admin" (click)="teacherEdit(element.id)" mat-icon-button>
+                <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns" class="bg-gray-100 text-center sticky-header" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: displayedColumns;" class="hover:bg-gray-100" mat-row></tr>
+        </table>
+
+        <ng-container *ngIf="teachers.length == 0">
+          <div class="text-center p-4 text-gray-500">
+            Brak dodanych pracowników w systemie. <br> Skorzystaj z przycisku dodaj.
+          </div>
+        </ng-container>
+
+      </div>
+      <mat-paginator
+        (page)="onPageChange($event)"
+        [length]="totalItems"
+        [pageIndex]="currentPage - 1"
+        [pageSizeOptions]="[5, 10, 15, 20, 25, 30, 35, 50, 100]"
+        [pageSize]="pageSize">
+      </mat-paginator>
+    </mat-card>
+  </ng-container>
+
+</div>

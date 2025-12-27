@@ -1,0 +1,67 @@
+<div style="display: flex; flex-direction: column; height: 100%; max-height: 100vh;">
+  <h2 mat-dialog-title>
+    Edytuj egzamin
+  </h2>
+
+  @if (isProgress) {
+    <app-loading-html />
+  }
+
+  <mat-dialog-content style="flex: 1; overflow: hidden; max-height: 100%;" *ngIf="!isProgress">
+
+    <div class="flex gap-[5px] w-full mb-5">
+      <div class="w-full">
+        <p class="text-color-600 mb-1">Uczeń: </p>
+        <span>{{ getExam.student|| "-" }}</span>
+      </div>
+
+      <div class="w-full">
+        <p class="text-color-600 mb-1">Dodał: </p>
+        <span>{{ getExam.create || "-" }}</span>
+      </div>
+
+      <div class="w-full">
+        <p class="text-color-600 mb-1">Data dodania: </p>
+        <span>{{ getExam.date || "-" }}</span>
+      </div>
+    </div>
+
+    <div class="flex gap-[5px] w-full">
+      <div class="w-full">
+        <p class="text-color-600 mb-1">Nazwa: </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input [(ngModel)]="getExam.name" matInput maxlength="200"/>
+        </mat-form-field>
+      </div>
+
+      <div class="w-full">
+        <p class="text-color-600 mb-1">Wynik: </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input [(ngModel)]="getExam.result" matInput maxlength="5"/>
+        </mat-form-field>
+      </div>
+    </div>
+
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" *ngIf="!isProgress" style="display: flex; justify-content: space-between; border-top: 1px solid #ccc; padding-top: 8px;">
+    <button (click)="deleteExamFetch()" [mat-dialog-close]="true"
+            color="warn" mat-flat-button>
+      Usuń
+    </button>
+    <span></span>
+
+    <div>
+      <button mat-button mat-dialog-close color="primary">Anuluj</button>
+      <button
+        (click)="updateExamFetch()"
+        [mat-dialog-close]="true"
+        color="primary"
+        mat-flat-button
+      >
+        Zapisz
+      </button>
+    </div>
+  </mat-dialog-actions>
+</div>

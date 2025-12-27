@@ -1,0 +1,36 @@
+<div style="display: flex; flex-direction: column; height: 100%; max-height: 100vh;">
+  <h2 mat-dialog-title>Dodaj oddział do naborów</h2>
+
+  <mat-dialog-content style="flex: 1; overflow: auto; max-height: 100%;">
+    <div style="width: 100%;" class="flex gap-[5px]">
+      <mat-form-field style="width: 100%;">
+        <mat-label>Poziom</mat-label>
+        <input matInput [(ngModel)]="buildFetch.level" name="level">
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%;">
+        <mat-label>Symbol</mat-label>
+        <input matInput [(ngModel)]="buildFetch.symbol" name="symbol">
+      </mat-form-field>
+    </div>
+
+    <mat-form-field style="width: 100%;">
+      <mat-label>Jednostka</mat-label>
+      <mat-select onchange="this.form.submit()" [disabled]="!unitsList.length" [(ngModel)]="buildFetch.id_jednostka"
+                  name="id_jednostka" required>
+        <mat-option *ngFor="let unit of unitsList;" [value]="unit.id">
+          {{ unit.name }} ({{ unit.short }})
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;">
+    <button mat-button color="primary" mat-dialog-close>
+      Anuluj
+    </button>
+    <button mat-flat-button color="primary" (click)="createClass()" mat-dialog-close>
+      Dodaj
+    </button>
+  </mat-dialog-actions>
+</div>

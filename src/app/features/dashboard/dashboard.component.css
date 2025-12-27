@@ -1,0 +1,19 @@
+mat-grid-tile {
+  background: whitesmoke;
+}
+
+.stat-tile {
+  @apply flex items-center gap-4 rounded-xl p-5 text-white shadow-sm;
+}
+
+.stat-tile mat-icon {
+  @apply text-xl opacity-80;
+}
+
+.stat-tile p {
+  @apply text-sm opacity-90;
+}
+
+.stat-tile span {
+  @apply text-2xl font-semibold block;
+}

@@ -1,0 +1,97 @@
+<div style="display: flex; flex-direction: column; height: 100%; max-height: 100vh;">
+  <app-loading-html *ngIf="isProgress"></app-loading-html>
+
+  <h2 mat-dialog-title>
+    Zakończenie procesu rekrutacji
+  </h2>
+
+  <mat-dialog-content style="flex: 1; overflow: auto; max-height: 100%;">
+
+    <div style="width: 100%;" class="flex gap-[5px]">
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Data dopisania do oddziału uczniów: </p>
+        <mat-form-field appearance="outline" class="w-full">
+          <input matInput [matDatepicker]="picker" (focus)="picker.open()" [(ngModel)]="buildFetch.date_admission" (ngModelChange)="writeSchoolYear()" required>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Nowy rok szkolny: </p>
+        <mat-form-field appearance="outline" class="w-full">
+          <input matInput type="number" [(ngModel)]="buildFetch.year_school" required>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="flex gap-[5px] w-full">
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Rozpoczęcie roku szkolnego: </p>
+        <mat-form-field appearance="outline" class="w-full">
+          <input matInput [matDatepicker]="dateStartSchoolYear" (focus)="dateStartSchoolYear.open()" [(ngModel)]="buildFetch.start_year" required>
+          <mat-datepicker-toggle matIconSuffix [for]="dateStartSchoolYear"></mat-datepicker-toggle>
+          <mat-datepicker #dateStartSchoolYear></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Zakończenie roku szkolnego: </p>
+        <mat-form-field appearance="outline" class="w-full">
+          <input matInput [matDatepicker]="dateEndSchoolYear" (focus)="dateEndSchoolYear.open()" [(ngModel)]="buildFetch.end_year" required>
+          <mat-datepicker-toggle matIconSuffix [for]="dateEndSchoolYear"></mat-datepicker-toggle>
+          <mat-datepicker #dateEndSchoolYear></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div>
+      <mat-checkbox value="1" color="primary" [(ngModel)]="buildFetch.enabled_usprawiedliwienia">
+        Włącz usprawiedliwienia dla tych oddziałów?
+      </mat-checkbox>
+    </div>
+
+    <div class="border-t border-gray-300 pt-2 mb-2 mt-4"></div>
+    <h4 class="mb-2">Oddziały</h4>
+    <div class="border-t border-gray-300 pt-2 mb-4"></div>
+
+    <div *ngFor="let c of getClassesList;" class="flex gap-[10px] w-full">
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Oddział:</p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input [value]="c.level + ' ' + c.symbol" matInput disabled />
+        </mat-form-field>
+      </div>
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Wychowawca:</p>
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-select
+            [disabled]="!getTeachersList.length"
+            (selectionChange)="assignTeacher(c.id, $event.value)">
+            <mat-option *ngFor="let t of getTeachersList" [value]="t.id">
+              {{ t.full_user_name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <p style="color: red; clear: both;">
+      * UWAGA! <br>
+      Po dodaniu oddziałów, oraz przydzielenie wychowawców, należy przejść do modułu administrowanie aby przydizelić przedmioty do oddziałów. <br>
+      Po dodaniu oddziałów, i zmienienie roku szkolnego, zostanie rozpoczęty nowy rok szkolny {{ buildFetch.year_school }}/{{ buildFetch.year_school + 1 }}, poprzednie oddziały będą dostępne w archiwalnych - administrowanie - oddziały.
+    </p>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;" *ngIf="!isProgress">
+    <button mat-button color="primary" mat-dialog-close>
+      Anuluj
+    </button>
+
+    <button mat-flat-button color="primary" [disabled]="!getClassesList || !buildFetch.start_year || !buildFetch.end_year" (click)="recruitmentEndFetch()" mat-dialog-close>
+      Zakończ nabór
+    </button>
+  </mat-dialog-actions>
+</div>
+

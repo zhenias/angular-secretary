@@ -1,0 +1,184 @@
+<div class="h-full flex flex-col">
+  <div class="mt-2">
+
+    <div class="flex gap-[40px] items-center ml-5 mt-3">
+      <h1>Księga uczniów</h1>
+
+      <div class="flex items-baseline gap-[5px]">
+        <button [matMenuTriggerFor]="menu" [disabled]="!selection.selected.length" mat-stroked-button color="primary">
+          <mat-icon>arrow_drop_down</mat-icon>
+          Akcje
+        </button>
+
+        <div>
+          <mat-form-field class="w-[250px]" appearance="outline">
+            <mat-select
+              [(ngModel)]="classId"
+              (selectionChange)="getStudents()"
+              [disabled]="!getClassesList.length"
+            >
+              <mat-option [value]="0" aria-selected="true">Wszystkie</mat-option>
+              <mat-option *ngFor="let c of getClassesList" [value]="c.id">
+                {{ c.class }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="getMassiveActions('delete_class')" [disabled]="!selection.selected.length">
+          <mat-icon>delete</mat-icon>
+          <span>Usuń z oddziału</span>
+        </button>
+        <hr>
+        <button mat-menu-item (click)="getMassiveActions('delete_assessment')" [disabled]="!selection.selected.length">
+          <mat-icon>close</mat-icon>
+          <span>Usuń oceny</span>
+        </button>
+        <button mat-menu-item (click)="getMassiveActions('delete_frequency')" [disabled]="!selection.selected.length">
+          <mat-icon>close</mat-icon>
+          <span>Usuń nieobecności</span>
+        </button>
+        <hr>
+        <button mat-menu-item (click)="getMassiveActions('blocked')" [disabled]="!selection.selected.length">
+          <mat-icon>block</mat-icon>
+          <span>Zablokuj dostęp do konta</span>
+        </button>
+        <button mat-menu-item (click)="getMassiveActions('unblocked')" [disabled]="!selection.selected.length">
+          <mat-icon>published_with_changes</mat-icon>
+          <span>Odblokuj dostęp do konta</span>
+        </button>
+      </mat-menu>
+
+    </div>
+  </div>
+
+  <mat-card class="m-2 p-0 flex-1 flex flex-col overflow-hidden">
+    <app-loading-html *ngIf="isProgress"></app-loading-html>
+
+    <div class="flex-1 overflow-auto" style="border-bottom: 1px solid #ccc; padding-bottom: 8px;">
+      <table mat-table matSort [dataSource]="dataSource" class="w-full text-sm border-collapse">
+        <!-- tu wszystkie ng-container z kolumnami pozostają bez zmian -->
+        <ng-container matColumnDef="select" sticky>
+          <th mat-header-cell class="w-[2%] text-center" *matHeaderCellDef>
+            <mat-checkbox
+              (change)="masterToggle()"
+              [checked]="isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()"
+              [matTooltip]="checkboxLabel()"
+              color="primary"
+            >
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? selection.toggle(element.id) : null"
+              [checked]="selection.isSelected(element.id)"
+              [matTooltip]="checkboxLabel(element.id)"
+              color="primary"
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="full_user_name">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Uczeń</th>
+          <td mat-cell *matCellDef="let element"> {{ element?.full_user_name || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> E-mail</th>
+          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.email || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="oddzial">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Oddział</th>
+          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.class?.class || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="przyjety">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Przyjęty</th>
+          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.w_klasie_od || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="rok_szkolny">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Rok szkolny</th>
+          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.class?.year || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="data_skreslenia">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Data opuszczenia</th>
+          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.data_skreslenia || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="powod_skreslenia">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Powód opuszczenia</th>
+          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.powod_skreslenia || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="pesel">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Pesel</th>
+          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.user?.pesel || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="data_urodzenia">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Data urodzenia</th>
+          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.user?.data_urodzenia || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="adres_zamieszkania">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Adres zamieszkania</th>
+          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.user?.adres_zamieszkania || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="typ_nauczania">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Typ nauczania</th>
+          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.user?.is_zsk ? 'ZŚK' : (element?.user?.is_ni ? 'NI' : '-') }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="data_rejestracji">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Data rejestracji</th>
+          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.user?.data_rejestracji || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="is_active">
+          <th mat-header-cell class="border-b text-center" *matHeaderCellDef mat-sort-header> Zablokowany dostęp</th>
+          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element">
+            <span class="px-2 py-1 rounded-full text-white text-sm" [ngClass]="element?.user?.is_active ? 'bg-green-800' : 'bg-red-800'">
+              {{ !element?.user?.is_active ? 'Tak' : 'Nie' }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions" sticky>
+          <th mat-header-cell class="border-b text-center" *matHeaderCellDef>Akcja</th>
+          <td mat-cell class="w-[1%]" *matCellDef="let element">
+            <button matTooltip="Edytuj" mat-icon-button (click)="goToStudent(element?.id)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row class="bg-gray-100 text-center sticky-header" *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row class="hover:bg-gray-100" *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <ng-container *ngIf="students.length == 0">
+        <div class="text-center p-4 text-gray-500">
+          Brak dodanych uczniów w oddziałach. <br> Skorzystaj z opcji nabory.
+        </div>
+      </ng-container>
+
+    </div>
+
+    <mat-paginator
+      [length]="totalItems"
+      [pageSize]="pageSize"
+      [pageIndex]="currentPage - 1"
+      [pageSizeOptions]="[5, 10, 15, 20, 25, 30, 35, 50, 100]"
+      (page)="onPageChange($event)">
+    </mat-paginator>
+  </mat-card>
+</div>

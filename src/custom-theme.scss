@@ -1,0 +1,45 @@
+@use '@angular/material' as mat;
+
+:root {
+  @include mat.toolbar-overrides((
+    container-background-color: #607d8b,
+    container-text-color: white,
+    standard-height: 50px,
+  ));
+  @include mat.sidenav-overrides((
+    container-width: 300px,
+  ));
+}
+
+mat-card {
+  background-color: #fff !important;
+}
+
+button, mat-card, mat-datepicker,
+mat-datepicker-toggle, mat-timepicker,
+mat-timepicker-toggle, mat-calendar,
+mat-form-field, .mat-mdc-dialog-surface,
+.mdc-text-field, .mat-mdc-form-field,
+.mat-datepicker-content {
+  border-radius: 3px !important;
+}
+
+mat-toolbar mat-icon {
+  color: white !important;
+}
+
+body {
+  color-scheme: light;
+
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  margin: 0;
+}
+
+
+mat-card-actions {
+  float: right !important;
+  clear: both !important;
+}
