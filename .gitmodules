@@ -1,0 +1,3 @@
+[submodule "angular-secretary"]
+	path = angular-secretary
+	url = https://github.com/zhenias/angular-secretary.git
