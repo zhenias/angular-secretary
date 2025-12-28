@@ -1,5 +1,4 @@
-import { secretariatApi } from '../api/secretariatApi';
-import {UnitInterface} from '../../../../features/Student/students.types';
+import {secretariatApi} from '../api/secretariatApi';
 
 export interface UnitTypes {
   id: number,

@@ -1,7 +1,13 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AppComponent} from '../../../../app.component';
-import {createNaboryStudent, createNaboryStudentsInterface} from '../../../../shared/service/core/secretariat/nabory/students';
-import {getNaboryClasses, responseNaboryClassesInterface} from '../../../../shared/service/core/secretariat/nabory/classes';
+import {
+  createNaboryStudent,
+  createNaboryStudentsInterface
+} from '../../../../shared/service/core/secretariat/nabory/students';
+import {
+  getNaboryClasses,
+  responseNaboryClassesInterface
+} from '../../../../shared/service/core/secretariat/nabory/classes';
 import {FormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -9,7 +15,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatOptionModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
-import {formatDate, NgForOf, NgIf} from '@angular/common';
+import {formatDate, NgForOf} from '@angular/common';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @Component({

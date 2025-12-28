@@ -10,7 +10,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatOptionModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {formatDate, NgForOf, NgIf} from '@angular/common';
+import {formatDate} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {createKartaRowerowa} from '../rejestr-kart-rowerowych/rejestr-kart-rowerowych.component';
 

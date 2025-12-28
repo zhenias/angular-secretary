@@ -6,7 +6,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatOptionModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
-import {NgIf} from '@angular/common';
 import {AppComponent} from '../../../app.component';
 
 @Component({

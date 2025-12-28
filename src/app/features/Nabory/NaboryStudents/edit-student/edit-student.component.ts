@@ -10,10 +10,15 @@ import {formatDate, NgForOf, NgIf} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppComponent} from '../../../../app.component';
 import {
-  createNaboryStudentsInterface, deleteNaboryStudent, getNaboryStudent,
+  createNaboryStudentsInterface,
+  deleteNaboryStudent,
+  getNaboryStudent,
   updateNaboryStudent
 } from '../../../../shared/service/core/secretariat/nabory/students';
-import {getNaboryClasses, responseNaboryClassesInterface} from '../../../../shared/service/core/secretariat/nabory/classes';
+import {
+  getNaboryClasses,
+  responseNaboryClassesInterface
+} from '../../../../shared/service/core/secretariat/nabory/classes';
 
 @Component({
   selector: 'app-edit-student',

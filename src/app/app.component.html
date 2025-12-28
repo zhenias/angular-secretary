@@ -1,25 +1,29 @@
 <div class="w-full h-screen overflow-hidden flex flex-col">
-  <mat-toolbar color="primary" class="fixed-header mat-elevation-z2">
+  <mat-toolbar color="primary" class="fixed-header mat-elevation-z5">
     <button (click)="drawer.toggle()" mat-icon-button aria-label="Menu">
       <mat-icon>menu</mat-icon>
     </button>
+
     <span [routerLink]="'/'" class="cursor-pointer">{{ title }}</span>
 
     <span class="spacer"></span>
 
-    <button mat-icon-button (click)="searchStudents()">
-      <mat-icon>
-        search
-      </mat-icon>
-    </button>
+    <span *ngIf="getMeInfo.is_admin || getMeInfo.is_secretary">
+      <button mat-icon-button (click)="searchStudents()">
+        <mat-icon>
+          search
+        </mat-icon>
+      </button>
 
-    <button mat-icon-button onclick="location.href='/wiadomosci'">
-      <mat-icon
-        [matBadge]="countMessage > 0 ? countMessage : null"
-        matBadgeColor="warn">
-        mail
-      </mat-icon>
-    </button>
+      <button mat-icon-button onclick="location.href='/wiadomosci'">
+        <mat-icon
+          [matBadge]="countMessage > 0 ? countMessage : null"
+          matBadgeColor="warn"
+        >
+          mail
+        </mat-icon>
+      </button>
+    </span>
 
     <button [matMenuTriggerFor]="menu" mat-icon-button aria-label="More options">
       <mat-icon>more_vert</mat-icon>
@@ -41,7 +45,7 @@
   </mat-toolbar>
 
   <mat-drawer-container class="flex-1 overflow-hidden">
-    <mat-drawer #drawer mode="side" class="drawer" opened>
+    <mat-drawer #drawer mode="side" class="drawer" [opened]="getMeInfo.is_admin || getMeInfo.is_secretary" >
       <mat-nav-list>
         <mat-list-item (click)="uzytkownicyMenuOpen = !uzytkownicyMenuOpen">
           <div style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
@@ -209,14 +213,27 @@
           </mat-list-item>
         </div>
 
-      </mat-nav-list>
+        <mat-list-item onclick="location.href='/'">
+          <div style="display: flex; align-items: center; gap: 5px;">
+            <mat-icon>
+              arrow_back
+            </mat-icon>
+            Wróć
+          </div>
+        </mat-list-item>
 
+      </mat-nav-list>
     </mat-drawer>
 
     <mat-drawer-content class="h-full overflow-y-auto">
       <mat-progress-bar *ngIf="isProgress" mode="indeterminate"></mat-progress-bar>
 
-      <router-outlet></router-outlet>
+      <router-outlet *ngIf="getMeInfo.is_admin || getMeInfo.is_secretary"></router-outlet>
     </mat-drawer-content>
   </mat-drawer-container>
+
+  <div class="h-full overflow-y-auto" *ngIf="!getMeInfo.is_admin && !getMeInfo.is_secretary && !isProgress">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <app-error-permission />
+  </div>
 </div>

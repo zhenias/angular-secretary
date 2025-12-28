@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {AppComponent} from '../../../../app.component';
-import {createKartaRowerowa, getKartaRowerowa} from '../rejestr-kart-rowerowych/rejestr-kart-rowerowych.component';
+import {getKartaRowerowa} from '../rejestr-kart-rowerowych/rejestr-kart-rowerowych.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';

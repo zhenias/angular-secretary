@@ -7,7 +7,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {HttpClient} from '@angular/common/http';
 import {AppComponent} from '../../../app.component';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {LoadingHTMLComponent} from '../../../shared/components/loading-html/loading-html.component';
 import {NgClass, NgFor, NgIf} from '@angular/common';
 import {MatCardModule} from '@angular/material/card';
@@ -27,11 +27,10 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {
   BicycleCardCreateComponent
 } from '../../Rejestry/KartyRowerowe/bicycle-card-create/bicycle-card-create.component';
-import {UnitInterface, ClassInfo, StateSchool, StudentInfo, SPE, Parents} from '../students.types';
+import {ClassInfo, Parents, SPE, StateSchool, StudentInfo} from '../students.types';
 import {DodajEgzaminComponent} from '../../Rejestry/egzaminy/dodaj-egzamin/dodaj-egzamin.component';
 import {getStudent, updateStudent} from '../../../shared/service/core/secretariat/student/student.service';
 import {getParents} from '../../../shared/service/core/secretariat/student/parent.service';
-import {MatCheckbox} from '@angular/material/checkbox';
 import {MatSort, MatSortHeader} from '@angular/material/sort';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 

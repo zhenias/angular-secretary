@@ -1,4 +1,4 @@
-import { secretariatApi } from '../../api/secretariatApi';
+import {secretariatApi} from '../../api/secretariatApi';
 import {UnitInterface} from '../../../../../features/Student/students.types';
 
 export interface createNaboryClassesInterface {
