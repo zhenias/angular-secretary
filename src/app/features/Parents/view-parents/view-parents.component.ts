@@ -12,7 +12,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {SelectionModel} from '@angular/cdk/collections';
-import {MatSelect, MatSelectModule} from '@angular/material/select';
+import {MatSelectModule} from '@angular/material/select';
 import {MatOptionModule} from '@angular/material/core';
 import {FormsModule} from '@angular/forms';
 

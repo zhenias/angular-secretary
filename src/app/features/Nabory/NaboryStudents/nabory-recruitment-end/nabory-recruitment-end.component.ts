@@ -7,12 +7,17 @@ import {FormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {formatDate, NgForOf, NgIf} from '@angular/common';
-import {createNaboryEndInterface, postNaboryEnd} from '../../../../shared/service/core/secretariat/nabory/recruitmentEnd';
+import {
+  createNaboryEndInterface,
+  postNaboryEnd
+} from '../../../../shared/service/core/secretariat/nabory/recruitmentEnd';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {getNaboryClasses, responseNaboryClassesInterface} from '../../../../shared/service/core/secretariat/nabory/classes';
-import {getTeachers} from '../../../../shared/service/core/secretariat/teachers';
+import {
+  getNaboryClasses,
+  responseNaboryClassesInterface
+} from '../../../../shared/service/core/secretariat/nabory/classes';
+import responseTeachersInterface, {getTeachers} from '../../../../shared/service/core/secretariat/teachers';
 import {MatSelectModule} from '@angular/material/select';
-import responseTeachersInterface from '../../../../shared/service/core/secretariat/teachers';
 import {LoadingHTMLComponent} from '../../../../shared/components/loading-html/loading-html.component';
 
 @Component({

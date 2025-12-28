@@ -1,10 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
-import { AppComponent } from '../../../../app.component';
-import { HttpClient } from '@angular/common/http';
+import {AppComponent} from '../../../../app.component';
+import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import { LoadingHTMLComponent } from '../../../../shared/components/loading-html/loading-html.component';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
+import {LoadingHTMLComponent} from '../../../../shared/components/loading-html/loading-html.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from "@angular/material/icon";
 import {MatSort, MatSortHeader} from '@angular/material/sort';
 import {SelectionModel} from '@angular/cdk/collections';
@@ -12,8 +12,13 @@ import {
   MatCell,
   MatCellDef,
   MatColumnDef,
-  MatHeaderCell, MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef, MatTable,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable,
   MatTableDataSource
 } from '@angular/material/table';
 import {MatCheckbox} from '@angular/material/checkbox';

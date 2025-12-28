@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MAT_DIALOG_DATA, MatDialogModule} from "@angular/material/dialog";
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {AppComponent} from '../../../app.component';
 import {FormsModule} from '@angular/forms';

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -7,7 +7,10 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatOptionModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
-import {createNaboryClass, createNaboryClassesInterface} from '../../../../shared/service/core/secretariat/nabory/classes';
+import {
+  createNaboryClass,
+  createNaboryClassesInterface
+} from '../../../../shared/service/core/secretariat/nabory/classes';
 import {AppComponent} from '../../../../app.component';
 import {getUnits} from '../../../../shared/service/core/secretariat/units';
 import {UnitInterface} from '../../../Student/students.types';

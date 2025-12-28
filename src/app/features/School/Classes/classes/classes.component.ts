@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {MatTabsModule} from '@angular/material/tabs';
-import {NgIf} from '@angular/common';
+import {DatePipe, NgIf} from '@angular/common';
 import {AppComponent} from '../../../../app.component';
 import {LoadingHTMLComponent} from '../../../../shared/components/loading-html/loading-html.component';
 import {MatButtonModule} from '@angular/material/button';
@@ -13,6 +13,8 @@ import {MatSort, MatSortHeader} from '@angular/material/sort';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTooltip} from '@angular/material/tooltip';
 import {getClassesInterface} from '../../../../shared/service/core/secretariat/classes';
+import {CreateClassComponent} from '../create-class/create-class.component';
+import {EditClassComponent} from '../edit-class/edit-class.component';
 
 @Component({
   selector: 'app-classes',
@@ -29,6 +31,7 @@ import {getClassesInterface} from '../../../../shared/service/core/secretariat/c
     MatSort,
     MatSortHeader,
     MatTooltip,
+    DatePipe,
   ],
   standalone: true,
 })
@@ -43,12 +46,12 @@ export class ClassesComponent extends AppComponent implements AfterViewInit {
   selection = new SelectionModel<number>(true, []);
 
   displayedColumns: string[] = [
-    // 'select',
-    'actions',
+    'select',
+    'edit',
     'class',
-    'level',
-    'short',
-    'is_oo',
+    'teacher',
+    'okres_nauki',
+    'actions',
   ];
   dataSource = new MatTableDataSource<any>();
 
@@ -103,5 +106,42 @@ export class ClassesComponent extends AppComponent implements AfterViewInit {
       return `${this.isAllSelected() ? 'Odznacz' : 'Zaznacz'} wszystkie`;
     }
     return `${this.selection.isSelected(row.id) ? 'Odznacz' : 'Zaznacz'} wiersz`;
+  }
+
+  createClass() {
+    const dialog = this.matDialog.open(
+      CreateClassComponent,
+      {
+        width: '800px',
+        height: '800px',
+        disableClose: true,
+      }
+    );
+
+    dialog.afterClosed().subscribe((result: any) => {
+      this.isProgress = true;
+
+      this.getClasses();
+    });
+  }
+
+  editClass(classId: number) {
+    const dialog = this.matDialog.open(
+      EditClassComponent,
+      {
+        width: '800px',
+        height: '800px',
+        disableClose: true,
+        data: {
+          classId,
+        }
+      }
+    );
+
+    dialog.afterClosed().subscribe((result: any) => {
+      this.isProgress = true;
+
+      this.getClasses();
+    });
   }
 }

@@ -1,0 +1,99 @@
+<div style="display: flex; flex-direction: column; height: 100%; max-height: 100vh;">
+  <h2 mat-dialog-title>
+    Dodaj oddział
+  </h2>
+
+  <mat-dialog-content style="flex: 1; overflow: auto; max-height: 100%;">
+
+    <div class="w-full flex items-center gap-[5px]">
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Poziom: </p>
+        <mat-form-field appearance="outline" class="w-full">
+          <input
+            matInput
+            type="number"
+            min="0"
+            max="10"
+            required
+            [(ngModel)]="createClassBuild.odzial"
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Symbol: </p>
+        <mat-form-field appearance="outline" class="w-full">
+          <input
+            matInput
+            type="text"
+            maxlength="10"
+            required
+            [(ngModel)]="createClassBuild.kod"
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Jednostka: </p>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-select [(ngModel)]="createClassBuild.jednostki" [disabled]="getUnitsList.length === 0" required>
+            <mat-option *ngFor="let unit of getUnitsList" [value]="unit.id">
+              {{ unit.short }} ({{ unit.name }})
+            </mat-option>
+          </mat-select>
+
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="w-full flex items-center gap-[5px]">
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Wychowawca: </p>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-select [(ngModel)]="createClassBuild.teacher" [disabled]="getTeachersList.length === 0" required>
+            <mat-option *ngFor="let t of getTeachersList" [value]="t.id">{{ t.full_user_name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Rok szkolny: </p>
+        <mat-form-field appearance="outline" class="w-full">
+          <input
+            matInput
+            type="number"
+            min="2000"
+            max="2999"
+            required
+            [(ngModel)]="createClassBuild.rok_szkolny"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="w-full">
+      <p class="text-gray-600 mb-1">Opis: </p>
+      <mat-form-field appearance="outline" class="w-full">
+        <input
+          matInput
+          type="text"
+          maxlength="100"
+          [(ngModel)]="createClassBuild.name_class"
+        />
+      </mat-form-field>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;">
+    <button mat-button mat-dialog-close color="primary">Anuluj</button>
+    <button
+      color="primary"
+      mat-flat-button
+      (click)="createClassFetch()"
+      [disabled]="!createClassBuild.jednostki || !createClassBuild.teacher || !createClassBuild.rok_szkolny || !createClassBuild.odzial || !createClassBuild.kod"
+    >
+      Dodaj
+    </button>
+  </mat-dialog-actions>
+</div>
