@@ -175,6 +175,15 @@
               Egzaminy
             </div>
           </mat-list-item>
+
+          <mat-list-item [routerLink]="'/wycieczki'" routerLinkActive="active">
+            <div style="display: flex; align-items: center; gap: 5px;">
+              <mat-icon>
+                tour
+              </mat-icon>
+              Wycieczki
+            </div>
+          </mat-list-item>
         </div>
 
         <mat-list-item *ngIf="getMeInfo.is_admin || getMeInfo.is_secretary" (click)="ustawieniaMenuOpen = !ustawieniaMenuOpen">

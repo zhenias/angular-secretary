@@ -92,7 +92,7 @@ Sekretariat to moduł wspierający zarządzanie uczniami, rodzicami i oddziałam
 2. Dodanie i usuwanie oddziałów oraz jednostek.
 3. Rejestr uwag, DIU (dodatkowe informacje ucznia).
 4. Kalendarz dni wolnych i planowanie wydarzeń szkolnych.
-5. Rejestr wycieczek (tylko wgląd).
+5. Rejestr wycieczek (tylko wgląd). - zakończono.
 6. Wyświetlenie nieobecności oddziałów i nauczycieli jak z poziomu wpisu w zakładce nieobecności, jak i zarówno z planu lekcji.
 
 później reszta :)

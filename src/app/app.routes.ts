@@ -20,6 +20,7 @@ import {ViewClassesComponent} from './features/Nabory/NaboryClasses/view-classes
 import {ViewUnitsComponent} from './features/School/Units/view-units/view-units.component';
 import {authGuard} from './shared/guards/auth.guard';
 import {ViewEgzaminyComponent} from './features/Rejestry/egzaminy/view-egzaminy/view-egzaminy.component';
+import {ViewWycieczkiComponent} from './features/Rejestry/wycieczki/view-wycieczki/view-wycieczki.component';
 
 export const routes: Routes = [
   {
@@ -46,7 +47,7 @@ export const routes: Routes = [
 
       {path: 'bicycle-cards', component: RejestrKartRowerowychComponent},
       {path: 'exams', component: ViewEgzaminyComponent},
-      // {path: 'bicycle-cards/edit/:cardId', component: RejestrKartRowerowychComponent},
+      {path: 'wycieczki', component: ViewWycieczkiComponent},
 
       {path: 'nabory/classes', component: ViewClassesComponent},
       {path: 'nabory/candidates', component: ViewStudentsComponent},
