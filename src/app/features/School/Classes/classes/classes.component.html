@@ -1,7 +1,14 @@
 <div class="h-full flex flex-col">
   <ng-container>
-    <div class="flex gap-[30px] items-baseline ml-5 mt-3">
+    <div class="flex gap-[40px] items-baseline ml-5 mt-3">
       <h1>Oddziały</h1>
+
+      <div class="flex items-center gap-[5px]">
+        <button mat-flat-button color="primary" (click)="createClass()">
+          <mat-icon>add</mat-icon>
+          Dodaj
+        </button>
+      </div>
     </div>
 
     <mat-card class="m-2 p-0 flex-1 flex flex-col overflow-hidden">
@@ -41,25 +48,24 @@
             <td *matCellDef="let element" mat-cell> {{ element.class || '-' }}</td>
           </ng-container>
 
-          <ng-container matColumnDef="level">
+          <ng-container matColumnDef="okres_nauki">
             <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
-              Poziom
+              Okres nauki
             </th>
-            <td *matCellDef="let element" mat-cell> {{ element.level || '-' }}</td>
+            <td *matCellDef="let element" mat-cell>
+              {{
+                element.date_start || element.date_end
+                  ? ((element.date_start | date:'dd.MM.yyyy') || 'brak daty początkowej') + ' - ' + ((element.date_end | date:'dd.MM.yyyy') || 'brak daty końcowej.')
+                  : '-'
+              }}
+            </td>
           </ng-container>
 
-          <ng-container matColumnDef="short">
+          <ng-container matColumnDef="teacher">
             <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
-              Jednostka
+              Wychowawca
             </th>
-            <td *matCellDef="let element" mat-cell> {{ element?.unit?.short || '-' }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="is_oo">
-            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
-              Włączona ocena opisowa
-            </th>
-            <td *matCellDef="let element" mat-cell> {{ element?.is_oo ? 'TAK' : 'NIE' }}</td>
+            <td *matCellDef="let element" mat-cell> {{ element.teacher || '-' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="actions" sticky>
@@ -73,6 +79,17 @@
               <button (click)="goToLessonPlan(element.id)" matTooltip="Plan lekcji oddziału" mat-icon-button>
                 <mat-icon>
                   calendar_view_week
+                </mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="edit" sticky>
+            <th *matHeaderCellDef class="border-b text-center" mat-header-cell></th>
+            <td *matCellDef="let element" class="w-[10px]" mat-cell>
+              <button (click)="editClass(element.id)" matTooltip="Edytuj oddział" mat-icon-button>
+                <mat-icon>
+                  edit
                 </mat-icon>
               </button>
             </td>

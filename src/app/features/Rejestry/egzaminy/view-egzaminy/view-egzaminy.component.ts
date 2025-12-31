@@ -6,23 +6,20 @@ import {
   MatCell,
   MatCellDef,
   MatColumnDef,
-  MatHeaderCell, MatHeaderCellDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
   MatHeaderRow,
   MatHeaderRowDef,
-  MatRow, MatRowDef, MatTable, MatTableDataSource
+  MatRow,
+  MatRowDef,
+  MatTable,
+  MatTableDataSource
 } from "@angular/material/table";
 import {MatCheckbox} from "@angular/material/checkbox";
-import {MatSort, MatSortHeader, Sort} from "@angular/material/sort";
+import {MatSort, MatSortHeader} from "@angular/material/sort";
 import {NgIf} from "@angular/common";
 import {AppComponent} from '../../../../app.component';
 import {SelectionModel} from '@angular/cdk/collections';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {BicycleCardCreateComponent} from '../../KartyRowerowe/bicycle-card-create/bicycle-card-create.component';
-import {BicycleCardEditComponent} from '../../KartyRowerowe/bicycle-card-edit/bicycle-card-edit.component';
-import {
-  BicycleCardSetDataMassiveComponent
-} from '../../KartyRowerowe/bicycle-card-set-data-massive/bicycle-card-set-data-massive.component';
-import {getKartaRowerowa} from '../../KartyRowerowe/rejestr-kart-rowerowych/rejestr-kart-rowerowych.component';
 import {ExamTypes, getExams} from '../../../../shared/service/core/secretariat/student/exams.service';
 import {MatTooltip} from '@angular/material/tooltip';
 import {MatIcon} from '@angular/material/icon';

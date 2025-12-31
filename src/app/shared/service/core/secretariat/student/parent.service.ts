@@ -1,4 +1,4 @@
-import {Parents, StudentInfo} from '../../../../../features/Student/students.types';
+import {Parents} from '../../../../../features/Student/students.types';
 import {secretariatApi} from '../../api/secretariatApi';
 
 export const getParents = async (userId: number): Promise<Parents[]> => {

@@ -1,4 +1,4 @@
-import { secretariatApi } from '../../api/secretariatApi';
+import {secretariatApi} from '../../api/secretariatApi';
 import {responseNaboryClassesInterface} from './classes';
 
 export interface createNaboryStudentsInterface {

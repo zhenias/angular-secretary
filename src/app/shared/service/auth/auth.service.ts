@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { AuthApi } from './auth.api';
+import {Injectable} from '@angular/core';
+import {AuthApi} from './auth.api';
 import {BehaviorSubject, Observable} from 'rxjs';
-import { getMe } from './auth.types';
+import {getMe} from './auth.types';
 import {HttpHeaders} from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })

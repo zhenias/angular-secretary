@@ -1,4 +1,4 @@
-import { secretariatApi } from '../../api/secretariatApi';
+import {secretariatApi} from '../../api/secretariatApi';
 
 export interface ExamTypes {
   id: number,

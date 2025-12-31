@@ -1,4 +1,4 @@
-import { secretariatApi } from '../api/secretariatApi';
+import {secretariatApi} from '../api/secretariatApi';
 import {StudentInfo} from '../../../../features/Student/students.types';
 
 export interface searchQuery {

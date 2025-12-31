@@ -1,6 +1,9 @@
 import {Component, ViewChild} from '@angular/core';
 import {AppComponent} from '../../../../app.component';
-import {getNaboryStudents, responseNaboryStudentsInterface} from '../../../../shared/service/core/secretariat/nabory/students';
+import {
+  getNaboryStudents,
+  responseNaboryStudentsInterface
+} from '../../../../shared/service/core/secretariat/nabory/students';
 import {LoadingHTMLComponent} from '../../../../shared/components/loading-html/loading-html.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';

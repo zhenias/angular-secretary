@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {AppComponent} from '../../app.component';
 import {NgIf} from '@angular/common';

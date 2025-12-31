@@ -1,6 +1,6 @@
-import {AfterViewInit, ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatDrawer, MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -27,6 +27,7 @@ import getCookie from './shared/service/cookie/cookie.service';
 import {AuthService} from './shared/service/auth/auth.service';
 import {getMe} from './shared/service/auth/auth.types';
 import {ViewStudentsComponent} from './features/School/SearchStudents/view-students/view-students.component';
+import {ErrorPermissionComponent} from './shared/error/error-permission/error-permission.component';
 
 @Component({
   selector: 'app-root',
@@ -37,7 +38,7 @@ import {ViewStudentsComponent} from './features/School/SearchStudents/view-stude
     MatToolbarModule, MatProgressBarModule, ReactiveFormsModule, NgIf, MatSidenavModule,
     MatSnackBarModule, MatButtonModule,
     MatMenuModule, MatBadgeModule, MatTooltipModule, RouterOutlet, RouterLinkActive, RouterLink,
-    MatTreeModule, MatTabsModule
+    MatTreeModule, MatTabsModule, ErrorPermissionComponent
   ],
   templateUrl: './app.component.html',
 })
@@ -159,7 +160,7 @@ export class AppComponent implements OnInit {
     this.router.navigate(['students/edit/', studentId]);
   }
 
-  protected openSnackBar(message: string, action: string) {
+  protected openSnackBar(message: string, action: string = 'OK') {
     this._snackBar.open(message, action, {
       duration: 1800,
       horizontalPosition: 'center',
