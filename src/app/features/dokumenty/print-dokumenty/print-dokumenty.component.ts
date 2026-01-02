@@ -141,6 +141,7 @@ export class PrintDokumentyComponent extends AppComponent {
       <html>
         <head>
           <title>${this.getSelectedDokument()?.name_document}</title>
+          <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
           <style>
             body { font-family: serif; }
           </style>
