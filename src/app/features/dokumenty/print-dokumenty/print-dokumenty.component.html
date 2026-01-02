@@ -1,0 +1,75 @@
+<div style="display: flex; flex-direction: column; height: 100%; max-height: 100vh;">
+  <h2 mat-dialog-title>
+    Konfiguracja wydruku z szablonu
+  </h2>
+
+  <mat-dialog-content style="flex: 1; overflow: auto; max-height: 100%;">
+
+    <div class="w-full flex items-center gap-[10px]">
+      <div class="w-full">
+        <p class="mb-1 text-gray-600">Szablon</p>
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-select
+            [(ngModel)]="dokumentId"
+            [disabled]="!getDokumentyList.length"
+          >
+            <mat-option *ngFor="let d of getDokumentyList" [value]="d.id">
+              {{ d.name_document }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="w-full">
+        <p class="mb-1 text-gray-600">Oddział: </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-select
+            [(ngModel)]="classId"
+            (selectionChange)="getStudents()"
+            [disabled]="!getClassesList.length || !dokumentId"
+          >
+            <mat-option *ngFor="let c of getClassesList" [value]="c.id">
+              {{ c.class }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="w-full">
+        <p class="mb-1 text-gray-600">Uczeń: </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-select
+            [(ngModel)]="studentId"
+            [disabled]="!getStudentsList.length || !dokumentId"
+          >
+            <mat-option *ngFor="let s of getStudentsList" [value]="s.id">
+              {{ s.full_user_name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div *ngIf="html">
+      <p class="mb-1 text-gray-600">Treść dokumentu: </p>
+      <quill-editor class="w-full print-area" [(ngModel)]="html" [readOnly]="true" [modules]="{toolbar: false}"></quill-editor>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" style="display: flex; justify-content: space-between; border-top: 1px solid #ccc; padding-top: 8px;">
+    <div>
+      <button (click)="generateDocument()" [disabled]="!dokumentId || !classId || !studentId" color="primary" mat-button>
+        Podgląd
+      </button>
+    </div>
+    <div>
+      <button mat-button mat-dialog-close color="primary">
+        Anuluj
+      </button>
+      <button (click)="print()" [disabled]="!dokumentId || !classId || !studentId" mat-flat-button color="primary">
+        Wydrukuj
+      </button>
+    </div>
+  </mat-dialog-actions>
+
+</div>

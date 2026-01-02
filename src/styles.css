@@ -2,6 +2,10 @@
 @import "bootstrap-icons";
 
 @import "material-icons/iconfont/material-icons.css";
+/*@import 'quill/dist/quill.bubble.css';*/
+
+@import "quill/dist/quill.core.css";
+@import "quill/dist/quill.snow.css";
 
 @import "@fontsource/roboto/300.css";
 @import "@fontsource/roboto/400.css";
@@ -152,4 +156,9 @@ mat-list-item:hover, .active {
 /* opcjonalnie możesz zmienić ikonki na ciemniejsze przy hover */
 mat-list-item.active mat-icon, mat-list-item:hover mat-icon {
   color: #5e35b1 !important;
+}
+
+.ql-container.ql-snow {
+  max-height: 500px;
+  overflow: auto;
 }

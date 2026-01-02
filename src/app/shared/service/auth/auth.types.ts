@@ -1,3 +1,12 @@
+export interface GetMeSchoolTypes {
+  id?: number,
+  year?: string,
+  name_school?: string,
+  description_school?: string,
+  rokDataPoczatek?: string,
+  rokDataKoniec?: string,
+}
+
 export interface getMe {
   id?: number,
   user_name?: string;
@@ -14,4 +23,5 @@ export interface getMe {
   class?: string | null | undefined;
   permissions?: string | null | undefined;
   is_super?: boolean | false;
+  school?: GetMeSchoolTypes | null,
 }

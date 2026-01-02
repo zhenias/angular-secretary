@@ -90,36 +90,23 @@
 
         <ng-container matColumnDef="email">
           <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> E-mail</th>
-          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.email || '-' }}</td>
+          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.user?.email || '-' }}</td>
         </ng-container>
 
         <ng-container matColumnDef="oddzial">
-          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Oddział</th>
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header>
+            Oddział
+          </th>
           <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.class?.class || '-' }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="przyjety">
-          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Przyjęty</th>
-          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.w_klasie_od || '-' }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="rok_szkolny">
-          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Rok szkolny</th>
-          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.class?.year || '-' }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="data_skreslenia">
-          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Data opuszczenia</th>
-          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.data_skreslenia || '-' }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="powod_skreslenia">
-          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Powód opuszczenia</th>
-          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.powod_skreslenia || '-' }}</td>
+        <ng-container matColumnDef="plec">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Płeć </th>
+          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.user?.gender || '-' }}</td>
         </ng-container>
 
         <ng-container matColumnDef="pesel">
-          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Pesel</th>
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> PESEL</th>
           <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.user?.pesel || '-' }}</td>
         </ng-container>
 
@@ -133,9 +120,9 @@
           <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.user?.adres_zamieszkania || '-' }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="typ_nauczania">
-          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Typ nauczania</th>
-          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.user?.is_zsk ? 'ZŚK' : (element?.user?.is_ni ? 'NI' : '-') }}</td>
+        <ng-container matColumnDef="adres_zameldowania">
+          <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header> Adres zameldowania</th>
+          <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.user?.adres_zameldowania || '-' }}</td>
         </ng-container>
 
         <ng-container matColumnDef="data_rejestracji">
@@ -143,11 +130,18 @@
           <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element"> {{ element?.user?.data_rejestracji || '-' }}</td>
         </ng-container>
 
+        <ng-container matColumnDef="numer_telefonu">
+          <th mat-header-cell class="border-b text-center" *matHeaderCellDef mat-sort-header> Numer telefonu</th>
+          <td mat-cell class="px-4 py-2 border-b text-center"
+              *matCellDef="let element"> {{ element?.user?.numer_telefonu || '-' }}
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="is_active">
           <th mat-header-cell class="border-b text-center" *matHeaderCellDef mat-sort-header> Zablokowany dostęp</th>
           <td mat-cell class="px-4 py-2 border-b text-center" *matCellDef="let element">
             <span class="px-2 py-1 rounded-full text-white text-sm" [ngClass]="element?.user?.is_active ? 'bg-green-800' : 'bg-red-800'">
-              {{ !element?.user?.is_active ? 'Tak' : 'Nie' }}
+              {{ !element?.user?.is_active ? 'TAK' : 'NIE' }}
             </span>
           </td>
         </ng-container>
@@ -165,9 +159,10 @@
         <tr mat-row class="hover:bg-gray-100" *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
 
-      <ng-container *ngIf="students.length == 0">
+      <ng-container *ngIf="students.length == 0 && !isProgress">
         <div class="text-center p-4 text-gray-500">
-          Brak dodanych uczniów w oddziałach. <br> Skorzystaj z opcji nabory.
+          Nie dodano uczniów do oddziałów. <br>
+          Skorzystaj z starej księgi uczniów lub opcji naborów.
         </div>
       </ng-container>
 

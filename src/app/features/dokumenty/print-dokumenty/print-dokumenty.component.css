@@ -1,0 +1,16 @@
+@media print {
+  body {
+    margin: 0;
+    font-family: serif;
+    color: #000;
+  
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+  }
+
+  button,
+  mat-dialog-actions {
+    display: none !important;
+  }
+}

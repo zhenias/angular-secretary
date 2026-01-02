@@ -63,12 +63,15 @@ export class StudentsComponent extends AppComponent implements AfterViewInit {
   displayedColumns: string[] = [
     'select',
     'actions',
+    'plec',
     'full_user_name',
-    'rok_szkolny',
     'oddzial',
-    'przyjety',
-    'data_skreslenia',
-    'powod_skreslenia',
+    'data_urodzenia',
+    'pesel',
+    'email',
+    'numer_telefonu',
+    'adres_zamieszkania',
+    'adres_zameldowania',
     'is_active',
   ];
   dataSource = new MatTableDataSource<any>();

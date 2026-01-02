@@ -1,0 +1,94 @@
+<div class="h-full flex flex-col">
+
+  <ng-container class="m-2 p-4">
+    <div class="flex items-center gap-[40px] ml-5 mt-3">
+      <h1>
+        Dokumenty / Szablony
+      </h1>
+
+      <div class="flex items-center gap-[10px]">
+        <button mat-flat-button color="primary" (click)="createDokument()">
+          <mat-icon>add</mat-icon>
+          Dodaj
+        </button>
+
+        <button mat-button color="primary" (click)="printDokument()">
+          <mat-icon>print</mat-icon>
+          Wydrukuj
+        </button>
+
+        <button mat-icon-button color="primary" matTooltip="W tej sekcji przygotujesz szablony do wydruku. Np: Zaświadczenia, Zwolnienie. Dla uczniów.">
+          <mat-icon>info</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <mat-card class="m-2 p-0 flex-1 flex flex-col overflow-hidden">
+      <app-loading-html *ngIf="isProgress"></app-loading-html>
+
+      <div class="flex-1 overflow-auto" style="border-bottom: 1px solid #ccc; padding-bottom: 8px;">
+        <table mat-table matSort [dataSource]="dataSource"
+               class="w-full text-sm border-collapse">
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header>Nazwa wydruku
+            </th>
+            <td mat-cell *matCellDef="let element"> {{ element.name_document || '-' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="type">
+            <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header>
+              Typ
+            </th>
+            <td mat-cell *matCellDef="let element"> {{ element.type || '-' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="created_at">
+            <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header>
+              Data utworzenia
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ (element.created_at | date:'yyyy-MM-dd HH:mm:ss') || '-' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="updated_at">
+            <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header>
+              Data modyfikacji
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ (element.updated_at | date:'yyyy-MM-dd HH:mm:ss') || '-' }}
+            </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="user">
+            <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header>
+              Użytkownik
+            </th>
+            <td mat-cell *matCellDef="let element"> {{ element.is_editable ? (element.user || '-') : '-' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell class="border-b text-center w-[10px]" *matHeaderCellDef>Akcja</th>
+            <td mat-cell class="w-[10px]" *matCellDef="let element">
+              <button color="primary" matTooltip="Edytuj" (click)="editDokument(element.id)" mat-icon-button>
+                <mat-icon>{{ element.is_editable ? 'edit' : 'preview' }}</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row class="bg-gray-100 text-center sticky-header" *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row class="hover:bg-gray-100" *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <ng-container *ngIf="dataSource.data.length == 0">
+          <div class="text-center p-4 text-gray-500">
+            Brak dodanych dokumentów.
+          </div>
+        </ng-container>
+      </div>
+    </mat-card>
+  </ng-container>
+
+</div>

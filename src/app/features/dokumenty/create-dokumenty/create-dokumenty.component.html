@@ -1,0 +1,54 @@
+<div style="display: flex; flex-direction: column; height: 100%; max-height: 100vh;">
+  <h2 mat-dialog-title>
+    Utwórz szablon dla dokumentu
+  </h2>
+
+  <mat-dialog-content style="flex: 1; overflow: auto; max-height: 100%;">
+
+    <div class="w-full flex items-center gap-[10px]">
+      <div class="w-full">
+        <p class="mb-1 text-gray-600">Nazwa szablonu:</p>
+        <mat-form-field appearance="outline" class="w-full">
+          <input type="text" maxlength="255" [(ngModel)]="createDokumentBuild.name" placeholder="Nazwa wydruku" matInput>
+        </mat-form-field>
+      </div>
+      <div class="w-full">
+        <p class="mb-1 text-gray-600">Typ szablonu:</p>
+        <mat-form-field appearance="outline" class="w-full">
+          <input type="text" maxlength="50" [(ngModel)]="createDokumentBuild.type" placeholder="Typ wydruku" matInput>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div>
+      <p class="mb-1 text-gray-600">Treść dokumentu:</p>
+      <div class="grid grid-cols-4 gap-4">
+        <quill-editor class="w-full col-span-3" [(ngModel)]="createDokumentBuild.html_template"></quill-editor>
+        <div class="border rounded p-3 text-sm">
+          <div class="font-semibold mb-2">Słownik</div>
+
+          <button
+            *ngFor="let p of placeholders"
+            class="block w-full text-left px-2 py-1 hover:bg-gray-100 rounded"
+            (click)="insert(p.key)"
+          >
+            {{ p.label }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;">
+    <div>
+      <button mat-button mat-dialog-close color="primary">
+        Anuluj
+      </button>
+      <button mat-dialog-close (click)="createDokument()" mat-flat-button color="primary" [disabled]="!createDokumentBuild.name || !createDokumentBuild.type || !createDokumentBuild.html_template">
+        Dodaj
+      </button>
+    </div>
+  </mat-dialog-actions>
+
+</div>

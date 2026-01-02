@@ -8,7 +8,12 @@
 
     <span class="spacer"></span>
 
-    <span *ngIf="getMeInfo.is_admin || getMeInfo.is_secretary">
+    <div class="flex items-center justify-items-center gap-[5px]" *ngIf="getMeInfo.is_admin || getMeInfo.is_secretary">
+
+      <span class="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+        Rok szkolny: {{ getMeInfo.school?.year ?? '-' }}
+      </span>
+
       <button mat-icon-button (click)="searchStudents()">
         <mat-icon>
           search
@@ -23,7 +28,7 @@
           mail
         </mat-icon>
       </button>
-    </span>
+    </div>
 
     <button [matMenuTriggerFor]="menu" mat-icon-button aria-label="More options">
       <mat-icon>more_vert</mat-icon>
@@ -218,6 +223,15 @@
                 lock
               </mat-icon>
               Restrykcja logowania
+            </div>
+          </mat-list-item>
+
+          <mat-list-item [routerLink]="'/dokumenty'" routerLinkActive="active">
+            <div style="display: flex; align-items: center; gap: 5px;">
+              <mat-icon>
+                post_add
+              </mat-icon>
+              Dokumenty / Szablony
             </div>
           </mat-list-item>
         </div>

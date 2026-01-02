@@ -7,6 +7,7 @@ import {provideHttpClient} from '@angular/common/http';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDialogModule} from '@angular/material/dialog';
+import {provideQuillConfig} from 'ngx-quill';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -39,5 +40,27 @@ export const appConfig: ApplicationConfig = {
     { provide: DateAdapter, useClass: NativeDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
+    provideQuillConfig({
+      sanitize: true,
+      modules: {
+        // syntax: [hljs],
+        toolbar: [
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote'],
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+
+          [{ 'size': ['small', false, 'large', 'huge'] }],
+          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+          [{ 'color': [] }, { 'background': [] }],
+          [{ 'font': [] }],
+          [{ 'align': [] }],
+
+          ['clean'],
+        ],
+      },
+      theme: 'snow',
+      placeholder: 'Utwórz dokument do szablonu...',
+    })
   ],
 };

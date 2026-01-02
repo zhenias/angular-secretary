@@ -21,6 +21,7 @@ import {ViewClassesComponent} from './features/Nabory/NaboryClasses/view-classes
 import {ViewUnitsComponent} from './features/School/Units/view-units/view-units.component';
 import {ViewEgzaminyComponent} from './features/Rejestry/egzaminy/view-egzaminy/view-egzaminy.component';
 import {ViewWycieczkiComponent} from './features/Rejestry/wycieczki/view-wycieczki/view-wycieczki.component';
+import {ViewDokumentyComponent} from './features/dokumenty/view-dokumenty/view-dokumenty.component';
 
 export const routes: Routes = [
   {
@@ -48,6 +49,7 @@ export const routes: Routes = [
       {path: 'bicycle-cards', component: RejestrKartRowerowychComponent},
       {path: 'exams', component: ViewEgzaminyComponent},
       {path: 'wycieczki', component: ViewWycieczkiComponent},
+      {path: 'dokumenty', component: ViewDokumentyComponent},
 
       {path: 'nabory/classes', component: ViewClassesComponent},
       {path: 'nabory/candidates', component: ViewStudentsComponent},
