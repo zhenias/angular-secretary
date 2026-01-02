@@ -49,11 +49,10 @@
           class="w-full col-span-3"
           [(ngModel)]="createDokumentBuild.html_template"
           [readOnly]="!getDokumentList.is_editable"
-          [modules]="{toolbar: getDokumentList.is_editable}"
+          [modules]="{toolbar: getDokumentList.is_editable ? TOOLBAR_QUILL : false}"
         ></quill-editor>
         <div class="border rounded p-3 text-sm" *ngIf="getDokumentList.is_editable === true">
           <div class="font-semibold mb-2">Słownik</div>
-
           <button
             *ngFor="let p of placeholders"
             class="block w-full text-left px-2 py-1 hover:bg-gray-100 rounded"

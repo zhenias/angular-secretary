@@ -21,6 +21,20 @@ export const MY_DATE_FORMATS = {
   },
 };
 
+export const TOOLBAR_QUILL = [
+  ['bold', 'italic', 'underline', 'strike'],
+  ['blockquote'],
+  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+
+  [{ 'size': ['small', false, 'large', 'huge'] }],
+  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+  //[{ 'color': [] }, { 'background': [] }],
+  //[{ 'font': [] }],
+  [{ 'align': [] }],
+
+  ['clean'],
+];
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({
@@ -43,21 +57,7 @@ export const appConfig: ApplicationConfig = {
     provideQuillConfig({
       sanitize: true,
       modules: {
-        // syntax: [hljs],
-        toolbar: [
-          ['bold', 'italic', 'underline', 'strike'],
-          ['blockquote'],
-          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-
-          [{ 'size': ['small', false, 'large', 'huge'] }],
-          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-          [{ 'color': [] }, { 'background': [] }],
-          [{ 'font': [] }],
-          [{ 'align': [] }],
-
-          ['clean'],
-        ],
+        toolbar: TOOLBAR_QUILL,
       },
       theme: 'snow',
       placeholder: 'Utwórz dokument do szablonu...',

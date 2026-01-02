@@ -21,6 +21,7 @@ import {
     editDokument,
     getDokument
 } from "../../../shared/service/core/secretariat/dokumenty.service";
+import {TOOLBAR_QUILL} from '../../../app.config';
 
 @Component({
   selector: 'app-edit-dokumenty',
@@ -34,12 +35,12 @@ import {
     MatInput,
     FormsModule,
     QuillEditorComponent,
-      MatProgressBar,
-      NgIf,
-      NgForOf,
-      DatePipe,
-      NgClass
-],
+    MatProgressBar,
+    NgIf,
+    NgForOf,
+    DatePipe,
+    NgClass,
+  ],
   templateUrl: './edit-dokumenty.component.html',
   styleUrl: './edit-dokumenty.component.css'
 })
@@ -75,6 +76,7 @@ export class EditDokumentyComponent extends AppComponent {
   };
 
   getDokumentList: DocumentTypes|{error: string}|any = {};
+  TOOLBAR_QUILL = TOOLBAR_QUILL;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
