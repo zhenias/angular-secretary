@@ -57,7 +57,7 @@
           <ng-container matColumnDef="actions" sticky>
             <th mat-header-cell class="border-b text-center" *matHeaderCellDef>Akcja</th>
             <td mat-cell class="w-[1%]" *matCellDef="let element">
-              <button matTooltip="Edytuj" mat-icon-button (click)="updateClassPopUp(element?.id)">
+              <button color="primary" matTooltip="Edytuj" mat-icon-button (click)="updateClassPopUp(element?.id)">
                 <mat-icon>edit</mat-icon>
               </button>
             </td>
@@ -70,7 +70,7 @@
 
         <ng-container *ngIf="dataSource.data.length == 0">
           <div class="text-center p-4 text-gray-500">
-            Brak dodanych oddziałów, do naborów.
+            Brak dodanych oddziałów, w naborze.
           </div>
         </ng-container>
       </div>

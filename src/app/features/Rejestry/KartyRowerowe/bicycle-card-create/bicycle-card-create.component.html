@@ -1,60 +1,86 @@
 <div style="display: flex; flex-direction: column; height: 100%; max-height: 100vh;">
   <h2 mat-dialog-title>Dodaj kartę rowerową</h2>
 
-  <mat-dialog-content style="flex: 1; overflow: hidden; max-height: 100%;">
+  <mat-dialog-content style="flex: 1; overflow: auto; max-height: 100%;">
 
-    <div class="flex" style="width: 100%;">
-      <mat-form-field style="width: 100%;">
-        <mat-label>Oddział</mat-label>
-        <mat-select [(ngModel)]="createBicycleCardVar.id_class"
-                    (ngModelChange)="getStudents()"
-                    [disabled]="!classes.length" required>
-          <mat-option *ngFor="let class of classes;" [value]="class.id">
-            {{ class.class }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+    <div class="flex gap-[5px] w-full">
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Oddział</p>
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-select [(ngModel)]="createBicycleCardVar.id_class" (ngModelChange)="getStudents()" [disabled]="!classes.length"
+            required>
+            <mat-option *ngFor="let class of classes;" [value]="class.id">
+              {{ class.class }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-      <mat-form-field style="width: 100%;">
-        <mat-label>Uczeń</mat-label>
-        <mat-select [(ngModel)]="createBicycleCardVar.student_id" [disabled]="!students.length" required>
-          <mat-option *ngFor="let student of students;" [value]="student.id">
-            {{ student.full_user_name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Uczeń</p>
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-select [(ngModel)]="createBicycleCardVar.student_id" [disabled]="!students.length" required>
+            <mat-option *ngFor="let student of students;" [value]="student.id">
+              {{ student.full_user_name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
 
-    <div class="flex gap-[5px]" style="width: 100%;">
-      <mat-form-field style="width: 100%;">
-        <mat-label>Numer karty</mat-label>
-        <input [(ngModel)]="createBicycleCardVar.numer_karty" matInput maxlength="25"/>
-        <mat-icon matIconSuffix *ngIf="data.count" (click)="generatedAutomaticNumberCard()" matTooltip="Generuj automatycznie numer karty w postaci - numer porządkowy/rok.">post_add</mat-icon>
-      </mat-form-field>
+    <div class="flex w-full gap-[5px]">
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Numer karty</p>
+        <mat-form-field appearance="outline" class="w-full">
+          <input [(ngModel)]="createBicycleCardVar.numer_karty" matInput maxlength="25" />
+          <mat-icon
+            class="cursor-pointer"
+            matIconSuffix
+            *ngIf="data.count"
+            (click)="generatedAutomaticNumberCard()"
+            matTooltip="Generuj automatycznie numer karty w postaci - numer porządkowy/rok."
+          >
+            post_add
+          </mat-icon>
+        </mat-form-field>
+      </div>
     </div>
 
-    <div class="flex gap-[5px]" style="width: 100%;">
-      <mat-form-field style="width: 100%;">
-        <mat-label>Data wydania</mat-label>
-        <input (focus)="picker.open()" [(ngModel)]="createBicycleCardVar.data_wydania" [matDatepicker]="picker" matInput
-               readonly/>
-        <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+    <div class="flex gap-[5px] w-full">
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">
+          Data wydania
+        </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input
+            (focus)="picker.open()"
+            [(ngModel)]="createBicycleCardVar.data_wydania"
+            [matDatepicker]="picker"
+            matInput
+            readonly
+          />
+          <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
 
-      <mat-form-field style="width: 100%;">
-        <mat-label>Uwagi</mat-label>
-        <input [(ngModel)]="createBicycleCardVar.uwagi" matInput maxlength="255"/>
-      </mat-form-field>
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">
+          Uwagi
+        </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input [(ngModel)]="createBicycleCardVar.uwagi" matInput maxlength="255" />
+        </mat-form-field>
+      </div>
     </div>
 
-    <div class="flex gap-[5px]" style="width: 100%;">
+    <div class="flex gap-[5px] w-full">
       <mat-checkbox value="1" color="primary" [(ngModel)]="createBicycleCardVar.czy_odebrana">
         Odebrano
       </mat-checkbox>
 
       <mat-checkbox value="1" color="primary" [(ngModel)]="createBicycleCardVar.czy_dublikat">
-        Dublikat
+        Duplikat
       </mat-checkbox>
     </div>
 
@@ -67,7 +93,8 @@
       (click)="createBicycleCardFetch()"
       [disabled]="!this.createBicycleCardVar.student_id || !this.createBicycleCardVar.id_class"
       [mat-dialog-close]="true"
-      color="primary" mat-flat-button
+      color="primary"
+      mat-flat-button
     >
       Dodaj
     </button>

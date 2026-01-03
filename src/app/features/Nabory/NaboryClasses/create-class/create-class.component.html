@@ -2,27 +2,33 @@
   <h2 mat-dialog-title>Dodaj oddział do naborów</h2>
 
   <mat-dialog-content style="flex: 1; overflow: auto; max-height: 100%;">
-    <div style="width: 100%;" class="flex gap-[5px]">
-      <mat-form-field style="width: 100%;">
-        <mat-label>Poziom</mat-label>
-        <input matInput [(ngModel)]="buildFetch.level" name="level">
-      </mat-form-field>
+    <div class="w-full" class="flex gap-[5px]">
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Poziom</p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input matInput [(ngModel)]="buildFetch.level" name="level">
+        </mat-form-field>
+      </div>
 
-      <mat-form-field style="width: 100%;">
-        <mat-label>Symbol</mat-label>
-        <input matInput [(ngModel)]="buildFetch.symbol" name="symbol">
-      </mat-form-field>
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Symbol</p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input matInput [(ngModel)]="buildFetch.symbol" name="symbol">
+        </mat-form-field>
+      </div>
     </div>
 
-    <mat-form-field style="width: 100%;">
-      <mat-label>Jednostka</mat-label>
-      <mat-select onchange="this.form.submit()" [disabled]="!unitsList.length" [(ngModel)]="buildFetch.id_jednostka"
-                  name="id_jednostka" required>
-        <mat-option *ngFor="let unit of unitsList;" [value]="unit.id">
-          {{ unit.name }} ({{ unit.short }})
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="w-full">
+      <p class="text-gray-600 mb-1">Jednostka</p>
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-select onchange="this.form.submit()" [disabled]="!unitsList.length" [(ngModel)]="buildFetch.id_jednostka"
+          name="id_jednostka" required>
+          <mat-option *ngFor="let unit of unitsList;" [value]="unit.id">
+            {{ unit.name }} ({{ unit.short }})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end" style="border-top: 1px solid #ccc; padding-top: 8px;">

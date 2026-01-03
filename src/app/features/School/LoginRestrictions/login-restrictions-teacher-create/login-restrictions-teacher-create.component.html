@@ -4,37 +4,48 @@
 
   <mat-dialog-content style="flex: 1; overflow: hidden; max-height: 100%;">
 
-    <div class="flex gap-[5px]">
-      <mat-form-field style="width: 100%;">
-        <mat-label>Pracownik</mat-label>
-        <mat-select [disabled]="teacherList.length === 0 || data.user_id != undefined" [(ngModel)]="payload.user_id" required>
-          <mat-option *ngFor="let teacher of teacherList" [value]="teacher.user_id">
-            {{ teacher.text }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+    <div class="flex gap-[5px] w-full">
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">
+          Pracownik
+        </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-select
+            placeholder="Pracownik"
+            [disabled]="teacherList.length === 0 || data.user_id != undefined"
+            [(ngModel)]="payload.user_id"
+            required
+          >
+            <mat-option *ngFor="let teacher of teacherList" [value]="teacher.user_id">
+              {{ teacher.text }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="flex w-full gap-[5px]">
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">
+          Dzień tygodnia
+        </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-select [(ngModel)]="payload.day_of_week" required multiple>
+            <mat-option [disabled]="isDayDisabled(day.value)" *ngFor="let day of daysOfWeek" [value]="day.value">
+              {{ day.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
 
     <div class="flex gap-[5px]">
-      <mat-form-field style="width: 100%;">
-        <mat-label>Dzień tygodnia</mat-label>
-        <mat-select [(ngModel)]="payload.day_of_week" required multiple>
-          <mat-option [disabled]="isDayDisabled(day.value)" *ngFor="let day of daysOfWeek" [value]="day.value">
-            {{ day.label }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <div class="flex gap-[5px]">
-      <mat-form-field appearance="fill" style="width: 100%;">
-        <mat-label>Godzina od</mat-label>
-        <input [(ngModel)]="payload.start_time" matInput required type="time">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <input [(ngModel)]="payload.start_time" placeholder="Godzina od" matInput required type="time">
       </mat-form-field>
 
-      <mat-form-field appearance="fill" style="width: 100%;">
-        <mat-label>Godzina do</mat-label>
-        <input [(ngModel)]="payload.end_time" matInput required type="time">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <input [(ngModel)]="payload.end_time" placeholder="Godzina do" matInput required type="time">
       </mat-form-field>
     </div>
 

@@ -2,18 +2,16 @@
   <h2 mat-dialog-title>Dodanie ucznia do oddziału</h2>
   <mat-dialog-content class="mat-typography" style="flex: 1; overflow: auto; max-height: 100%;">
     <div class="flex">
-      <mat-form-field style="width: 100%;">
-        <mat-label>Wybierz oddział:</mat-label>
-        <mat-select onchange="this.form.submit()" [disabled]="!classes.length" [(ngModel)]="dataAddToClass.class"
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-select placeholder="Oddział" onchange="this.form.submit()" [disabled]="!classes.length" [(ngModel)]="dataAddToClass.class"
                     name="class" required>
           <mat-option *ngFor="let class of classes;" [value]="class.id">
             {{ class.class }}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field style="width: 100%;">
-        <mat-label>W oddziale od:</mat-label>
-        <input matInput [matDatepicker]="picker" (focus)="picker.open()" [(ngModel)]="dataAddToClass.w_klasie_od"
+      <mat-form-field class="w-full" appearance="outline">
+        <input matInput [matDatepicker]="picker" placeholder="W oddziale od" (focus)="picker.open()" [(ngModel)]="dataAddToClass.w_klasie_od"
                name="w_klasie_od" required readonly/>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>

@@ -26,6 +26,11 @@
         </mat-icon>
       </button>
 
+      <button mat-stroked-button color="primary" matToolip="Wydrukuj dokument dla ucznia z szablonu." *ngIf="!student.is_parent" [disabled]="!student.id || !student.class" (click)="printDokument()">
+        <mat-icon>print</mat-icon>
+        Wydrukuj
+      </button>
+
     </div>
   </mat-card>
 
@@ -231,7 +236,7 @@
       <div>
         <ng-container *ngIf="parents_list && parents_list.length > 0 && !isLoadingParents">
 
-          <table [dataSource]="dataSourceParents" *ngIf="dataSourceParents" class="w-full text-sm border-collapse" mat-table matSort>
+          <table [dataSource]="dataSourceParents" *ngIf="dataSourceParents" class="table-auto" mat-table matSort>
             <ng-container matColumnDef="parent">
               <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
                 Rodzic / opiekun
@@ -327,48 +332,93 @@
       </mat-expansion-panel-header>
 
       <div>
-        <ng-container *ngIf="studentStateSchool && studentStateSchool.length > 0 && !isLoadingStateSchool">
-          <table class="table-auto w-full text-sm border-collapse">
-            <tr class="bg-gray-100 text-left">
-              <th class="px-4 py-2 border-b text-center">Oddział</th>
-              <th class="px-4 py-2 border-b text-center">Rok szkolny</th>
-              <th class="px-4 py-2 border-b text-center">Okres nauczania</th>
-              <th class="px-4 py-2 border-b text-center">Powód skreślenia</th>
-              <th class="px-4 py-2 border-b text-center">Data dodania</th>
-              <th class="px-4 py-2 border-b text-center">Akcje</th>
-            </tr>
-            <ng-container *ngFor="let state of studentStateSchool;">
-              <tr class="hover:bg-slate-75">
-                <td class="px-4 py-2 border-b text-center">
-                  {{ state.class.class || '-' }}
-                </td>
-                <td class="px-4 py-2 border-b text-center">
-                  {{ state.class.year || '-' }}
-                </td>
-                <td class="px-4 py-2 border-b text-center">
-                  {{ (state.w_klasie_od + (state.data_skreslenia ? ' - ' + state.data_skreslenia : ' - do dzisiaj.')) || '-' }}
-                </td>
-                <td class="px-4 py-2 border-b">
-                  {{ state.powod_skreslenia || '-' }}
-                </td>
-                <td class="px-4 py-2 border-b text-center">
-                  {{ state.data_dodania || '-' }}
-                </td>
-                <td class="px-4 py-2 border-b text-center">
-                  <button matTooltip="Skreśl" mat-icon-button [disabled]="state.data_skreslenia" (click)="skreslUcznia(state.class)">
-                    <mat-icon>
-                      person_off
-                    </mat-icon>
-                  </button>
-
-                  <button mat-icon-button color="warn" matTooltip="Usuń" (click)="usunUczniaZKlasy(state.class)">
-                    <mat-icon>
-                      delete
-                    </mat-icon>
-                  </button>
-                </td>
-              </tr>
+        <ng-container *ngIf="dataSourceStatsSchool.data && dataSourceStatsSchool.data.length > 0 && !isLoadingStateSchool">
+          <table [dataSource]="dataSourceStatsSchool" *ngIf="dataSourceStatsSchool.data.length" class="table-auto" mat-table matSort>
+            <ng-container matColumnDef="oddzial">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Oddział
+              </th>
+              <td *matCellDef="let state" mat-cell>
+                {{ state.class.class || '-' }}
+              </td>
             </ng-container>
+
+            <ng-container matColumnDef="teacher">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Wychowawca
+              </th>
+              <td *matCellDef="let state" mat-cell>
+                {{ state.class.teacher || '-' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="rok_szkolny">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Rok szkolny
+              </th>
+              <td *matCellDef="let state" mat-cell>
+                {{ state.class.year || '-' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="okres_nauczania">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Okres nauczania
+              </th>
+              <td *matCellDef="let state" mat-cell>
+                {{ (state.w_klasie_od + (state.data_skreslenia ? ' - ' + state.data_skreslenia : ' - do dzisiaj.')) || '-' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="powod_skreslenia">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Powód skreślenia
+              </th>
+              <td *matCellDef="let state" mat-cell>
+                {{ state.powod_skreslenia || '-' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="data_dodania">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Data dodania
+              </th>
+              <td *matCellDef="let state" mat-cell>
+                {{ state.data_dodania || '-' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nr_dz">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Numer w dz.
+              </th>
+              <td *matCellDef="let state" mat-cell>
+                {{ state.id_number || '-' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions" sticky>
+              <th *matHeaderCellDef class="border-b text-center" mat-header-cell>Akcja</th>
+              <td *matCellDef="let state" class="w-[150px]" mat-cell>
+
+                <button matTooltip="Skreśl" color="primary" mat-icon-button [disabled]="state.data_skreslenia"
+                  (click)="skreslUcznia(state.class)">
+                  <mat-icon>
+                    person_off
+                  </mat-icon>
+                </button>
+
+                <button mat-icon-button color="warn" matTooltip="Usuń" (click)="usunUczniaZKlasy(state.class)">
+                  <mat-icon>
+                    delete
+                  </mat-icon>
+                </button>
+
+              </td>
+            </ng-container>
+
+            <tr *matHeaderRowDef="displayedColumnsStatsSchool" class="bg-gray-100 text-center sticky-header" mat-header-row></tr>
+            <tr *matRowDef="let row; columns: displayedColumnsStatsSchool;" class="hover:bg-gray-100" mat-row></tr>
           </table>
         </ng-container>
 
@@ -445,7 +495,7 @@
           </table>
         </ng-container>
 
-        <ng-container *ngIf="spe_list && spe_list?.length == 0 && !isLoadingSPE">
+        <ng-container *ngIf="spe_list && spe_list.length == 0 && !isLoadingSPE">
           <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
             <p>
               Brak dodanych dokumentów DIU. <br>

@@ -1,38 +1,39 @@
-import {ChangeDetectorRef, Component, inject} from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
-import {HttpClient} from '@angular/common/http';
-import {AppComponent} from '../../../app.component';
-import {ActivatedRoute} from '@angular/router';
-import {LoadingHTMLComponent} from '../../../shared/components/loading-html/loading-html.component';
-import {NgClass, NgFor, NgIf} from '@angular/common';
-import {MatCardModule} from '@angular/material/card';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import {DodajUczniaDoKlasyComponent} from '../dodaj-ucznia-do-klasy/dodaj-ucznia-do-klasy.component';
-import {UsunUczniaZKlasyComponent} from '../usun-ucznia-zklasy/usun-ucznia-zklasy.component';
-import {MatNativeDateModule, MatOptionModule} from '@angular/material/core';
-import {SkreslUczniaZKlasyComponent} from '../skresl-ucznia-zklasy/skresl-ucznia-zklasy.component';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatSelectModule} from '@angular/material/select';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {ResetPasswordComponent} from '../reset-password/reset-password.component';
-import {CreateParentComponent} from '../../Parents/create-parent/create-parent.component';
-import {DeleteParentComponent} from '../../Parents/delete-parent/delete-parent.component';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { NgClass, NgFor, NgIf } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ActivatedRoute } from '@angular/router';
+import { AppComponent } from '../../../app.component';
+import { LoadingHTMLComponent } from '../../../shared/components/loading-html/loading-html.component';
+import { getParents } from '../../../shared/service/core/secretariat/student/parent.service';
+import { getStudent, getStudentDIU, updateStudent } from '../../../shared/service/core/secretariat/student/student.service';
+import { CreateParentComponent } from '../../Parents/create-parent/create-parent.component';
+import { DeleteParentComponent } from '../../Parents/delete-parent/delete-parent.component';
+import { DodajEgzaminComponent } from '../../Rejestry/egzaminy/dodaj-egzamin/dodaj-egzamin.component';
 import {
   BicycleCardCreateComponent
 } from '../../Rejestry/KartyRowerowe/bicycle-card-create/bicycle-card-create.component';
-import {ClassInfo, Parents, SPE, StateSchool, StudentInfo} from '../students.types';
-import {DodajEgzaminComponent} from '../../Rejestry/egzaminy/dodaj-egzamin/dodaj-egzamin.component';
-import {getStudent, updateStudent} from '../../../shared/service/core/secretariat/student/student.service';
-import {getParents} from '../../../shared/service/core/secretariat/student/parent.service';
-import {MatSort, MatSortHeader} from '@angular/material/sort';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { DodajUczniaDoKlasyComponent } from '../dodaj-ucznia-do-klasy/dodaj-ucznia-do-klasy.component';
+import { ResetPasswordComponent } from '../reset-password/reset-password.component';
+import { SkreslUczniaZKlasyComponent } from '../skresl-ucznia-zklasy/skresl-ucznia-zklasy.component';
+import { ClassInfo, Parents, SPE, StateSchool, StudentInfo } from '../students.types';
+import { UsunUczniaZKlasyComponent } from '../usun-ucznia-zklasy/usun-ucznia-zklasy.component';
+import { PrintDokumentyComponent } from '../../dokumenty/print-dokumenty/print-dokumenty.component';
 
 @Component({
   selector: 'app-student',
@@ -92,6 +93,20 @@ export class StudentComponent extends AppComponent {
     'actions',
   ];
   dataSourceParents = new MatTableDataSource<any>();
+  @ViewChild(MatSort) sortParents!: MatSort;
+
+  displayedColumnsStatsSchool: string[] = [
+    'actions',
+    'nr_dz',
+    'teacher',
+    'oddzial',
+    'rok_szkolny',
+    'okres_nauczania',
+    'powod_skreslenia',
+    'data_dodania',
+  ];
+  dataSourceStatsSchool = new MatTableDataSource<any>();
+  @ViewChild(MatSort) sortStatsSchool!: MatSort;
 
   readonly dialog = inject(MatDialog);
 
@@ -128,7 +143,7 @@ export class StudentComponent extends AppComponent {
         student: this.student
       },
       width: '500px',
-      height: '300px',
+      height: '500px',
     });
 
     dialogRef.afterClosed().subscribe(next => {
@@ -144,7 +159,8 @@ export class StudentComponent extends AppComponent {
         class: classInfo,
         student: this.student
       },
-      width: '500px'
+      width: '500px',
+      height: '500px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -158,7 +174,8 @@ export class StudentComponent extends AppComponent {
         class: classInfo,
         student: this.student
       },
-      width: '500px'
+      width: '500px',
+      height: '500px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -181,7 +198,7 @@ export class StudentComponent extends AppComponent {
     const dialogRef = this.dialog.open(
       CreateParentComponent,
       {
-        width: '500px',
+        width: '600px',
         height: '500px',
         data: {
           studentId: this.student.id,
@@ -224,42 +241,33 @@ export class StudentComponent extends AppComponent {
         this.isLoadingStateSchool = false;
 
         this.studentStateSchool = data;
+        this.dataSourceStatsSchool.data = data;
+        this.dataSourceStatsSchool.sort = this.sortStatsSchool;
       },
       error: (error) => {
         this.isLoadingStateSchool = false;
-
-        this.studentStateSchool = [];
 
         if (error.response.error != "State not found.") {
           this.openSnackBar('Błąd pobierania pobytu ucznia w szkole.', 'OK');
         }
       }
     });
+
+    this.dataSourceStatsSchool.sort = this.sortStatsSchool;
   }
 
-  public async getStudentSPE() {
+  async getStudentSPE() {
     this.isLoadingSPE = true;
 
-    const headers = this.setHeaderAuthorization();
+    const userId = Number(this.route.snapshot.paramMap.get('userId'));
 
-    const userId = this.route.snapshot.paramMap.get('userId');
-
-    this.http.get<any[]>('/api/School/Students/' + userId + '/DIU', {headers}).subscribe({
-      next: (data) => {
+    await getStudentDIU(userId)
+      .finally(() => {
         this.isLoadingSPE = false;
-
-        this.spe_list = data;
-      },
-      error: (error) => {
-        this.isLoadingSPE = false;
-
-        this.spe_list = [];
-
-        if (error.response.error != "SPE not found.") {
-          this.openSnackBar('Błąd pobierania dodatkowych informacji.', 'OK');
-        }
-      }
-    });
+      })
+      .then((response) => {
+        this.spe_list = response;
+      });
   }
 
   public async getStudentExams() {
@@ -295,6 +303,7 @@ export class StudentComponent extends AppComponent {
       .then((response) => {
         this.parents_list = response;
         this.dataSourceParents.data = response;
+        this.dataSourceParents.sort = this.sortParents;
       });
     } catch (e) {
       this.openSnackBar('Wystąpił błąd, podczas pobierania informacji o rodzicach/opiekunach.', 'OK');
@@ -379,5 +388,21 @@ export class StudentComponent extends AppComponent {
 
       this.getStudentExams();
     });
+  }
+
+  printDokument() {
+    this.matDialog.open(
+      PrintDokumentyComponent,
+      {
+        width: '900px',
+        maxWidth: '100%',
+        height: '900px',
+        maxHeight: '100vh',
+        data: {
+          classId: this.student?.class?.id,
+          studentId: this.student?.id,
+        }
+      }
+    );
   }
 }

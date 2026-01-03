@@ -28,25 +28,25 @@
 
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="getMassiveActions('delete_class')" [disabled]="!selection.selected.length">
-          <mat-icon>delete</mat-icon>
+          <mat-icon color="primary">delete</mat-icon>
           <span>Usuń z oddziału</span>
         </button>
         <hr>
         <button mat-menu-item (click)="getMassiveActions('delete_assessment')" [disabled]="!selection.selected.length">
-          <mat-icon>close</mat-icon>
+          <mat-icon color="primary">close</mat-icon>
           <span>Usuń oceny</span>
         </button>
         <button mat-menu-item (click)="getMassiveActions('delete_frequency')" [disabled]="!selection.selected.length">
-          <mat-icon>close</mat-icon>
+          <mat-icon color="primary">close</mat-icon>
           <span>Usuń nieobecności</span>
         </button>
         <hr>
         <button mat-menu-item (click)="getMassiveActions('blocked')" [disabled]="!selection.selected.length">
-          <mat-icon>block</mat-icon>
+          <mat-icon color="primary">block</mat-icon>
           <span>Zablokuj dostęp do konta</span>
         </button>
         <button mat-menu-item (click)="getMassiveActions('unblocked')" [disabled]="!selection.selected.length">
-          <mat-icon>published_with_changes</mat-icon>
+          <mat-icon color="primary">published_with_changes</mat-icon>
           <span>Odblokuj dostęp do konta</span>
         </button>
       </mat-menu>
@@ -149,7 +149,7 @@
         <ng-container matColumnDef="actions" sticky>
           <th mat-header-cell class="border-b text-center" *matHeaderCellDef>Akcja</th>
           <td mat-cell class="w-[1%]" *matCellDef="let element">
-            <button matTooltip="Edytuj" mat-icon-button (click)="goToStudent(element?.id)">
+            <button color="primary" matTooltip="Edytuj" mat-icon-button (click)="goToStudent(element?.id)">
               <mat-icon>edit</mat-icon>
             </button>
           </td>

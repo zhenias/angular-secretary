@@ -1,8 +1,8 @@
 import { NgForOf, NgIf } from "@angular/common";
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
-import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { MatFormField, MatSelect, MatSelectModule } from '@angular/material/select';
 import { QuillEditorComponent } from 'ngx-quill';
 import { AppComponent } from '../../../app.component';
@@ -39,11 +39,27 @@ export class PrintDokumentyComponent extends AppComponent {
   getStudentsList: StudentInfo[] = [];
   html: any = '';
 
-  constructor() {
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      classId: number;
+      studentId: number,
+    }
+  ) {
     super();
 
     this.getClassesListFetch();
     this.getDokumentyFetch();
+
+    if (data?.classId) {
+      this.classId = data.classId;
+    }
+
+    if (data?.studentId) {
+      this.getStudents();
+      
+      this.studentId = data.studentId;
+    }
   }
 
   async getClassesListFetch(): Promise<void> {
@@ -111,7 +127,7 @@ export class PrintDokumentyComponent extends AppComponent {
     };
 
 
-    this.html = this.render(dokument.html_template, payload);
+    this.html = this.render(this.html.length > 0 ? this.html : dokument.html_template, payload);
   }
 
   render(template: string, data: any): string {
@@ -121,15 +137,17 @@ export class PrintDokumentyComponent extends AppComponent {
         .split('.')
         .reduce((o: any, i: any) => o?.[i], data);
 
-      return value ?? '';
+      return (value ?? '')
+        .replace(/\n{2,}/g, '</p><p>')
+        .replace(/\n/g, '<br>');
     });
   }
 
   print() {
     this.generateDocument();
 
-    const printContent = this.html;
-    const w = window.open('', '', 'width=1000,height=1000');
+    const printContent = document.querySelector('.print-area .ql-container .ql-editor')?.innerHTML;
+    const w = window.open('', '', 'width=1000,height=600');
 
     if (!w || !printContent) {
       w?.close();
@@ -138,12 +156,16 @@ export class PrintDokumentyComponent extends AppComponent {
     }
 
     w.document.write(`
-      <html>
+      <html lang="pl-PL">
         <head>
           <title>${this.getSelectedDokument()?.name_document}</title>
-          <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+          <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.core.css">
+          <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
           <style>
-            body { font-family: serif; }
+            body { padding: 24px; }
+            .ql-align-right { text-align: right; }
+            .ql-align-left { text-align: left; }
+            .ql-align-center { text-align: center; }
           </style>
         </head>
         <body>
@@ -153,8 +175,10 @@ export class PrintDokumentyComponent extends AppComponent {
     `);
 
     w.document.close();
-    w.print();
-    w.close();
-  }
 
+    w.onload = () => {
+      w.print();
+      w.close();
+    };
+  }
 }

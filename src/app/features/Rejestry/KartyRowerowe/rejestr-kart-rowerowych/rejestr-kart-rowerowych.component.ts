@@ -124,6 +124,8 @@ export class RejestrKartRowerowychComponent extends AppComponent {
         this.totalPages = data.last_page;
 
         this.totalItems = data.total;
+
+        this.dataSource.sort = this.sort;
       },
       error: () => {
         this.isProgress = false;
@@ -140,46 +142,6 @@ export class RejestrKartRowerowychComponent extends AppComponent {
     this.currentPage = event.pageIndex + 1;
 
     this.getFetchBicycleCards();
-  }
-
-  sortData(sort: Sort) {
-    const data = this.getBicycleCards.slice();
-    if (!sort.active || sort.direction === '') {
-      this.dataSource.data = data;
-      return;
-    }
-
-    this.dataSource.data = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'data_wydania':
-          return this.compare(a?.data_wydania, b?.data_wydania, isAsc);
-        case 'class':
-          return this.compare(a?.class || '', b?.class || '', isAsc);
-        case 'student':
-          return this.compare(a?.student, b?.student, isAsc);
-        case 'numer_karty':
-          return this.compare(a?.numer_karty, b?.numer_karty, isAsc);
-        case 'user':
-          return this.compare(a?.user, b?.user, isAsc);
-        case 'classes':
-          return this.compare(a?.class, b?.class, isAsc);
-        default:
-          return 0;
-      }
-    });
-  }
-
-  compare(a: number | string | null | undefined, b: number | string | null | undefined, isAsc: boolean) {
-    if (a == null && b == null) return 0;
-    if (a == null) return isAsc ? -1 : 1;
-    if (b == null) return isAsc ? 1 : -1;
-
-    if (typeof a === 'string' && typeof b === 'string') {
-      return (a.localeCompare(b)) * (isAsc ? 1 : -1);
-    }
-
-    return ((a < b ? -1 : (a > b ? 1 : 0)) * (isAsc ? 1 : -1));
   }
 
   isAllSelected() {
@@ -204,9 +166,8 @@ export class RejestrKartRowerowychComponent extends AppComponent {
 
   bicycleCardCreate() {
     const dialog = this.matDialog.open(BicycleCardCreateComponent, {
-      width: '600px',
-      height: '600px',
-      disableClose: true,
+      width: '800px',
+      height: '800px',
       data: {
         count: this.totalItems,
       }
@@ -221,8 +182,8 @@ export class RejestrKartRowerowychComponent extends AppComponent {
 
   bicycleCardEdit(cardId: number) {
     const dialog = this.matDialog.open(BicycleCardEditComponent, {
-      width: '600px',
-      height: '600px',
+      width: '800px',
+      height: '800px',
       data: {
         cardId,
       }

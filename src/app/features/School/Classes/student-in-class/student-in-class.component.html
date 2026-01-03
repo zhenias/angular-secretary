@@ -84,7 +84,7 @@
           <ng-container matColumnDef="actions" sticky>
             <th *matHeaderCellDef class="border-b text-center" mat-header-cell>Akcja</th>
             <td *matCellDef="let element" class="w-[1%]" mat-cell>
-              <button (click)="goToStudent(element.id)" mat-icon-button>
+              <button color="primary" (click)="goToStudent(element.id)" mat-icon-button>
                 <mat-icon>edit</mat-icon>
               </button>
             </td>

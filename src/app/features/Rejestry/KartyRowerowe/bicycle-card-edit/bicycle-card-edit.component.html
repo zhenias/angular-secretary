@@ -6,54 +6,58 @@
     Poczekaj, ładują się dane...
   </mat-dialog-content>
 
-  <mat-dialog-content style="flex: 1; overflow: hidden; max-height: 100%;" *ngIf="!isProgress">
+  <mat-dialog-content style="flex: 1; overflow: auto; max-height: 100%;" *ngIf="!isProgress">
 
-    <div class="flex" style="width: 100%;">
-      <mat-form-field style="width: 100%;">
-        <mat-label>Uczeń</mat-label>
-        <input [(ngModel)]="getBicycleCard.class" matInput readonly/>
-      </mat-form-field>
+    <div class="flex w-full gap-[5px]">
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Oddział</p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input [(ngModel)]="getBicycleCard.class" matInput disabled />
+        </mat-form-field>
+      </div>
 
-      <mat-form-field style="width: 100%;">
-        <mat-label>Uczeń</mat-label>
-        <input [(ngModel)]="getBicycleCard.student" matInput readonly/>
-      </mat-form-field>
-
-      <mat-form-field style="width: 100%;">
-        <mat-label>Wydał</mat-label>
-        <input [(ngModel)]="getBicycleCard.user" matInput readonly/>
-      </mat-form-field>
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Uczeń</p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input [(ngModel)]="getBicycleCard.student" matInput disabled />
+        </mat-form-field>
+      </div>
     </div>
 
-    <div class="flex gap-[5px]" style="width: 100%;">
-      <mat-form-field style="width: 100%;">
-        <mat-label>Numer karty</mat-label>
-        <input [(ngModel)]="getBicycleCard.numer_karty" matInput maxlength="25"/>
-      </mat-form-field>
+    <div class="flex w-full gap-[5px]">
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Numer karty</p>
+        <mat-form-field appearance="outline" class="w-full">
+          <input [(ngModel)]="getBicycleCard.numer_karty" matInput maxlength="25" />
+        </mat-form-field>
+      </div>
     </div>
 
-    <div class="flex gap-[5px]" style="width: 100%;">
-      <mat-form-field style="width: 100%;">
-        <mat-label>Data wydania</mat-label>
-        <input (focus)="picker.open()" [(ngModel)]="getBicycleCard.data_wydania" [matDatepicker]="picker" matInput
-               readonly/>
-        <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+    <div class="flex w-full gap-[5px]">
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Data wydania</p>
+        <mat-form-field appearance="outline" class="w-full">
+          <input (focus)="picker.open()" [(ngModel)]="getBicycleCard.data_wydania" [matDatepicker]="picker" matInput readonly />
+          <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
 
-      <mat-form-field style="width: 100%;">
-        <mat-label>Uwagi</mat-label>
-        <input [(ngModel)]="getBicycleCard.uwagi" matInput maxlength="255"/>
-      </mat-form-field>
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">Data wydania</p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input [(ngModel)]="getBicycleCard.uwagi" matInput maxlength="255" />
+        </mat-form-field>
+      </div>
     </div>
 
-    <div class="flex gap-[5px]" style="width: 100%;">
+    <div class="flex gap-[5px] w-full">
       <mat-checkbox value="1" color="primary" [(ngModel)]="getBicycleCard.czy_odebrana">
         Odebrano
       </mat-checkbox>
 
       <mat-checkbox value="1" color="primary" [(ngModel)]="getBicycleCard.czy_dublikat">
-        Dublikat
+        Duplikat
       </mat-checkbox>
     </div>
 

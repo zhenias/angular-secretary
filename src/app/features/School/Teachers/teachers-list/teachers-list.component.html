@@ -97,7 +97,7 @@
           <ng-container matColumnDef="actions" sticky>
             <th *matHeaderCellDef class="border-b text-center" mat-header-cell>Akcja</th>
             <td *matCellDef="let element" class="w-[1%]" mat-cell>
-              <button disabledInteractive [matTooltip]="!getMeInfo.is_admin ? 'Nie możesz edytować użytkownika, ponieważ nie posiadać uprawnień administratora.' : 'Edytuj'" [disabled]="!getMeInfo.is_admin" (click)="teacherEdit(element.id)" mat-icon-button>
+              <button disabledInteractive color="primary" [matTooltip]="!getMeInfo.is_admin ? 'Nie możesz edytować użytkownika, ponieważ nie posiadać uprawnień administratora.' : 'Edytuj'" [disabled]="!getMeInfo.is_admin" (click)="teacherEdit(element.id)" mat-icon-button>
                 <mat-icon>edit</mat-icon>
               </button>
             </td>

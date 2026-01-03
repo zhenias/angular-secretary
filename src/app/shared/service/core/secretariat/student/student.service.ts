@@ -1,5 +1,5 @@
 import {secretariatApi} from '../../api/secretariatApi';
-import {StudentInfo, ClassInfo} from '../../../../../features/Student/students.types';
+import {StudentInfo, ClassInfo, type SPE} from '../../../../../features/Student/students.types';
 
 export interface GetStudentsClassTypes {
   class: ClassInfo,
@@ -22,5 +22,17 @@ export const updateStudent = async (userId: number, payload: any): Promise<Stude
 export const getStudents = async (classId: number): Promise<GetStudentsClassTypes> => {
   return await secretariatApi.get(
     `/School/Classes/${classId}/Students`,
+  );
+};
+
+export const getStudentStateSchool = async (studentId: number): Promise<any[]> => {
+  return await secretariatApi.get(
+    `/School/Students/${studentId}/StateSchool`,
+  );
+};
+
+export const getStudentDIU = async (studentId: number): Promise<SPE[]|{error: string}|any> => {
+  return await secretariatApi.get(
+    `/School/Students/${studentId}/DIU`,
   );
 };

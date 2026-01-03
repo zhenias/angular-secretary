@@ -3,27 +3,43 @@
     Edytuj seryjnie karty rowerowe
   </h2>
 
-  <mat-dialog-content style="flex: 1; overflow: hidden; max-height: 100%;">
-    <div class="flex gap-[5px]" style="width: 100%;">
-      <mat-form-field matTooltip="Zaleca się pominiecie tego pola, ponieważ jest to dodawanie dla wszystkich uczniów numery kart." style="width: 100%;">
-        <mat-label>Numer karty</mat-label>
-        <input [(ngModel)]="createBicycleCardVar.numer_karty" matInput maxlength="25"/>
-      </mat-form-field>
+  <mat-dialog-content style="flex: 1; overflow: auto; max-height: 100%;">
+    <div class="flex w-full gap-[5px]">
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">
+          Numer karty
+        </p>
+        
+        <mat-form-field
+          matTooltip="Zaleca się pominiecie tego pola, ponieważ jest to dodawanie dla wszystkich uczniów numery kart."
+          class="w-full" appearance="outline"
+        >
+          <input [(ngModel)]="createBicycleCardVar.numer_karty" matInput maxlength="25" />
+        </mat-form-field>
+      </div>
     </div>
 
-    <div class="flex gap-[5px]" style="width: 100%;">
-      <mat-form-field style="width: 100%;">
-        <mat-label>Data wydania</mat-label>
-        <input (focus)="picker.open()" [(ngModel)]="createBicycleCardVar.data_wydania" [matDatepicker]="picker" matInput
-               readonly/>
-        <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+    <div class="flex gap-[5px] w-full">
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">
+          Data wydania
+        </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input (focus)="picker.open()" [(ngModel)]="createBicycleCardVar.data_wydania" [matDatepicker]="picker" matInput
+            readonly />
+          <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
 
-      <mat-form-field style="width: 100%;">
-        <mat-label>Uwagi</mat-label>
-        <input [(ngModel)]="createBicycleCardVar.uwagi" matInput maxlength="255" />
-      </mat-form-field>
+      <div class="w-full">
+        <p class="text-gray-600 mb-1">
+          Uwagi
+        </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input [(ngModel)]="createBicycleCardVar.uwagi" matInput maxlength="255" />
+        </mat-form-field>
+      </div>
     </div>
 
     <div class="flex gap-[5px]" style="width: 100%;">
@@ -32,7 +48,7 @@
       </mat-checkbox>
 
       <mat-checkbox value="1" color="primary" [(ngModel)]="createBicycleCardVar.czy_dublikat">
-        Czy dublikat?
+        Czy duplikat?
       </mat-checkbox>
     </div>
 

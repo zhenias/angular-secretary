@@ -24,15 +24,15 @@
     </div>
 
     <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="addStudentsMassiveToClass()" [disabled]="!selection.selected.length">
-        <mat-icon>add</mat-icon>
+      <button mat-menu-item color="primary" (click)="addStudentsMassiveToClass()" [disabled]="!selection.selected.length">
+        <mat-icon color="primary">add</mat-icon>
         <span>
         Dodaj do oddziału
       </span>
       </button>
 
-      <button mat-menu-item (click)="getMassiveActions('delete_all_class')" [disabled]="!selection.selected.length">
-        <mat-icon>delete</mat-icon>
+      <button mat-menu-item color="primary" (click)="getMassiveActions('delete_all_class')" [disabled]="!selection.selected.length">
+        <mat-icon color="primary">delete</mat-icon>
         <span>
         Usuń cały pobyt
       </span>
@@ -40,14 +40,14 @@
 
       <hr>
 
-      <button mat-menu-item (click)="getMassiveActions('delete_assessment')" [disabled]="!selection.selected.length">
-        <mat-icon>close</mat-icon>
+      <button mat-menu-item color="primary" (click)="getMassiveActions('delete_assessment')" [disabled]="!selection.selected.length">
+        <mat-icon color="primary">close</mat-icon>
         <span>
         Usuń oceny
       </span>
       </button>
-      <button mat-menu-item (click)="getMassiveActions('delete_frequency')" [disabled]="!selection.selected.length">
-        <mat-icon>close</mat-icon>
+      <button mat-menu-item color="primary" (click)="getMassiveActions('delete_frequency')" [disabled]="!selection.selected.length">
+        <mat-icon color="primary">close</mat-icon>
         <span>
         Usuń nieobecności
       </span>
@@ -55,8 +55,8 @@
 
       <hr>
 
-      <button mat-menu-item (click)="getMassiveActions('deleted')" [disabled]="!selection.selected.length">
-        <mat-icon>delete</mat-icon>
+      <button mat-menu-item color="primary" (click)="getMassiveActions('deleted')" [disabled]="!selection.selected.length">
+        <mat-icon color="primary">delete</mat-icon>
         <span>
         {{ selection.selected.length == 1 ? 'Usuń kandydata' : 'Usuń kandydatów' }}
       </span>
@@ -64,14 +64,14 @@
 
       <hr>
 
-      <button mat-menu-item (click)="getMassiveActions('blocked')" [disabled]="!selection.selected.length">
-        <mat-icon>block</mat-icon>
+      <button mat-menu-item color="primary" (click)="getMassiveActions('blocked')" [disabled]="!selection.selected.length">
+        <mat-icon color="primary">block</mat-icon>
         <span>
         Zablokuj dostęp do konta
       </span>
       </button>
-      <button mat-menu-item (click)="getMassiveActions('unblocked')" [disabled]="!selection.selected.length">
-        <mat-icon>published_with_changes</mat-icon>
+      <button mat-menu-item color="primary" (click)="getMassiveActions('unblocked')" [disabled]="!selection.selected.length">
+        <mat-icon color="primary">published_with_changes</mat-icon>
         <span>
         Odblokuj dostęp do konta
       </span>
@@ -204,7 +204,7 @@
           <ng-container matColumnDef="actions" sticky>
             <th mat-header-cell class="border-b text-center" *matHeaderCellDef>Akcja</th>
             <td mat-cell class="w-[1%]" *matCellDef="let element">
-              <button matTooltip="Edytuj" mat-icon-button (click)="goToStudent(element.id)">
+              <button matTooltip="Edytuj" color="primary" mat-icon-button (click)="goToStudent(element.id)">
                 <mat-icon>edit</mat-icon>
               </button>
             </td>

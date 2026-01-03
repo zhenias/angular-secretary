@@ -50,7 +50,7 @@ import { PrintDokumentyComponent } from '../print-dokumenty/print-dokumenty.comp
     MatHeaderCellDef,
     LoadingHTMLComponent,
     MatCard,
-      DatePipe
+    DatePipe
 ],
   templateUrl: './view-dokumenty.component.html',
   styleUrl: './view-dokumenty.component.css'
@@ -127,8 +127,12 @@ export class ViewDokumentyComponent extends AppComponent implements AfterViewIni
     const dialog = this.matDialog.open(
       PrintDokumentyComponent,
       {
-        width: '900px',
-        height: '700px'
+        width: '100%',
+        maxWidth: '100%',
+        minWidth: '100%',
+        height: '100vh',
+        minHeight: '100vh',
+        maxHeight: '100vh',
       }
     );
 

@@ -37,27 +37,28 @@
           </ng-container>
 
           <ng-container matColumnDef="user">
-            <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header>Pracownik
+            <th mat-header-cell class="px-4 py-2 text-center" *matHeaderCellDef mat-sort-header>
+              Pracownik
             </th>
             <td mat-cell *matCellDef="let element"> {{ element.user_name || '-' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="count_restrictions">
-            <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header>Ilość
-              restrykcji
+            <th mat-header-cell class="px-4 py-2 text-center" *matHeaderCellDef mat-sort-header>
+              Ilość restrykcji
             </th>
             <td mat-cell *matCellDef="let element"> {{ element.restrictions.length || '-' }}</td>
           </ng-container>
 
 
           <ng-container matColumnDef="actions">
-            <th mat-header-cell class="border-b text-center" *matHeaderCellDef>Akcja</th>
+            <th mat-header-cell class="text-center" *matHeaderCellDef>Akcja</th>
             <td mat-cell class="w-[20%]" *matCellDef="let element">
-              <button matTooltip="Edytuj" mat-icon-button (click)="getCreateRestrictionsForUser(element.user_id, element.user_name)">
+              <button color="primary" matTooltip="Edytuj" mat-icon-button (click)="getCreateRestrictionsForUser(element.user_id, element.user_name)">
                 <mat-icon>edit</mat-icon>
               </button>
 
-              <button matTooltip="Usuń" mat-icon-button (click)="getFetchDelete(element.user_id)">
+              <button color="primary" matTooltip="Usuń" mat-icon-button (click)="getFetchDelete(element.user_id)">
                 <mat-icon>delete</mat-icon>
               </button>
             </td>

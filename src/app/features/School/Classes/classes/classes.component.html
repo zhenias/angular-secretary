@@ -87,7 +87,7 @@
           <ng-container matColumnDef="edit" sticky>
             <th *matHeaderCellDef class="border-b text-center" mat-header-cell></th>
             <td *matCellDef="let element" class="w-[10px]" mat-cell>
-              <button (click)="editClass(element.id)" matTooltip="Edytuj oddział" mat-icon-button>
+              <button color="primary" (click)="editClass(element.id)" matTooltip="Edytuj oddział" mat-icon-button>
                 <mat-icon>
                   edit
                 </mat-icon>

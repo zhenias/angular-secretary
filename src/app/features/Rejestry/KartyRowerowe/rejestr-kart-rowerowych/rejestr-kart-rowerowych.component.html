@@ -22,8 +22,12 @@
       <app-loading-html *ngIf="isProgress"></app-loading-html>
 
       <div class="flex-1 overflow-auto" style="border-bottom: 1px solid #ccc; padding-bottom: 8px;">
-        <table mat-table matSort (matSortChange)="sortData($event)" [dataSource]="dataSource"
-               class="w-full text-sm border-collapse">
+        <table
+          mat-table
+          matSort
+          [dataSource]="dataSource"
+          class="table-auto"
+        >
 
           <ng-container matColumnDef="select" sticky>
             <th mat-header-cell class="w-[2%] text-center" *matHeaderCellDef>
@@ -50,53 +54,57 @@
           </ng-container>
 
           <ng-container matColumnDef="student">
-            <th mat-header-cell class="px-4 py-2 border-b text-center w-[190px]" *matHeaderCellDef mat-sort-header>Uczeń</th>
+            <th mat-header-cell class="px-4 py-2 border-b text-center w-min-[190px]" *matHeaderCellDef mat-sort-header>Uczeń</th>
             <td mat-cell *matCellDef="let element"> {{ element.student || '-' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="data_wydania">
-            <th mat-header-cell class="px-4 py-2 border-b text-center w-[100px]" *matHeaderCellDef mat-sort-header>Data wydania</th>
-            <td mat-cell class="px-4 py-2 border-b text-center"
+            <th mat-header-cell class="w-min-[70px]" *matHeaderCellDef mat-sort-header>
+              Data wydania
+            </th>
+            <td mat-cell
                 *matCellDef="let element"> {{ element?.data_wydania || '-' }}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="numer_karty">
-            <th mat-header-cell class="px-4 py-2 border-b text-center w-[100px]" *matHeaderCellDef mat-sort-header> Numer karty
+            <th mat-header-cell class="w-min-[100px]" *matHeaderCellDef mat-sort-header> Numer karty
             </th>
-            <td mat-cell class="px-4 py-2 border-b text-center"
-                *matCellDef="let element"> {{ element?.numer_karty || '-' }}
+            <td mat-cell *matCellDef="let element"> {{ element?.numer_karty || '-' }}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="classes">
-            <th mat-header-cell class="px-4 py-2 border-b text-center w-[50px]" *matHeaderCellDef mat-sort-header> Oddział
+            <th mat-header-cell class="w-[50px]" *matHeaderCellDef mat-sort-header>
+              Oddział
             </th>
-            <td mat-cell class="px-4 py-2 border-b text-center"
-                *matCellDef="let element"> {{ element?.class || '-' }}
+            <td mat-cell *matCellDef="let element"> {{ element?.class || '-' }}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="user">
             <th mat-header-cell class="px-4 py-2 border-b text-center w-[190px]" *matHeaderCellDef mat-sort-header>
-              Wydał/Dodał
+              Dodał
             </th>
             <td mat-cell *matCellDef="let element"> {{ element?.user || '-' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="uwagi">
-            <th mat-header-cell class="px-4 py-2 border-b text-center" *matHeaderCellDef mat-sort-header>
+            <th mat-header-cell class="w-min-[100px]" *matHeaderCellDef mat-sort-header>
               Uwagi
             </th>
             <td mat-cell *matCellDef="let element"> {{ element?.uwagi || '-' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="czy_dublikat">
-            <th mat-header-cell class="px-4 py-2 border-b text-center w-[10px]" *matHeaderCellDef mat-sort-header>
-              Dublikat
+            <th mat-header-cell class="w-[10px]" *matHeaderCellDef mat-sort-header>
+              Duplikat
             </th>
-            <td mat-cell class="px-4 py-2 border-b text-center"
-                *matCellDef="let element"> {{ element?.czy_dublikat ? 'TAK' : '-' }}
+            <td
+              mat-cell
+              *matCellDef="let element"
+            >
+              {{ element?.czy_dublikat ? 'TAK' : '-' }}
             </td>
           </ng-container>
 
@@ -121,12 +129,11 @@
           <ng-container matColumnDef="actions" sticky>
             <th mat-header-cell class="border-b text-center" *matHeaderCellDef>Akcja</th>
             <td mat-cell class="w-[1%]" *matCellDef="let element">
-              <button matTooltip="Edytuj" mat-icon-button (click)="bicycleCardEdit(element.id)">
+              <button color="primary" matTooltip="Edytuj" mat-icon-button (click)="bicycleCardEdit(element.id)">
                 <mat-icon>edit</mat-icon>
               </button>
             </td>
           </ng-container>
-
 
           <tr mat-header-row class="bg-gray-100 text-center sticky-header" *matHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr mat-row class="hover:bg-gray-100" *matRowDef="let row; columns: displayedColumns;"></tr>
