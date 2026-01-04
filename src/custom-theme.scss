@@ -20,8 +20,8 @@ mat-datepicker-toggle, mat-timepicker,
 mat-timepicker-toggle, mat-calendar,
 mat-form-field, .mat-mdc-dialog-surface,
 .mdc-text-field, .mat-mdc-form-field,
-.mat-datepicker-content, {
-  border-radius: 3px !important;
+.mat-datepicker-content, .mdc-text-field {
+  border-radius: 5px !important;
 }
 
 mat-toolbar mat-icon {

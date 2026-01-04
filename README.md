@@ -89,17 +89,19 @@ Sekretariat to moduł wspierający zarządzanie uczniami, rodzicami i oddziałam
 ## W planach do wdrożenia
 
 1. Dodanie i usuwanie przydziałów nauczycielom.
-2. Dodanie i usuwanie oddziałów oraz jednostek.
-3. Rejestr uwag, DIU (dodatkowe informacje ucznia).
-4. Kalendarz dni wolnych i planowanie wydarzeń szkolnych.
-5. Rejestr wycieczek (tylko wgląd). - zakończono.
-6. Wyświetlenie nieobecności oddziałów i nauczycieli jak z poziomu wpisu w zakładce nieobecności, jak i zarówno z planu lekcji.
+2. Dodawanie i edycja oddziałów. - zakończone.
+3. Dodawanie i edycja jednostek.
+4. Rejestr uwag.
+5. Rejestr DIU (dodatkowe informacje uczniów).
+6. Kalendarz dni wolnych i planowanie wydarzeń szkolnych.
+7. Rejestr wycieczek (tylko wgląd). - zakończono.
+8. Wyświetlenie nieobecności oddziałów i nauczycieli jak z poziomu wpisu w zakładce nieobecności, jak i zarówno z planu lekcji.
 
 później reszta :)
 
 ---
 
-## Uruchomienie aplikacji
+## Uruchomienie aplikacji lokalnie.
 
 ```bash
 ng serve

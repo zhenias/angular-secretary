@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "nowy-sekretariat": {
+    "angular-secretary": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -33,29 +33,29 @@
               "src/styles.css"
             ],
             "scripts": [],
-            "optimization": true
+            "optimization": true,
+            "sourceMap": false
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "2MB"
+                  "maximumWarning": "2MB",
+                  "maximumError": "5MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "2MB",
+                  "maximumError": "5MB"
                 }
               ],
               "outputHashing": "all",
-              "optimization": true,
               "baseHref":  "/ui/secretary/browser/"
             },
             "development": {
               "optimization": false,
-              "extractLicenses": true,
+              "extractLicenses": false,
               "sourceMap": true
             }
           },
@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "nowy-sekretariat:build:production"
+              "buildTarget": "angular-secretary:build:production"
             },
             "development": {
-              "buildTarget": "nowy-sekretariat:build:development"
+              "buildTarget": "angular-secretary:build:development"
             }
           },
           "defaultConfiguration": "development"
