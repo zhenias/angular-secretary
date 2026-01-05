@@ -20,7 +20,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../../../app.component';
 import { LoadingHTMLComponent } from '../../../shared/components/loading-html/loading-html.component';
-import { getParents } from '../../../shared/service/core/secretariat/student/parent.service';
+import { getStudentParents } from '../../../shared/service/core/secretariat/student/parent.service';
 import { getStudent, getStudentDIU, updateStudent } from '../../../shared/service/core/secretariat/student/student.service';
 import { CreateParentComponent } from '../../Parents/create-parent/create-parent.component';
 import { DeleteParentComponent } from '../../Parents/delete-parent/delete-parent.component';
@@ -108,6 +108,18 @@ export class StudentComponent extends AppComponent {
   dataSourceStatsSchool = new MatTableDataSource<any>();
   @ViewChild(MatSort) sortStatsSchool!: MatSort;
 
+  displayedColumnsDIU: string[] = [
+    'rok',
+    'cele_pracy',
+    'metody_pracy',
+    'dostosowania',
+    'inne_informacje',
+    'date',
+    'user_add',
+  ];
+  dataSourceDIU = new MatTableDataSource<any>();
+  @ViewChild(MatSort) sortDIU!: MatSort;
+
   readonly dialog = inject(MatDialog);
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private cdr: ChangeDetectorRef) {
@@ -120,7 +132,7 @@ export class StudentComponent extends AppComponent {
 
   onPanelOpen(label: string): void {
     if (label === 'Rodzice / Opiekunowie' && !this.parents_list?.length) {
-      this.getStudentParents();
+      this.getStudentParentsFetch();
     }
 
     if (label === 'Egzaminy' && !this.exams_list?.length) {
@@ -142,7 +154,7 @@ export class StudentComponent extends AppComponent {
         class: this.student.class,
         student: this.student
       },
-      width: '500px',
+      width: '700px',
       height: '500px',
     });
 
@@ -159,7 +171,7 @@ export class StudentComponent extends AppComponent {
         class: classInfo,
         student: this.student
       },
-      width: '500px',
+      width: '700px',
       height: '500px',
     });
 
@@ -174,7 +186,7 @@ export class StudentComponent extends AppComponent {
         class: classInfo,
         student: this.student
       },
-      width: '500px',
+      width: '700px',
       height: '500px',
     });
 
@@ -209,7 +221,7 @@ export class StudentComponent extends AppComponent {
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      this.getStudentParents();
+      this.getStudentParentsFetch();
     });
   }
 
@@ -225,7 +237,7 @@ export class StudentComponent extends AppComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.getStudentParents();
+      this.getStudentParentsFetch();
     });
   }
 
@@ -262,12 +274,19 @@ export class StudentComponent extends AppComponent {
     const userId = Number(this.route.snapshot.paramMap.get('userId'));
 
     await getStudentDIU(userId)
-      .finally(() => {
-        this.isLoadingSPE = false;
-      })
-      .then((response) => {
-        this.spe_list = response;
-      });
+    .then((response) => {
+      this.dataSourceDIU.data = response;
+    })
+    .catch((response) => {
+      console.log(response);
+      if (response?.error === 'SPE not found.') return;
+      this.openSnackBar('Wystąpił błąd, podczas pobierania dodatkowych informacji o uczniu.');
+    })
+    .finally(() => {
+      this.isLoadingSPE = false;
+
+      this.dataSourceDIU.sort = this.sortDIU;
+    });
   }
 
   public async getStudentExams() {
@@ -291,14 +310,16 @@ export class StudentComponent extends AppComponent {
     });
   }
 
-  public async getStudentParents() {
+  public async getStudentParentsFetch() {
     this.isLoadingParents = true;
 
     const userId = Number(this.route.snapshot.paramMap.get('userId'));
 
     try {
-      getParents(userId).finally(() => {
+      getStudentParents(userId)
+      .finally(() => {
         this.isLoadingParents = false;
+        this.dataSourceParents.sort = this.sortParents;
       })
       .then((response) => {
         this.parents_list = response;
@@ -315,7 +336,6 @@ export class StudentComponent extends AppComponent {
     this.matDialog.open(BicycleCardCreateComponent, {
       width: '600px',
       height: '500px',
-      disableClose: true,
       data: {
         studentId: this.student.id,
         classId: this.student.class?.id,

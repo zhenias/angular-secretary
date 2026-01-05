@@ -5,26 +5,28 @@ const baseUrl = env.base_url + '/api';
 
 class SecretariatApi {
   private async request(url: string, options: RequestInit = {}) {
-    try {
-      const accessTokenCookie = getCookie('_token');
-      const accessToken = accessTokenCookie || env.accessTokenTest;
+    const accessTokenCookie = getCookie('_token');
+    const accessToken = accessTokenCookie || env.accessTokenTest;
 
-      const defaultHeaders = {
-        'Authorization': 'Bearer ' + accessToken,
-        'Accept': 'application/json',
-      };
+    const defaultHeaders = {
+      Authorization: 'Bearer ' + accessToken,
+      Accept: 'application/json',
+    };
 
-      options.headers = {
-        ...defaultHeaders,
-        ...(options.headers || {}),
-      };
+    options.headers = {
+      ...defaultHeaders,
+      ...(options.headers || {}),
+    };
 
-      const res = await fetch(baseUrl + url, options);
+    const res = await fetch(baseUrl + url, options);
 
-      return await res.json();
-    } catch (err: any) {
-      return err;
+    if (!res.ok) {
+      const error = await res.json();
+      
+      throw error;
     }
+
+    return res.json();
   }
 
   get(url: string) {

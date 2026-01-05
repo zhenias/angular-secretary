@@ -82,9 +82,8 @@ export class AppComponent implements OnInit {
     }
 
     this.matDialog.open(ExportUIComponent, {
-      width: '500px',
-      height: '500px',
-      disableClose: true,
+      width: '600px',
+      height: '600px',
       data: {
         setHeaderAuthorization: this.setHeaderAuthorization(),
       }
@@ -94,7 +93,7 @@ export class AppComponent implements OnInit {
   public searchStudents(): void {
     this.matDialog.open(ViewStudentsComponent, {
       width: '1000px',
-      height: '900px',
+      height: '1000px',
     });
   }
 
@@ -109,9 +108,8 @@ export class AppComponent implements OnInit {
     }
 
     this.matDialog.open(LoginRestrictionsTeacherComponent, {
-      width: '800px',
-      height: '800px',
-      disableClose: true,
+      width: '900px',
+      height: '900px',
       data: {
         setHeaderAuthorization: this.setHeaderAuthorization(),
       }
@@ -120,9 +118,8 @@ export class AppComponent implements OnInit {
 
   public showErrorBox(title: string, description: string): void {
     this.matDialog.open(ErrorDialogComponent, {
-      width: '500px',
-      height: '500px',
-      disableClose: true,
+      width: '600px',
+      height: '600px',
       data: {
         title, description
       }

@@ -20,7 +20,10 @@ import {DomSanitizer} from '@angular/platform-browser';
   templateUrl: './error-dialog.component.html',
 })
 export class ErrorDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { title: string, description: string }, private sanitizer: DomSanitizer) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: { title: string, description: string },
+    private sanitizer: DomSanitizer
+  ) {
     data.description = <string>sanitizer.bypassSecurityTrustHtml(data.description);
   }
 }

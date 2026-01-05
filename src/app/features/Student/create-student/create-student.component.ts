@@ -24,7 +24,6 @@ import {CreateStudent} from '../students.types';
     MatButtonModule,
     MatDialogModule,
     CdkStepperModule,
-    NgIf,
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
@@ -38,11 +37,7 @@ import {CreateStudent} from '../students.types';
   templateUrl: './create-student.component.html',
 })
 export class CreateStudentComponent extends AppComponent {
-  @ViewChild('stepper') stepper!: MatStepper;
-
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  private createStudent?: CreateStudent;
+  public createStudent: CreateStudent = {};
 
   protected readonly formatDate = formatDate;
 
@@ -51,54 +46,31 @@ export class CreateStudentComponent extends AppComponent {
     private http: HttpClient
   ) {
     super();
-
-    this.firstFormGroup = this._formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.email]],
-      pesel: ['', [Validators.required, Validators.pattern(/^\d{11}$/)]],
-      birthDate: [''],
-      educationType: [''],
-      plec: ['', Validators.required],
-    });
-
-    this.secondFormGroup = this._formBuilder.group({
-      addressResidence: [''],
-      addressRegistration: [''],
-      numberPhone: ['', Validators.pattern(/^\d{9}$/)]
-    });
-  }
-
-  get isLastStep(): boolean {
-    return this.stepper ? this.stepper.selectedIndex === this.stepper.steps.length - 1 : false;
-  }
-
-  get isFirstStep(): boolean {
-    return this.stepper ? this.stepper.selectedIndex === 0 : false;
-  }
-
-  get actualBirth(): string | undefined {
-    return this.firstFormGroup.get('birthDate')?.value ? formatDate(this.firstFormGroup.get('birthDate')?.value, 'Y-MM-dd', 'en') : undefined;
   }
 
   public getCreateStudentFetch(): void {
+    // this.createStudent = {
+    //   user_name: this.firstFormGroup.get('firstName')?.value,
+    //   user_lastname: this.firstFormGroup.get('lastName')?.value,
+    //   email: this.firstFormGroup.get('email')?.value,
+    //   pesel: this.firstFormGroup.get('pesel')?.value,
+    //   data_urodzenia: this.actualBirth,
+    //   typ_nauczania: this.firstFormGroup.get('educationType')?.value,
+    //   adres_zamieszkania: this.secondFormGroup.get('addressResidence')?.value,
+    //   adres_zameldowania: this.secondFormGroup.get('addressRegistration')?.value,
+    //   plec: this.firstFormGroup.get('plec')?.value,
+    // };
+
     this.createStudent = {
-      user_name: this.firstFormGroup.get('firstName')?.value,
-      user_lastname: this.firstFormGroup.get('lastName')?.value,
-      email: this.firstFormGroup.get('email')?.value,
-      pesel: this.firstFormGroup.get('pesel')?.value,
-      data_urodzenia: this.actualBirth,
-      typ_nauczania: this.firstFormGroup.get('educationType')?.value,
-      adres_zamieszkania: this.secondFormGroup.get('addressResidence')?.value,
-      adres_zameldowania: this.secondFormGroup.get('addressRegistration')?.value,
-      plec: this.firstFormGroup.get('plec')?.value,
-    };
+      ...this.createStudent,
+      data_urodzenia: this.createStudent.data_urodzenia ? formatDate(this.createStudent.data_urodzenia, 'Y-MM-dd', 'en') : '',
+    }
 
     const headers = this.setHeaderAuthorization();
 
     this.http.post<any[]>('/api/School/Students', this.createStudent, {headers}).subscribe({
       next: (data) => {
-        this.openSnackBar('Uczeń został dodany do bazy szkoły.', 'OK');
+        this.openSnackBar('Uczeń został dodany do bazy szkoły. Dodaj ucznia do oddziału.', 'OK');
       },
       error: (error) => {
         switch (error.error.error) {

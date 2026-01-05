@@ -63,7 +63,7 @@
       <app-loading-html *ngIf="isProgress"></app-loading-html>
 
       <div class="flex-1 overflow-auto" style="border-bottom: 1px solid #ccc; padding-bottom: 8px;">
-        <table mat-table matSort (matSortChange)="sortData($event)" [dataSource]="dataSource"
+        <table mat-table matSort [dataSource]="dataSource"
                class="w-full text-sm border-collapse">
 
           <ng-container matColumnDef="select">

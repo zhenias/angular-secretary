@@ -8,6 +8,7 @@ export interface CreateStudent {
   adres_zameldowania?: string,
   typ_nauczania?: string,
   plec?: number,
+  numer_telefonu?: string,
 }
 
 export interface UnitInterface {
@@ -23,7 +24,13 @@ export interface ClassInfo {
   symbol: string,
   level: number,
   unit: UnitInterface,
-  year?: string
+  year?: string,
+  year_one?: string,
+  is_oo: boolean,
+  description?: string,
+  teacher?: string,
+  date_start?: string,
+  date_end?: string,
 }
 
 export interface StateSchool {

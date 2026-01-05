@@ -74,13 +74,17 @@ export class ViewUwagiComponent extends AppComponent {
   async getNotesFetch() {
     this.isProgress = true;
 
-    const response = await getNotes().finally(() => {
+    await getNotes()
+    .then((response) => {
+      this.dataSource.data = response;
+    })
+    .catch((err) => {
+      this.openSnackBar('Wystąpił błąd, podczas ładowanie uwag.');
+    })
+    .finally(() => {
       this.isProgress = false;
 
       this.dataSource.sort = this.sort;
     });
-
-    this.dataSource.data = response;
-    setTimeout(() => { this.dataSource.sort = this.sort; });
   }
 }

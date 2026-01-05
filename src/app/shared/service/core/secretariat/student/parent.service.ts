@@ -1,7 +1,7 @@
 import {Parents} from '../../../../../features/Student/students.types';
 import {secretariatApi} from '../../api/secretariatApi';
 
-export const getParents = async (userId: number): Promise<Parents[]> => {
+export const getStudentParents = async (userId: number): Promise<Parents[]> => {
   return await secretariatApi.get(
     `/School/Students/${userId}/Parents`,
   );

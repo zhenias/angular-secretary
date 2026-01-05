@@ -15,6 +15,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {MatSelectModule} from '@angular/material/select';
 import {MatOptionModule} from '@angular/material/core';
 import {FormsModule} from '@angular/forms';
+import { getParents, getParentsUpdateMassive } from '../../../shared/service/core/secretariat/parents/parent.service';
 
 interface SortParents {
   name: string,
@@ -80,13 +81,7 @@ export class ViewParentsComponent extends AppComponent {
   public pageSize = 50;
   public totalItems = 1;
 
-  public selectSort: string = 'all';
-
-  selectSortOnChange() {
-    this.isProgress = true;
-
-    this.getFetchParents();
-  }
+  public selectSort: 'all'|'parents_with_students'|'parents_with_not_students' = 'all';
 
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -111,26 +106,34 @@ export class ViewParentsComponent extends AppComponent {
     this.getFetchParents();
   }
 
-  getFetchParents() {
-    const headers = this.setHeaderAuthorization();
+  async selectSortOnChange() {
+    this.isProgress = true;
 
-    this.appHttp.get<any>(`/api/School/Parents/${this.selectSort}?page=${this.currentPage}&per_page=${this.pageSize}`, {headers}).subscribe({
-      next: (data) => {
-        this.isProgress = false;
+    await this.getFetchParents();
+  }
 
-        this.parents_list = data.data;
-        this.dataSource.data = this.parents_list;
+  async getFetchParents() {
+    await getParents(
+      this.selectSort,
+      this.currentPage,
+      this.pageSize,
+    )
+    .then((response) => {
+      this.parents_list = response.data;
+      this.dataSource.data = this.parents_list;
 
-        this.currentPage = data.current_page;
-        this.totalPages = data.last_page;
+      this.currentPage = response.current_page;
+      this.totalPages = response.last_page;
 
-        this.totalItems = data.total;
-      },
-      error: () => {
-        this.isProgress = false;
+      this.totalItems = response.total;
+    })
+    .catch(() => {
+      this.openSnackBar('Błąd podczas pobieranie o opiekunach / rodzicach.', 'OK');
+    })
+    .finally(() => {
+      this.isProgress = false;
 
-        this.openSnackBar('Błąd podczas pobieranie danych.', 'OK');
-      }
+      this.dataSource.sort = this.sort;
     });
   }
 
@@ -140,64 +143,57 @@ export class ViewParentsComponent extends AppComponent {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex + 1;
 
-    this.getFetchParents();
+    await this.getFetchParents();
   }
 
-  getMassiveActions(action: string) {
+  async getMassiveActions(action: string) {
     if (this.selection.selected.length === 0) {
-      this.openSnackBar('Nie zaznaczono żadnych rodziców / opiekunów.', 'OK');
+      this.openSnackBar('Nie zaznaczono żadnych opiekunów / rodziców.', 'OK');
 
       return;
     }
 
     this.isProgress = true;
 
-    const headers = this.setHeaderAuthorization();
-
-    this.appHttp.post<any>(`/api/School/Students/Update/${action}`, {users: this.selection.selected}, {headers}).subscribe({
-      next: (data) => {
-        this.selection.clear();
-
-        this.openSnackBar(this.selection.selected.length == 1 ? 'Zmiany został zapisany dla tego rodzica / opiekuna.' : 'Zmiany zostały zapisane, dla zaznaczonych rodziców / opiekunów.', 'OK');
-
-        this.getCheckErrorForMassive(data, action, 'parent');
-
-        this.getFetchParents();
+    await getParentsUpdateMassive(
+      action,
+      {
+        users: this.selection.selected,
       },
-      error: () => {
-        this.isProgress = false;
+    )
+    .then(async (response) => {
+      this.selection.clear();
 
-        this.openSnackBar('Nie udało się zmienić/dodać danych seryjnie dla zaznaczonych rodziców / opiekunów.', 'OK');
-      }
+      this.openSnackBar(this.selection.selected.length == 1 ? 'Zmiany został zapisany dla tego rodzica / opiekuna.' : 'Zmiany zostały zapisane, dla zaznaczonych rodziców / opiekunów.', 'OK');
+
+      this.getCheckErrorForMassive(response, action, 'parent');
+
+      await this.getFetchParents();
+    })
+    .catch((response) => {
+      this.getCheckErrorForMassive(response.error, action, 'parent');
+
+      this.openSnackBar('Nie udało się zmienić/dodać danych seryjnie dla zaznaczonych rodziców / opiekunów.', 'OK');
+    })
+    .finally(() => {
+      this.isProgress = false;
     });
-  }
 
-  sortData(sort: Sort) {
-    const data = this.parents_list.slice();
-    if (!sort.active || sort.direction === '') {
-      this.dataSource.data = data;
-      return;
-    }
+    // this.appHttp.post<any>(`/api/School/Students/Update/${action}`, {users: this.selection.selected}, {headers}).subscribe({
+    //   next: async (data) => {
+    //     this.selection.clear();
 
-    this.dataSource.data = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'full_user_name':
-          return this.compare(a?.full_user_name, b?.full_user_name, isAsc);
-        case 'class':
-          return this.compare(a?.student?.class?.class || '-', b?.student?.class?.class || '-', isAsc);
-        case 'year':
-          return this.compare(a?.student?.class?.year || '-', b?.student?.class?.year || '-', isAsc);
-        case 'student':
-          return this.compare(a?.student?.full_user_name, b?.student?.full_user_name, isAsc);
-        default:
-          return 0;
-      }
-    });
-  }
+    //     this.openSnackBar(this.selection.selected.length == 1 ? 'Zmiany został zapisany dla tego rodzica / opiekuna.' : 'Zmiany zostały zapisane, dla zaznaczonych rodziców / opiekunów.', 'OK');
 
-  compare(a: number | string, b: number | string, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+    //     this.getCheckErrorForMassive(data, action, 'parent');
+
+    //     await this.getFetchParents();
+    //   },
+    //   error: () => {
+    //     this.isProgress = false;
+
+    //   }
+    // });
   }
 
   isAllSelected() {
@@ -217,6 +213,7 @@ export class ViewParentsComponent extends AppComponent {
     if (!row) {
       return `${this.isAllSelected() ? 'Odznacz' : 'Zaznacz'} wszystkie`;
     }
+
     return `${this.selection.isSelected(row.id) ? 'Odznacz' : 'Zaznacz'} wiersz`;
   }
 }

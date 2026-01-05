@@ -18,6 +18,7 @@ import {
   AddStudentsMassiveToClassComponent
 } from '../add-students-massive-to-class/add-students-massive-to-class.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { FormsModule } from '@angular/forms';
 
 export interface ColumnProfile {
   name: string;
@@ -43,6 +44,7 @@ export interface ColumnProfile {
     MatMenuModule,
     NgClass,
     MatTooltipModule,
+    FormsModule,
   ],
   standalone: true,
 })
@@ -96,9 +98,12 @@ export class StudentInSchoolComponent extends AppComponent {
 
   createStudentPopup(): void {
     const modal = this.dialog.open(CreateStudentComponent, {
-      width: '800px',
-      height: '800px',
-      disableClose: true,
+      width: '100%',
+      maxWidth: '100%',
+      minWidth: '100%',
+      height: '100vh',
+      minHeight: '100vh',
+      maxHeight: '100vh',
     });
 
     modal.afterClosed().subscribe(result => {
@@ -111,7 +116,7 @@ export class StudentInSchoolComponent extends AppComponent {
   addStudentsMassiveToClass(): void {
     const modal = this.dialog.open(AddStudentsMassiveToClassComponent, {
       width: '600px',
-      height: '400px',
+      height: '600px',
       data: {
         studentsId: this.selection.selected,
       }
@@ -183,46 +188,6 @@ export class StudentInSchoolComponent extends AppComponent {
     this.currentPage = event.pageIndex + 1;
 
     this.getStudents();
-  }
-
-  sortData(sort: Sort) {
-    const data = this.students.slice();
-    if (!sort.active || sort.direction === '') {
-      this.dataSource.data = data;
-      return;
-    }
-
-    this.dataSource.data = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'full_user_name':
-          return this.compare(a.full_user_name, b.full_user_name, isAsc);
-        case 'email':
-          return this.compare(a.email || '-', b.email || '-', isAsc);
-        case 'pesel':
-          return this.compare(a.pesel, b.pesel, isAsc);
-        case 'data_urodzenia':
-          return this.compare(new Date(a.data_urodzenia).getTime() || '-', new Date(b.data_urodzenia).getTime() || '-', isAsc);
-        case 'adres_zamieszkania':
-          return this.compare(a.adres_zamieszkania || '-', b.adres_zamieszkania || '-', isAsc);
-        case 'adres_zameldowania':
-          return this.compare(a.adres_zameldowania || '-', b.adres_zameldowania || '-', isAsc);
-        case 'numer_telefonu':
-          return this.compare(a.numer_telefonu || '-', b.numer_telefonu || '-', isAsc);
-        case 'typ_nauczania':
-          return this.compare(a.typ_nauczania, b.typ_nauczania, isAsc);
-        case 'is_active':
-          return this.compare(a.user.is_active, b.user.is_active, isAsc);
-        case 'data_rejestracji':
-          return this.compare(a.data_rejestracji, b.data_rejestracji, isAsc);
-        default:
-          return 0;
-      }
-    });
-  }
-
-  compare(a: number | string, b: number | string, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
   isAllSelected() {

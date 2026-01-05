@@ -455,47 +455,80 @@
         Dokumenty
       </mat-expansion-panel-header>
 
-      <div class="p-4">
-        <ng-container *ngIf="spe_list && spe_list.length > 0 && !isLoadingSPE">
-          <table class="table-auto w-full text-sm border-collapse">
-            <tr class="bg-gray-100 text-left">
-              <th class="px-4 py-2 border-b text-center">Rok</th>
-              <th class="px-4 py-2 border-b text-center">Cele pracy</th>
-              <th class="px-4 py-2 border-b text-center">Metody pracy</th>
-              <th class="px-4 py-2 border-b text-center">Dostosowania</th>
-              <th class="px-4 py-2 border-b text-center">Inne informacje</th>
-              <th class="px-4 py-2 border-b text-center">Data dodania</th>
-              <th class="px-4 py-2 border-b text-center">Dodał</th>
-            </tr>
-            <ng-container *ngFor="let spe of spe_list;">
-              <tr class="hover:bg-slate-75">
-                <td class="px-4 py-2 border-b text-center">
-                  {{ spe.year || '-' }}/{{ spe.year2 || '-' }}
-                </td>
-                <td class="px-4 py-2 border-b">
-                  {{ spe.cele_pracy || '-' }}
-                </td>
-                <td class="px-4 py-2 border-b">
-                  {{ spe.metody_pracy || '-' }}
-                </td>
-                <td class="px-4 py-2 border-b">
-                  {{ spe.dostosowania || '-' }}
-                </td>
-                <td class="px-4 py-2 border-b">
-                  {{ spe.inne_informacje || '-' }}
-                </td>
-                <td class="px-4 py-2 border-b text-center">
-                  {{ spe.date || '-' }}
-                </td>
-                <td class="px-4 py-2 border-b text-center">
-                  {{ spe.user_add || '-' }}
-                </td>
-              </tr>
+      <div>
+        <ng-container *ngIf="dataSourceDIU && dataSourceDIU.data.length > 0 && !isLoadingSPE">
+          <table [dataSource]="dataSourceDIU" *ngIf="dataSourceDIU.data.length" class="table-auto" mat-table matSort>
+            <ng-container matColumnDef="rok">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Termin ważnosci
+              </th>
+              <td *matCellDef="let spe" mat-cell>
+                {{ spe?.year || '-' }} {{ (spe?.year2 ? ' - ' + spe.year2 : '') }}
+              </td>
             </ng-container>
+
+            <ng-container matColumnDef="cele_pracy">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Cele pracy
+              </th>
+              <td *matCellDef="let spe" mat-cell>
+                {{ spe.cele_pracy || '-' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="metody_pracy">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Metody pracy
+              </th>
+              <td *matCellDef="let spe" mat-cell>
+                {{ spe.metody_pracy || '-' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="dostosowania">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Dostosowania
+              </th>
+              <td *matCellDef="let spe" mat-cell>
+                {{ spe.dostosowania || '-' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="inne_informacje">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Inne informacje
+              </th>
+              <td *matCellDef="let spe" mat-cell>
+                {{ spe.inne_informacje || '-' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="date">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Data dodania
+              </th>
+              <td *matCellDef="let spe" mat-cell>
+                {{ spe.date || '-' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="user_add">
+              <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header>
+                Dodał
+              </th>
+              <td *matCellDef="let spe" mat-cell>
+                {{ spe.user_add || '-' }}
+              </td>
+            </ng-container>
+
+            <tr *matHeaderRowDef="displayedColumnsDIU" class="bg-gray-100 text-center sticky-header" mat-header-row></tr>
+            <tr *matRowDef="let row; columns: displayedColumnsDIU;" class="hover:bg-gray-100" mat-row></tr>
           </table>
+
+
         </ng-container>
 
-        <ng-container *ngIf="spe_list && spe_list.length == 0 && !isLoadingSPE">
+        <ng-container *ngIf="dataSourceDIU && dataSourceDIU.data.length == 0 && !isLoadingSPE">
           <div class="flex items-center bg-white justify-center h-[calc(50vh-64px)] text-gray-500 text-center">
             <p>
               Brak dodanych dokumentów DIU. <br>
