@@ -1,0 +1,23 @@
+node_modules
+npm-debug.log
+
+# Angular cache
+.angular
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Systems
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+
+# Environment variables
+.env
+.env.local
