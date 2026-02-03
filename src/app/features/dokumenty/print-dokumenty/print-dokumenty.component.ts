@@ -1,15 +1,21 @@
-import { NgForOf, NgIf } from "@angular/common";
-import { Component, Inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
-import { MatFormField, MatSelect, MatSelectModule } from '@angular/material/select';
-import { QuillEditorComponent } from 'ngx-quill';
-import { AppComponent } from '../../../app.component';
-import { classes } from '../../../shared/service/core/secretariat/classes';
-import { getDokumenty, type DocumentTypes } from '../../../shared/service/core/secretariat/dokumenty.service';
-import { getStudents } from "../../../shared/service/core/secretariat/student/student.service";
-import type { StudentInfo } from "../../Student/students.types";
+import {NgForOf, NgIf} from "@angular/common";
+import {Component, Inject} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {MatButton} from '@angular/material/button';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle
+} from '@angular/material/dialog';
+import {MatFormField, MatSelect, MatSelectModule} from '@angular/material/select';
+import {QuillEditorComponent} from 'ngx-quill';
+import {AppComponent} from '../../../app.component';
+import {classes} from '../../../shared/service/core/secretariat/classes';
+import {type DocumentTypes, getDokumenty} from '../../../shared/service/core/secretariat/dokumenty.service';
+import {getStudents} from "../../../shared/service/core/secretariat/student/student.service";
+import type {StudentInfo} from "../../Student/students.types";
 
 @Component({
   selector: 'app-print-dokumenty',
@@ -57,7 +63,7 @@ export class PrintDokumentyComponent extends AppComponent {
 
     if (data?.studentId) {
       this.getStudents();
-      
+
       this.studentId = data.studentId;
     }
   }

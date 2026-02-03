@@ -7,7 +7,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
-import {MatSort, MatSortModule, Sort} from '@angular/material/sort';
+import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {NgClass, NgForOf, NgIf} from '@angular/common';
@@ -15,7 +15,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {MatSelectModule} from '@angular/material/select';
 import {MatOptionModule} from '@angular/material/core';
 import {FormsModule} from '@angular/forms';
-import { getParents, getParentsUpdateMassive } from '../../../shared/service/core/secretariat/parents/parent.service';
+import {getParents, getParentsUpdateMassive} from '../../../shared/service/core/secretariat/parents/parent.service';
 
 interface SortParents {
   name: string,

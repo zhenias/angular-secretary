@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatDrawer, MatSidenavModule} from '@angular/material/sidenav';
+import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {MatToolbarModule} from '@angular/material/toolbar';

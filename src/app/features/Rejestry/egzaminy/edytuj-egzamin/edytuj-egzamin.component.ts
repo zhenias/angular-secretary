@@ -7,7 +7,7 @@ import {
   MatDialogContent,
   MatDialogTitle
 } from "@angular/material/dialog";
-import {MatFormField, MatInput} from "@angular/material/input";
+import {MatFormField, MatInput, MatSuffix} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {
   deleteExam,
@@ -17,8 +17,10 @@ import {
   UpdateExamTypes
 } from '../../../../shared/service/core/secretariat/student/exams.service';
 import {AppComponent} from '../../../../app.component';
-import {NgIf} from '@angular/common';
+import {formatDate, NgIf} from '@angular/common';
 import {LoadingHTMLComponent} from '../../../../shared/components/loading-html/loading-html.component';
+import {MatCheckbox} from '@angular/material/checkbox';
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-edytuj-egzamin',
@@ -33,14 +35,25 @@ import {LoadingHTMLComponent} from '../../../../shared/components/loading-html/l
     ReactiveFormsModule,
     FormsModule,
     NgIf,
-    LoadingHTMLComponent
+    LoadingHTMLComponent,
+    MatCheckbox,
+    MatDatepicker,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatSuffix
   ],
   templateUrl: './edytuj-egzamin.component.html',
 })
 export class EdytujEgzaminComponent extends AppComponent {
   updateExam: UpdateExamTypes = {
+    data_egzaminu: '',
+    komisja_egzaminacyjna: '',
+    minimalny_prog_zaliczenia: '',
+    numer_zaswiadczenia: '',
+    uwagi: '',
+    zwolniony: false,
     nazwa: '',
-    wynik: '',
+    wynik: ''
   };
 
   examId: number = 0;
@@ -50,7 +63,14 @@ export class EdytujEgzaminComponent extends AppComponent {
     date: '',
     id: 0,
     name: '',
-    result: ''
+    result: '',
+
+    data_egzaminu: '',
+    komisja_egzaminacyjna: '',
+    minimalny_prog_zaliczenia: '',
+    numer_zaswiadczenia: '',
+    uwagi: '',
+    zwolniony: false,
   };
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: {
@@ -77,6 +97,12 @@ export class EdytujEgzaminComponent extends AppComponent {
     await updateExam(this.examId, {
       nazwa: this.getExam.name,
       wynik: this.getExam.result,
+      minimalny_prog_zaliczenia: this.getExam.minimalny_prog_zaliczenia,
+      numer_zaswiadczenia: this.getExam.numer_zaswiadczenia,
+      zwolniony: this.getExam.zwolniony,
+      data_egzaminu: this.getExam.data_egzaminu ? formatDate(this.getExam.data_egzaminu, 'Y-MM-dd', 'en') : null,
+      uwagi: this.getExam.uwagi,
+      komisja_egzaminacyjna: this.getExam.komisja_egzaminacyjna
     }).catch(() => {
       this.openSnackBar('Wystąpił błąd, podczas edycji egzaminu.', 'OK');
     }).then(() => {

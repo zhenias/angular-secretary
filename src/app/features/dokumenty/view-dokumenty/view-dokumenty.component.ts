@@ -1,31 +1,31 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { DatePipe, NgIf } from "@angular/common";
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { FormsModule } from "@angular/forms";
-import { MatButton, MatIconButton } from "@angular/material/button";
-import { MatCard } from '@angular/material/card';
-import { MatIcon } from '@angular/material/icon';
-import { MatSort, MatSortHeader } from '@angular/material/sort';
+import {SelectionModel} from '@angular/cdk/collections';
+import {DatePipe, NgIf} from "@angular/common";
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {FormsModule} from "@angular/forms";
+import {MatButton, MatIconButton} from "@angular/material/button";
+import {MatCard} from '@angular/material/card';
+import {MatIcon} from '@angular/material/icon';
+import {MatSort, MatSortHeader} from '@angular/material/sort';
 import {
-    MatCell,
-    MatCellDef,
-    MatColumnDef,
-    MatHeaderCell,
-    MatHeaderCellDef,
-    MatHeaderRow,
-    MatHeaderRowDef,
-    MatRow,
-    MatRowDef,
-    MatTable,
-    MatTableDataSource
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable,
+  MatTableDataSource
 } from "@angular/material/table";
-import { MatTooltip } from '@angular/material/tooltip';
-import { AppComponent } from '../../../app.component';
-import { LoadingHTMLComponent } from '../../../shared/components/loading-html/loading-html.component';
-import { getDokumenty } from '../../../shared/service/core/secretariat/dokumenty.service';
-import { CreateDokumentyComponent } from '../create-dokumenty/create-dokumenty.component';
-import { EditDokumentyComponent } from '../edit-dokumenty/edit-dokumenty.component';
-import { PrintDokumentyComponent } from '../print-dokumenty/print-dokumenty.component';
+import {MatTooltip} from '@angular/material/tooltip';
+import {AppComponent} from '../../../app.component';
+import {LoadingHTMLComponent} from '../../../shared/components/loading-html/loading-html.component';
+import {getDokumenty} from '../../../shared/service/core/secretariat/dokumenty.service';
+import {CreateDokumentyComponent} from '../create-dokumenty/create-dokumenty.component';
+import {EditDokumentyComponent} from '../edit-dokumenty/edit-dokumenty.component';
+import {PrintDokumentyComponent} from '../print-dokumenty/print-dokumenty.component';
 
 @Component({
   selector: 'app-view-dokumenty',

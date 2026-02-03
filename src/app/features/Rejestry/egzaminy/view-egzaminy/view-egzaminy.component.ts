@@ -63,6 +63,8 @@ export class ViewEgzaminyComponent extends AppComponent {
     'student',
     'name',
     'result',
+    'zwolniony',
+    'komisja_egzaminacyjna',
     'date',
     'create'
   ];
@@ -80,11 +82,17 @@ export class ViewEgzaminyComponent extends AppComponent {
   async getFetchEgzaminy() {
     this.isProgress = true;
 
-    const response = await getExams().finally(() => {
-      this.isProgress = false;
-    });
-
-    this.dataSource.data = response;
+    await getExams()
+      .then((response) => {
+        this.dataSource.data = response;
+        this.dataSource.sort = this.sort;
+      })
+      .catch(() => {
+        this.openSnackBar('Wystąpił błąd, podczas pobierania egzaminów.');
+      })
+      .finally(() => {
+        this.isProgress = false;
+      });
   }
 
   isAllSelected() {
@@ -111,8 +119,8 @@ export class ViewEgzaminyComponent extends AppComponent {
     const dialog = this.matDialog.open(
       DodajEgzaminComponent,
       {
-        width: '600px',
-        height: '400px',
+        width: '800px',
+        height: '700px',
       }
     );
 
@@ -127,8 +135,8 @@ export class ViewEgzaminyComponent extends AppComponent {
     const dialog = this.matDialog.open(
       EdytujEgzaminComponent,
       {
-        width: '600px',
-        height: '400px',
+        width: '800px',
+        height: '700px',
         data: {
           examId
         }
@@ -137,6 +145,8 @@ export class ViewEgzaminyComponent extends AppComponent {
 
     dialog.afterClosed().subscribe(result => {
       this.isProgress = true;
+
+      this.selection.clear();
 
       this.getFetchEgzaminy();
     });

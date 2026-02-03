@@ -1,39 +1,43 @@
-import { NgClass, NgFor, NgIf } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSort, MatSortHeader } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { ActivatedRoute } from '@angular/router';
-import { AppComponent } from '../../../app.component';
-import { LoadingHTMLComponent } from '../../../shared/components/loading-html/loading-html.component';
-import { getStudentParents } from '../../../shared/service/core/secretariat/student/parent.service';
-import { getStudent, getStudentDIU, updateStudent } from '../../../shared/service/core/secretariat/student/student.service';
-import { CreateParentComponent } from '../../Parents/create-parent/create-parent.component';
-import { DeleteParentComponent } from '../../Parents/delete-parent/delete-parent.component';
-import { DodajEgzaminComponent } from '../../Rejestry/egzaminy/dodaj-egzamin/dodaj-egzamin.component';
+import {NgClass, NgFor, NgIf} from '@angular/common';
+import {HttpClient} from '@angular/common/http';
+import {ChangeDetectorRef, Component, inject, ViewChild} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {MatNativeDateModule, MatOptionModule} from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSelectModule} from '@angular/material/select';
+import {MatSort, MatSortHeader} from '@angular/material/sort';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {ActivatedRoute} from '@angular/router';
+import {AppComponent} from '../../../app.component';
+import {LoadingHTMLComponent} from '../../../shared/components/loading-html/loading-html.component';
+import {getStudentParents} from '../../../shared/service/core/secretariat/student/parent.service';
+import {
+  getStudent,
+  getStudentDIU,
+  updateStudent
+} from '../../../shared/service/core/secretariat/student/student.service';
+import {CreateParentComponent} from '../../Parents/create-parent/create-parent.component';
+import {DeleteParentComponent} from '../../Parents/delete-parent/delete-parent.component';
+import {DodajEgzaminComponent} from '../../Rejestry/egzaminy/dodaj-egzamin/dodaj-egzamin.component';
 import {
   BicycleCardCreateComponent
 } from '../../Rejestry/KartyRowerowe/bicycle-card-create/bicycle-card-create.component';
-import { DodajUczniaDoKlasyComponent } from '../dodaj-ucznia-do-klasy/dodaj-ucznia-do-klasy.component';
-import { ResetPasswordComponent } from '../reset-password/reset-password.component';
-import { SkreslUczniaZKlasyComponent } from '../skresl-ucznia-zklasy/skresl-ucznia-zklasy.component';
-import { ClassInfo, Parents, SPE, StateSchool, StudentInfo } from '../students.types';
-import { UsunUczniaZKlasyComponent } from '../usun-ucznia-zklasy/usun-ucznia-zklasy.component';
-import { PrintDokumentyComponent } from '../../dokumenty/print-dokumenty/print-dokumenty.component';
+import {DodajUczniaDoKlasyComponent} from '../dodaj-ucznia-do-klasy/dodaj-ucznia-do-klasy.component';
+import {ResetPasswordComponent} from '../reset-password/reset-password.component';
+import {SkreslUczniaZKlasyComponent} from '../skresl-ucznia-zklasy/skresl-ucznia-zklasy.component';
+import {ClassInfo, Parents, SPE, StateSchool, StudentInfo} from '../students.types';
+import {UsunUczniaZKlasyComponent} from '../usun-ucznia-zklasy/usun-ucznia-zklasy.component';
+import {PrintDokumentyComponent} from '../../dokumenty/print-dokumenty/print-dokumenty.component';
 
 @Component({
   selector: 'app-student',

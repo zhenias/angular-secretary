@@ -49,6 +49,13 @@
             <td *matCellDef="let element" class="px-4 py-2 border-b text-center" mat-cell> {{ element.login || '-' }}</td>
           </ng-container>
 
+          <ng-container matColumnDef="data_rozpoczecia">
+            <th *matHeaderCellDef class="px-4 py-2 border-b w-[200px] text-center" mat-header-cell mat-sort-header>
+              Daty współpracy
+            </th>
+            <td *matCellDef="let element" class="px-4 py-2 border-b text-center" mat-cell> {{ element.data_rozpoczecia + (element.data_zakonczeniia ? ' - ' + element.data_zakonczeniia : ' - do dzisiaj') }}</td>
+          </ng-container>
+
           <ng-container matColumnDef="pesel">
             <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header> Pesel</th>
             <td *matCellDef="let element" class="px-4 py-2 border-b text-center" mat-cell> {{ element.pesel || '-' }}
@@ -65,7 +72,7 @@
           </ng-container>
 
           <ng-container matColumnDef="data_rejestracji">
-            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header> Data rejestracji
+            <th *matHeaderCellDef class="px-4 py-2 border-b w-[200px] text-center" mat-header-cell mat-sort-header> Data rejestracji
             </th>
             <td *matCellDef="let element" class="px-4 py-2 border-b text-center"
                 mat-cell> {{ element.data_rejestracji || '-' }}
@@ -73,7 +80,7 @@
           </ng-container>
 
           <ng-container matColumnDef="permissions">
-            <th *matHeaderCellDef class="px-4 py-2 border-b text-center" mat-header-cell mat-sort-header> Uprawnienia
+            <th *matHeaderCellDef class="px-4 py-2 border-b w-[350px] text-center" mat-header-cell mat-sort-header> Uprawnienia
             </th>
             <td *matCellDef="let element" class="px-4 py-2 border-b text-center"
                 mat-cell> {{ element.permissions || '-' }}
@@ -87,7 +94,7 @@
             <td *matCellDef="let element" class="px-4 py-2 border-b text-center" mat-cell>
             <span
               [ngClass]="element.is_active ? 'bg-green-800' : 'bg-red-800'"
-              class="px-2 py-1 rounded-md text-white text-sm"
+              class="px-2 py-1 rounded-full text-white text-sm"
             >
               {{ !element.is_active ? 'TAK' : 'NIE' }}
             </span>
@@ -109,18 +116,25 @@
 
         <ng-container *ngIf="teachers.length == 0">
           <div class="text-center p-4 text-gray-500">
-            Brak dodanych pracowników w systemie. <br> Skorzystaj z przycisku dodaj.
+            Brak dodanych pracowników w systemie. <br> Dodaj pracowników w Konfiguracja -> Pracownicy w systemie e-Dziennik, jeśli jesteś administratorem.
           </div>
         </ng-container>
 
       </div>
-      <mat-paginator
-        (page)="onPageChange($event)"
-        [length]="totalItems"
-        [pageIndex]="currentPage - 1"
-        [pageSizeOptions]="[5, 10, 15, 20, 25, 30, 35, 50, 100]"
-        [pageSize]="pageSize">
-      </mat-paginator>
+
+      <div class="flex justify-between items-center gap-[10px]">
+        <div class="pl-3">
+          Rekordów w tabeli <b>{{ totalItems }}</b>.
+        </div>
+
+        <mat-paginator
+          (page)="onPageChange($event)"
+          [length]="totalItems"
+          [pageIndex]="currentPage - 1"
+          [pageSizeOptions]="[5, 10, 15, 20, 25, 30, 35, 50, 100]"
+          [pageSize]="pageSize">
+        </mat-paginator>
+      </div>
     </mat-card>
   </ng-container>
 

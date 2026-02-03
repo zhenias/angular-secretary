@@ -4,7 +4,8 @@ import {
   MatCell,
   MatCellDef,
   MatColumnDef,
-  MatHeaderCell, MatHeaderCellDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
   MatHeaderRow,
   MatHeaderRowDef,
   MatRow,
@@ -13,7 +14,6 @@ import {
   MatTableDataSource
 } from '@angular/material/table';
 import {MatSort, MatSortHeader} from '@angular/material/sort';
-import {getWycieczki} from '../../../../shared/service/core/secretariat/wycieczki.service';
 import {LoadingHTMLComponent} from '../../../../shared/components/loading-html/loading-html.component';
 import {MatCard} from '@angular/material/card';
 import {MatIconButton} from '@angular/material/button';

@@ -7,7 +7,7 @@
     <app-loading-html />
   }
 
-  <mat-dialog-content style="flex: 1; overflow: hidden; max-height: 100%;" *ngIf="!isProgress">
+  <mat-dialog-content style="flex: 1; overflow: auto; max-height: 100%;" *ngIf="!isProgress">
 
     <div class="flex gap-[5px] w-full mb-5">
       <div class="w-full">
@@ -28,16 +28,65 @@
 
     <div class="flex gap-[5px] w-full">
       <div class="w-full">
+        <p class="text-color-600 mb-1">Minimalny próg zaliczenia: </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input [(ngModel)]="getExam.minimalny_prog_zaliczenia" matInput maxlength="20"/>
+        </mat-form-field>
+      </div>
+
+      <div class="w-full">
+        <p class="text-color-600 mb-1">Zwolniony: </p>
+        <mat-checkbox [(ngModel)]="getExam.zwolniony" color="primary" value="1"></mat-checkbox>
+      </div>
+    </div>
+
+    <div class="flex gap-[5px] w-full">
+      <div class="w-full">
         <p class="text-color-600 mb-1">Nazwa: </p>
         <mat-form-field class="w-full" appearance="outline">
-          <input [(ngModel)]="getExam.name" matInput maxlength="200"/>
+          <input [(ngModel)]="getExam.name" matInput maxlength="255"/>
         </mat-form-field>
       </div>
 
       <div class="w-full">
         <p class="text-color-600 mb-1">Wynik: </p>
         <mat-form-field class="w-full" appearance="outline">
-          <input [(ngModel)]="getExam.result" matInput maxlength="5"/>
+          <input [(ngModel)]="getExam.result" [disabled]="getExam.zwolniony" matInput maxlength="255"/>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="flex gap-[5px] w-full">
+      <div class="w-full">
+        <p class="text-color-600 mb-1">Numer zaświadczenia: </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input [(ngModel)]="getExam.numer_zaswiadczenia" matInput maxlength="50"/>
+        </mat-form-field>
+      </div>
+
+      <div class="w-full">
+        <p class="text-color-600 mb-1">Data egzaminu: </p>
+        <mat-form-field appearance="outline" class="w-[100%]">
+          <input matInput [matDatepicker]="picker" (click)="picker.open()" [(ngModel)]="getExam.data_egzaminu"
+                 required readonly>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="flex gap-[5px] w-full">
+      <div class="w-full">
+        <p class="text-color-600 mb-1">Uwagi: </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input [(ngModel)]="getExam.uwagi" matInput maxlength="255"/>
+        </mat-form-field>
+      </div>
+
+      <div class="w-full">
+        <p class="text-color-600 mb-1">Ośrodek egzaminacyjny: </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input [(ngModel)]="getExam.komisja_egzaminacyjna" matInput maxlength="100"/>
         </mat-form-field>
       </div>
     </div>

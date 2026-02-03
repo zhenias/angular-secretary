@@ -1,11 +1,11 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {MatDialogModule} from '@angular/material/dialog';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatStepper, MatStepperModule} from '@angular/material/stepper';
+import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatStepperModule} from '@angular/material/stepper';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {CdkStepperModule} from '@angular/cdk/stepper';
-import {formatDate, NgIf} from '@angular/common';
+import {formatDate} from '@angular/common';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';

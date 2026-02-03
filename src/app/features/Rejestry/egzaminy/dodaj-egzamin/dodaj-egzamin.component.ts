@@ -8,14 +8,15 @@ import {
   MatDialogContent,
   MatDialogTitle
 } from '@angular/material/dialog';
-import {MatFormField, MatInput} from '@angular/material/input';
-import {NgForOf} from '@angular/common';
+import {MatFormField, MatInput, MatSuffix} from '@angular/material/input';
+import {formatDate, NgForOf} from '@angular/common';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {AppComponent} from '../../../../app.component';
 import {createExam, CreateExamTypes} from '../../../../shared/service/core/secretariat/student/exams.service';
+import {MatCheckbox} from '@angular/material/checkbox';
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
 
 @Component({
-  selector: 'app-dodaj-egzamin',
   imports: [
     FormsModule,
     MatButton,
@@ -28,9 +29,15 @@ import {createExam, CreateExamTypes} from '../../../../shared/service/core/secre
     MatOption,
     MatSelect,
     NgForOf,
+    MatCheckbox,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatDatepicker,
+    MatSuffix,
   ],
-  templateUrl: './dodaj-egzamin.component.html',
-  standalone: true
+  selector: 'app-dodaj-egzamin',
+  standalone: true,
+  templateUrl: './dodaj-egzamin.component.html'
 })
 export class DodajEgzaminComponent extends AppComponent {
   public classes: any = [];
@@ -38,7 +45,14 @@ export class DodajEgzaminComponent extends AppComponent {
   public createExam: CreateExamTypes = {
     nazwa: '',
     user_id: 0,
-    wynik: ''
+    wynik: '',
+
+    data_egzaminu: '',
+    komisja_egzaminacyjna: '',
+    minimalny_prog_zaliczenia: "30",
+    numer_zaswiadczenia: '',
+    uwagi: '',
+    zwolniony: false,
   };
   public classId: number = 0;
 
@@ -89,6 +103,12 @@ export class DodajEgzaminComponent extends AppComponent {
       nazwa: this.createExam.nazwa,
       wynik: this.createExam.wynik,
       user_id: this.createExam.user_id,
+      minimalny_prog_zaliczenia: this.createExam.minimalny_prog_zaliczenia,
+      numer_zaswiadczenia: this.createExam.numer_zaswiadczenia,
+      zwolniony: this.createExam.zwolniony,
+      data_egzaminu: this.createExam.data_egzaminu ? formatDate(this.createExam.data_egzaminu, 'Y-MM-dd', 'en') : null,
+      uwagi: this.createExam.uwagi,
+      komisja_egzaminacyjna: this.createExam.komisja_egzaminacyjna
     }).catch(() => {
       this.openSnackBar('Wystąpił błąd, podczas dodawania egzaminu.', 'OK');
     }).then(() => {

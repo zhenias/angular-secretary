@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {AppComponent} from '../../../../app.component';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {MatSort, MatSortModule, Sort} from '@angular/material/sort';
+import {MatSort, MatSortModule} from '@angular/material/sort';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import {LoadingHTMLComponent} from '../../../../shared/components/loading-html/loading-html.component';

@@ -6,7 +6,7 @@ import {LoadingHTMLComponent} from '../../../shared/components/loading-html/load
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatPaginatorModule, PageEvent} from "@angular/material/paginator";
-import {MatSort, MatSortModule, Sort} from "@angular/material/sort";
+import {MatSort, MatSortModule} from "@angular/material/sort";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
@@ -18,7 +18,7 @@ import {
   AddStudentsMassiveToClassComponent
 } from '../add-students-massive-to-class/add-students-massive-to-class.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { FormsModule } from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 
 export interface ColumnProfile {
   name: string;

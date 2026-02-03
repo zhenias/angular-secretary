@@ -1,25 +1,25 @@
-import { DatePipe, NgClass, NgForOf, NgIf } from "@angular/common";
-import { Component, Inject, ViewChild } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
+import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
+import {Component, Inject, ViewChild} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {MatButton} from '@angular/material/button';
 import {
-    MAT_DIALOG_DATA,
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogContent,
-    MatDialogTitle
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle
 } from "@angular/material/dialog";
-import { MatInput } from '@angular/material/input';
-import { MatProgressBar } from "@angular/material/progress-bar";
-import { MatFormField } from '@angular/material/select';
-import { QuillEditorComponent } from 'ngx-quill';
-import { AppComponent } from '../../../app.component';
+import {MatInput} from '@angular/material/input';
+import {MatProgressBar} from "@angular/material/progress-bar";
+import {MatFormField} from '@angular/material/select';
+import {QuillEditorComponent} from 'ngx-quill';
+import {AppComponent} from '../../../app.component';
 import {
-    CreateDocumentTypes,
-    deleteDokument,
-    DocumentTypes,
-    editDokument,
-    getDokument
+  CreateDocumentTypes,
+  deleteDokument,
+  DocumentTypes,
+  editDokument,
+  getDokument
 } from "../../../shared/service/core/secretariat/dokumenty.service";
 import {TOOLBAR_QUILL} from '../../../app.config';
 

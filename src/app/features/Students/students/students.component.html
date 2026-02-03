@@ -159,7 +159,7 @@
         <tr mat-row class="hover:bg-gray-100" *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
 
-      <ng-container *ngIf="students.length == 0 && !isProgress">
+      <ng-container *ngIf="dataSource.data.length == 0 && !isProgress">
         <div class="text-center p-4 text-gray-500">
           Nie dodano uczniów do oddziałów. <br>
           Skorzystaj z starej księgi uczniów lub opcji naborów.
@@ -168,12 +168,18 @@
 
     </div>
 
-    <mat-paginator
-      [length]="totalItems"
-      [pageSize]="pageSize"
-      [pageIndex]="currentPage - 1"
-      [pageSizeOptions]="[5, 10, 15, 20, 25, 30, 35, 50, 100]"
-      (page)="onPageChange($event)">
-    </mat-paginator>
+    <div class="flex justify-between items-center gap-[10px]">
+      <div class="pl-3">
+        Rekordów w tabeli <b>{{ totalItems }}</b>@if (selection.selected.length > 0) {, w tym zaznaczonych <b>{{ selection.selected.length }}</b>.} @else {.}
+      </div>
+
+      <mat-paginator
+        [length]="totalItems"
+        [pageSize]="pageSize"
+        [pageIndex]="currentPage - 1"
+        [pageSizeOptions]="[5, 10, 15, 20, 25, 30, 35, 50, 100]"
+        (page)="onPageChange($event)">
+      </mat-paginator>
+    </div>
   </mat-card>
 </div>

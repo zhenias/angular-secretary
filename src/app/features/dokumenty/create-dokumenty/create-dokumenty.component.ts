@@ -1,12 +1,12 @@
-import { NgForOf } from "@angular/common";
-import { Component, ViewChild } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MatButton } from "@angular/material/button";
-import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from "@angular/material/dialog";
-import { MatFormField, MatInput } from '@angular/material/input';
-import { QuillEditorComponent } from 'ngx-quill';
-import { AppComponent } from '../../../app.component';
-import { CreateDocumentTypes, createDokument } from '../../../shared/service/core/secretariat/dokumenty.service';
+import {NgForOf} from "@angular/common";
+import {Component, ViewChild} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {MatButton} from "@angular/material/button";
+import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
+import {MatFormField, MatInput} from '@angular/material/input';
+import {QuillEditorComponent} from 'ngx-quill';
+import {AppComponent} from '../../../app.component';
+import {CreateDocumentTypes, createDokument} from '../../../shared/service/core/secretariat/dokumenty.service';
 
 @Component({
   selector: 'app-create-dokumenty',

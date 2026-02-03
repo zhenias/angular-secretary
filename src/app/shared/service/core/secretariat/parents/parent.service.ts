@@ -1,4 +1,4 @@
-import type { StudentInfo } from '../../../../../features/Student/students.types';
+import type {StudentInfo} from '../../../../../features/Student/students.types';
 import {secretariatApi} from '../../api/secretariatApi';
 
 export interface ParentType {

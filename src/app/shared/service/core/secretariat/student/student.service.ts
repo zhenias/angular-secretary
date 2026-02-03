@@ -1,5 +1,5 @@
 import {secretariatApi} from '../../api/secretariatApi';
-import {StudentInfo, ClassInfo, type SPE} from '../../../../../features/Student/students.types';
+import {ClassInfo, type SPE, StudentInfo} from '../../../../../features/Student/students.types';
 
 export interface GetStudentsClassTypes {
   class: ClassInfo,

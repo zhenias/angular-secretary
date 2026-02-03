@@ -45,10 +45,11 @@ export class TeachersListComponent extends AppComponent implements AfterViewInit
   selection = new SelectionModel<number>(true, []);
 
   displayedColumns: string[] = [
-    // 'select',
+    'select',
     'actions',
     'full_user_name',
     'login',
+    'data_rozpoczecia',
     'data_urodzenia',
     'permissions',
     'is_active',

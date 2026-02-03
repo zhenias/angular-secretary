@@ -7,17 +7,37 @@ export interface ExamTypes {
   student?: string,
   date: string,
   create: string,
+  minimalny_prog_zaliczenia: string|null,
+  numer_zaswiadczenia: string|null,
+  zwolniony: boolean,
+  data_egzaminu: string|null,
+  uwagi: string|null,
+  komisja_egzaminacyjna: string|null,
 }
 
 export interface CreateExamTypes {
   user_id: number,
   nazwa: string,
   wynik: string|number,
+
+  minimalny_prog_zaliczenia: string|null,
+  numer_zaswiadczenia: string|null,
+  zwolniony: boolean,
+  data_egzaminu: string|null,
+  uwagi: string|null,
+  komisja_egzaminacyjna: string|null,
 }
 
 export interface UpdateExamTypes {
   nazwa: string,
   wynik: string|number,
+
+  minimalny_prog_zaliczenia: string|null,
+  numer_zaswiadczenia: string|null,
+  zwolniony: boolean,
+  data_egzaminu: string|null,
+  uwagi: string|null,
+  komisja_egzaminacyjna: string|null,
 }
 
 export const getExams = async (): Promise<ExamTypes[]> => {

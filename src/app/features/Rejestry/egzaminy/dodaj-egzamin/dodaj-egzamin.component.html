@@ -3,7 +3,7 @@
     Dodaj egzamin
   </h2>
 
-  <mat-dialog-content style="flex: 1; overflow: hidden; max-height: 100%;">
+  <mat-dialog-content style="flex: 1; overflow: auto; max-height: 100%;">
 
     <div class="flex gap-[5px] w-full">
       <div class="w-full">
@@ -23,7 +23,7 @@
         <mat-form-field class="w-full" appearance="outline">
           <mat-select [(ngModel)]="createExam.user_id" [disabled]="!students.length" required>
             <mat-option *ngFor="let student of students;" [value]="student.id">
-              {{ student.full_user_name }}
+              {{ student.id_number }}. {{ student.full_user_name }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -32,20 +32,68 @@
 
     <div class="flex gap-[5px] w-full">
       <div class="w-full">
+        <p class="text-color-600 mb-1">Minimalny próg zaliczenia: </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input [(ngModel)]="createExam.minimalny_prog_zaliczenia" matInput maxlength="20"/>
+        </mat-form-field>
+      </div>
+
+      <div class="w-full">
+        <p class="text-color-600 mb-1">Zwolniony: </p>
+        <mat-checkbox [(ngModel)]="createExam.zwolniony" color="primary" value="1"></mat-checkbox>
+      </div>
+    </div>
+
+    <div class="flex gap-[5px] w-full">
+      <div class="w-full">
         <p class="text-color-600 mb-1">Nazwa: </p>
         <mat-form-field class="w-full" appearance="outline">
-          <input [(ngModel)]="createExam.nazwa" matInput maxlength="200"/>
+          <input [(ngModel)]="createExam.nazwa" matInput maxlength="255"/>
         </mat-form-field>
       </div>
 
       <div class="w-full">
         <p class="text-color-600 mb-1">Wynik: </p>
         <mat-form-field class="w-full" appearance="outline">
-          <input [(ngModel)]="createExam.wynik" matInput maxlength="5"/>
+          <input [(ngModel)]="createExam.wynik" [disabled]="createExam.zwolniony" matInput maxlength="255" />
         </mat-form-field>
       </div>
     </div>
 
+    <div class="flex gap-[5px] w-full">
+      <div class="w-full">
+        <p class="text-color-600 mb-1">Numer zaświadczenia: </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input [(ngModel)]="createExam.numer_zaswiadczenia" matInput maxlength="50"/>
+        </mat-form-field>
+      </div>
+
+      <div class="w-full">
+        <p class="text-color-600 mb-1">Data egzaminu: </p>
+        <mat-form-field appearance="outline" class="w-[100%]">
+          <input matInput [matDatepicker]="picker" (click)="picker.open()" [(ngModel)]="createExam.data_egzaminu"
+                 required readonly>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="flex gap-[5px] w-full">
+      <div class="w-full">
+        <p class="text-color-600 mb-1">Uwagi: </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input [(ngModel)]="createExam.uwagi" matInput maxlength="255"/>
+        </mat-form-field>
+      </div>
+
+      <div class="w-full">
+        <p class="text-color-600 mb-1">Ośrodek egzaminacyjny: </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <input [(ngModel)]="createExam.komisja_egzaminacyjna" matInput maxlength="100"/>
+        </mat-form-field>
+      </div>
+    </div>
 
   </mat-dialog-content>
 
@@ -53,7 +101,7 @@
     <button mat-button mat-dialog-close color="primary">Anuluj</button>
     <button
       (click)="createExamFetch()"
-      [disabled]="!this.createExam.user_id || !this.createExam.nazwa || !this.createExam.wynik"
+      [disabled]="!this.createExam.user_id || !this.createExam.nazwa || !this.createExam.wynik && !this.createExam.zwolniony"
       [mat-dialog-close]="true"
       color="primary"
       mat-flat-button

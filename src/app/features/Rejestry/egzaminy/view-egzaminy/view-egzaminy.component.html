@@ -64,10 +64,28 @@
 
           <ng-container matColumnDef="result">
             <th mat-header-cell class="px-4 py-2 border-b text-center w-[150px]" *matHeaderCellDef mat-sort-header>
-              Wynnik
+              Wynik
             </th>
             <td mat-cell class="px-4 py-2 border-b text-center"
                 *matCellDef="let element"> {{ element?.result || '-' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="zwolniony">
+            <th mat-header-cell class="px-4 py-2 border-b text-center w-[150px]" *matHeaderCellDef mat-sort-header>
+              Zwolniony
+            </th>
+            <td mat-cell class="px-4 py-2 border-b text-center"
+                *matCellDef="let element"> {{ element?.zwolniony ? 'TAK' : '-' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="komisja_egzaminacyjna">
+            <th mat-header-cell class="px-4 py-2 border-b text-center w-[150px]" *matHeaderCellDef mat-sort-header>
+              Ośrodek egzaminacyjny
+            </th>
+            <td mat-cell class="px-4 py-2 border-b text-center"
+                *matCellDef="let element"> {{ element?.komisja_egzaminacyjna ?? '-' }}
             </td>
           </ng-container>
 
