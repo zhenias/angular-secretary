@@ -1,7 +1,3 @@
-Spoko, zrobię pełne, ludzkie README w **Markdown**, z opisami do zdjęć, bazując na ich nazwach i tym, co sugerują. Będzie przystępnie, z miniaturkami przy każdym punkcie, żeby od razu było wiadomo, co robi dana funkcja.
-
----
-
 # Sekretariat e-Dziennika
 
 Sekretariat to moduł wspierający zarządzanie uczniami, rodzicami i oddziałami w e-Dzienniku.
